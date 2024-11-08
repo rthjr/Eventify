@@ -1,0 +1,2 @@
+To install the library
+- npm install

@@ -10,6 +10,11 @@ module.exports = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+
+        customPurple: {
+          default: "#471aa0",
+          hover: "#6f34f3",
+        }
       },
     },
   },

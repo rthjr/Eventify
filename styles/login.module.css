@@ -1,0 +1,38 @@
+.orLine {
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loginForm {
+    display: flex;
+
+}
+
+
+.loginContent {
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.loginBackground {
+    width: 50%;
+}
+
+.orLine::before,
+.orLine::after {
+    content: "";
+    flex: 1;
+    border-bottom: .1rem solid black;
+}
+
+.orLine:not(:empty)::before {
+    margin-right: 1rem;
+}
+
+.orLine:not(:empty)::after {
+    margin-left: 1rem;
+}

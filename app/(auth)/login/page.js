@@ -1,10 +1,19 @@
+"use client"
+
 import Image from "next/image";
 import {FaFacebookSquare} from "react-icons/fa";
 import Link from "@node_modules/next/link";
-
+import { useRouter } from "@node_modules/next/navigation";
 import styles from "@styles/login.module.css";
 
 export default function Login() {
+
+    const router = useRouter();
+
+    const goToPhone = () => {
+        router.push('/login/loginphone')
+    }
+
     return (
         <div className={styles.loginForm}>
             {/* Login content, full width on small screens */}
@@ -13,8 +22,8 @@ export default function Login() {
                     <Image
                         src="/assets/logo/eventifyLogo.png"  // Path relative to the public folder
                         alt="Website Logo"
-                        width={150}                   // Adjust width as needed
-                        height={50}                   // Adjust height as needed
+                        width={150}                   
+                        height={50}                   
                     />
                 </Link>
                 <div className="flex flex-col justify-center items-center h-full">
@@ -29,19 +38,19 @@ export default function Login() {
                     <div className="mt-10 flex flex-col justify-center w-9/12">
                         <form action="" className="flex flex-col">
                             <label htmlFor="email" className="mb-2 font-bold">Email</label>
-                            <input className="border border-2 p-2 rounded-xl border-black mb-6" type="email" required placeholder="Enter your email..." />
+                            <input className="border-2 p-2 rounded-xl border-black mb-6" type="email" required placeholder="Enter your email..." />
                         </form>
 
                         <form action="">
                             <label htmlFor="password" className="mb-2 font-bold">Password</label>
-                            <div className="border border-2 p-2 rounded-xl border-black mb-2">
+                            <div className="border-2 p-2 rounded-xl border-black mb-2">
                                 <input className="border-none outline-none" type="password" required placeholder="Enter your Password..." />
                                 {/* icon */}
                             </div>
                         </form>
 
                         <div className="flex justify-between mb-8">
-                            <Link href="/"><u>Forgot Password?</u></Link>
+                            <Link href="/login/forgotpassword"><u>Forgot Password?</u></Link>
                             <span>Don't have an account? <strong><Link href="/create">Create</Link></strong></span>
                         </div>
 

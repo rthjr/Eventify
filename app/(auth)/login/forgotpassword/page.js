@@ -1,17 +1,14 @@
 "use client"
-
-import Link from "@node_modules/next/link"
-import {FaFacebookSquare} from "react-icons/fa";
 import Image from "@node_modules/next/image"
 import { useRouter } from "@node_modules/next/navigation";
 
 
-export default function Create() {
+export default function ForgotPassword() {
 
     // router
     const router = useRouter();
     const goToRegister = () =>{
-        router.push('/create/register');
+        router.push('/login/forgotpassword/newaccount');
     }
 
     const goBack = () => {
@@ -41,24 +38,8 @@ export default function Create() {
                             <input className="border-2 p-2 rounded-xl border-black mb-6" type="email" required placeholder="Enter email here" />
                         </form>
                         <button className="p-3 border-none rounded-xl bg-customPurple-default hover:bg-customPurple-hover text-center text-white" onClick = {goToRegister}>Continue</button>
-                        <div className="my-4 flex items-center justify-center text-black">
-                            <div className="flex-1 border-b border-black mr-4"></div>
-                            <span>OR</span>
-                            <div className="flex-1 border-b border-black ml-4"></div>
-                        </div>
-                        <button className="p-3 bg-customPurple-default rounded-xl text-white border-none mb-4 hover:bg-customPurple-hover">
-                            {/* icon */}
-                            Phone Number
-                        </button>
-                        <span>Other login method</span>
-                        <Link href="/">
-                            <FaFacebookSquare
-                                className="text-4xl"
-                            />
-                        </Link>
                     </div>
                 </div>
-
             </div>
         </div>
     )

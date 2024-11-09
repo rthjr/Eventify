@@ -1,5 +1,6 @@
 import Image from "next/image";
 import {FaFacebookSquare} from "react-icons/fa";
+import Link from "@node_modules/next/link";
 
 import styles from "@styles/login.module.css";
 
@@ -8,14 +9,14 @@ export default function Login() {
         <div className={styles.loginForm}>
             {/* Login content, full width on small screens */}
             <div className={`${styles.loginContent} h-screen w-full lg:w-6/12`}>
-                <a href="/" className="p-4">
+                <Link href="/" className="p-4">
                     <Image
                         src="/assets/logo/eventifyLogo.png"  // Path relative to the public folder
                         alt="Website Logo"
                         width={150}                   // Adjust width as needed
                         height={50}                   // Adjust height as needed
                     />
-                </a>
+                </Link>
                 <div className="flex flex-col justify-center items-center h-full">
                     <h1 className="text-black font-bold text-center text-2xl md:text-3xl lg:text-4xl">
                         Log in
@@ -34,14 +35,14 @@ export default function Login() {
                         <form action="">
                             <label htmlFor="password" className="mb-2 font-bold">Password</label>
                             <div className="border border-2 p-2 rounded-xl border-black mb-2">
-                                <input type="password" required placeholder="Enter your Password..." />
+                                <input className="border-none outline-none" type="password" required placeholder="Enter your Password..." />
                                 {/* icon */}
                             </div>
                         </form>
 
                         <div className="flex justify-between mb-8">
-                            <a href="/">Forgot Password?</a>
-                            <span>Don't have an account? <strong><a href="/">Create</a></strong></span>
+                            <Link href="/"><u>Forgot Password?</u></Link>
+                            <span>Don't have an account? <strong><Link href="/create">Create</Link></strong></span>
                         </div>
 
                         <button className="p-3 bg-customPurple-default rounded-xl text-white border-none mb-4 hover:bg-customPurple-hover">Login</button>
@@ -54,11 +55,11 @@ export default function Login() {
                         </button>
 
                         <span>Other login method</span>
-                        <a href="/">
+                        <Link href="/">
                             <FaFacebookSquare 
                                 className= "text-4xl"
                             />
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>

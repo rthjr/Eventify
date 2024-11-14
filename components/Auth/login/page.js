@@ -5,14 +5,31 @@ import {FaFacebookSquare} from "react-icons/fa";
 import Link from "@node_modules/next/link";
 import { useRouter } from "@node_modules/next/navigation";
 import styles from "@styles/login.module.css";
+import { useState } from "react";
+import { signIn } from "next-auth/react";
 
 export default function Login() {
 
     const router = useRouter();
 
-    const goToPhone = () => {
-        router.push('/login/loginphone')
+
+    const [email, setEmail] = useState('')
+    const [error , setError] = useState('')
+    const [password, setPassword] = useState('')
+    const handleSignIn = async (e) => {
+        e.preventDefault();
+        try {
+            const res = await signIn("credentials", {email, password, redirect:false})
+            if(res?.error){
+                setError(res.error)
+                return
+            }
+            router.replace('/')
+        } catch (error){
+            console.log(error)
+        }
     }
+
 
     return (
         <div className={styles.loginForm}>
@@ -36,22 +53,23 @@ export default function Login() {
                     </p>
 
                     <div className="mt-10 flex flex-col justify-center w-9/12">
+                    <form onSubmit={handleSignIn}>
                         <form action="" className="flex flex-col">
                             <label htmlFor="email" className="mb-2 font-bold">Email</label>
-                            <input className="border-2 p-2 rounded-xl border-black mb-6" type="email" required placeholder="Enter your email..." />
+                            <input className="border-2 p-2 rounded-xl border-black mb-6" type="email" required placeholder="Enter your email..." value={email} onChange={(e) => setEmail(e.target.value)}/>
                         </form>
 
                         <form action="">
                             <label htmlFor="password" className="mb-2 font-bold">Password</label>
                             <div className="border-2 p-2 rounded-xl border-black mb-2">
-                                <input className="border-none outline-none" type="password" required placeholder="Enter your Password..." />
+                                <input className="border-none outline-none" type="password" required placeholder="Enter your Password..." value={password} onChange={(e) => setPassword(e.target.value)}/>
                                 {/* icon */}
                             </div>
                         </form>
 
                         <div className="flex justify-between mb-8">
                             <Link href="/login/forgotpassword"><u>Forgot Password?</u></Link>
-                            <span>Don't have an account? <strong><Link href="/create">Create</Link></strong></span>
+                            <span>Do not have an account? <strong><Link href="/signup">Create</Link></strong></span>
                         </div>
 
                         <button className="p-3 bg-customPurple-default rounded-xl text-white border-none mb-4 hover:bg-customPurple-hover">Login</button>
@@ -62,7 +80,7 @@ export default function Login() {
                             {/* icon */}
                             Phone Number
                         </button>
-
+                    </form>
                         <span>Other login method</span>
                         <Link href="/">
                             <FaFacebookSquare 
@@ -72,6 +90,11 @@ export default function Login() {
                     </div>
                 </div>
             </div>
+            {error && (
+            <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
+              {error}
+            </div>
+          )}
 
             {/* Image div, hidden on small screens and shown on large screens */}
             <div className="hidden lg:flex w-full lg:w-6/12 bg-customPurple-default justify-center items-center">

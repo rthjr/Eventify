@@ -11,7 +11,7 @@ const EventPage = () => {
     { imageSrc: '/assets/banner/sport.jpg', eventType: 'Sport' },
     { imageSrc: '/assets/banner/conference.jpg', eventType: 'Conference' },
     
-    { imageSrc: '/assets/banner/sport.jpg', eventType: 'Sport' },
+    { imageSrc: '/assets/banner/sport.jpg', eventType: 'See All' },
   ]);
 
   return (

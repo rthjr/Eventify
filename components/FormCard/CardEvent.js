@@ -1,10 +1,11 @@
 "use client"
 
-import Image from 'next/image'; // Ensure Image is imported if using Next.js
+import Image from 'next/image'; 
+import Link from '@node_modules/next/link';
 import { MdFavoriteBorder } from "react-icons/md";
 import { MdFavorite } from "react-icons/md";
 import { useState } from 'react';
-const CardEvent = ({ imageEvent, eventName, date, creatorName, ticketEvent, typeEvent }) => {
+const CardEvent = ({ imageEvent, eventName, date, creatorName, ticketEvent, typeEvent, location }) => {
 
     const [isFavorite, setIsFavorite] = useState(false);
 
@@ -43,13 +44,25 @@ const CardEvent = ({ imageEvent, eventName, date, creatorName, ticketEvent, type
 
             <div className='flex justify-between my-3 '>
                 <h2 className='text-black font-extrabold text-xl'>{eventName}</h2>
-                <span className='text-black font-bold text-lg'>...</span>
+                <span className='text-black font-bold text-lg relative group cursor-pointer'>
+                    ...
+                    <div className='absolute hidden group-hover:block bg-white text-black border-gray-300 rounded-lg shadow-lg'>
+                        <div className='p-2 flex flex-col'>
+                            <Link href="">Delete</Link>
+                            <Link href="">Report</Link>
+                        </div>
+                    </div>
+                </span>
             </div>
 
             <div className='mb-3 flex justify-between'>
                 <h2 className='text-black font-semibold text-lg'>{date}</h2>
                 <span className='text-black font-semibold text-lg'>{ticketEvent}</span>
             </div>
+
+            <dir className="mb-3">
+                <h2 className='text-black font-semibold text-lg'>{location}</h2>
+            </dir>
 
             <div className='mb-3 flex justify-between'>
                 <h2 className='text-black font-semibold text-lg'>{creatorName}</h2>

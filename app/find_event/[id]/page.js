@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { use } from "react"; // Import the use hook
 import Image from "@node_modules/next/image";
+import Link from "@node_modules/next/link";
 
 // compornent
 import Header from "@components/Header";
@@ -28,6 +29,7 @@ const Page = ({ params }) => {
   const eventId = Number(unwrappedParams.id); // Convert unwrappedParams.id to a number
   const event = events.find(event => event.id === eventId);
 
+
   return (
     <div>
       <Header />
@@ -50,7 +52,13 @@ const Page = ({ params }) => {
                 <div className="relative">
                   <div className="flex flex-col gap-2 absolute top-0 right-0">
                     <p className="font-semibold text-green-500">{event.ticketEvent}</p>
-                    <button className="p-3 bg-customPurple-default hover:bg-customPurple-hover transition-all text-white rounded-lg">Book</button>
+
+                    <Link href={`/${event.id}`}>
+                      <button className="p-3 bg-customPurple-default hover:bg-customPurple-hover transition-all text-white rounded-lg">
+                        Book
+                      </button>
+                    </Link>
+
                   </div>
                 </div>
               </div>
@@ -111,7 +119,7 @@ const Page = ({ params }) => {
                     <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus deserunt non commodi pariatur ipsam! Cupiditate hic et nisi officia eius dolore necessitatibus earum magnam ipsum possimus ad, odit quibusdam dignissimos.</p>
                   </div>
 
-                  <div> 
+                  <div>
                     <p className="font-bold text-xl">Contact</p>
                     <span>email : asdfasdfj@gmail.com</span>
                   </div>

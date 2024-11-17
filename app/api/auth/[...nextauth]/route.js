@@ -4,6 +4,7 @@ import Credentials from "next-auth/providers/credentials";
 import { connectMongoDB } from "@lib/connectMongoDB";
 import User from "@model/user";
 import Facebook from "next-auth/providers/facebook";
+import Google from "next-auth/providers/google"
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -39,6 +40,10 @@ export const authOptions = {
         Facebook({
             clientId: process.env.FACEBOOK_ID,
             clientSecret: process.env.FACEBOOK_SECRET
+        }),
+        Google({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         })
     ],
     sessions: {

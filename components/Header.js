@@ -65,8 +65,8 @@ const Header = () => {
               aria-label="User menu"
             >
               <CgProfile size={24} />
-              <span>{session.user?.lastName}</span>
-
+              <div>
+              </div>
               {isDropdownVisible && (
                 <div className='absolute left-0 top-full mt-0 h-fit z-40 bg-white shadow-lg rounded-md w-56'>
                   <span

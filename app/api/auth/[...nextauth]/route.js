@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs"
 import Credentials from "next-auth/providers/credentials";
 import { connectMongoDB } from "@lib/connectMongoDB";
 import User from "@model/user";
+import Facebook from "next-auth/providers/facebook";
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -34,6 +35,10 @@ export const authOptions = {
                     console.log(error)
                 }
             }
+        }),
+        Facebook({
+            clientId: process.env.FACEBOOK_ID,
+            clientSecret: process.env.FACEBOOK_SECRET
         })
     ],
     sessions: {
@@ -44,6 +49,8 @@ export const authOptions = {
         signIn: "/login"
     },
     callbacks: {
+
+        //return back what type of session user are authenticating 
         async session({ session, token }){
             if(token){
                 session.user.id = token.sub

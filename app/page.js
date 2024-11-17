@@ -26,7 +26,7 @@ export default function Home() {
         <SwiperBanner />
         {/* put content here */}
         <h1>
-          {session && session.user ? (
+          {/* {session && session.user ? (
             <div>
               <p> Welcome, {session.user?.email}!  </p>
               <p> Welcome, {session.user?.lastName}!  </p>
@@ -37,7 +37,7 @@ export default function Home() {
               <p>please sign in</p>
             </div>
 
-          )}
+          )} */}
 
           {/* put content here */}
         </h1>

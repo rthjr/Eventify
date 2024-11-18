@@ -4,6 +4,11 @@ import { use } from "react"; // Import the use hook
 import Image from "@node_modules/next/image";
 import Link from "@node_modules/next/link";
 
+// components
+import Free from "../../components/Tickets/Free"
+import Open from "../../components/Tickets/Open"
+import Paid from "../../components/Tickets/Paid"
+
 export default function TicketType({ params }) {
 
   const [events] = useState([
@@ -22,14 +27,45 @@ export default function TicketType({ params }) {
   const eventId = Number(unwrappedParams.ticket); // Convert unwrappedParams.id to a number
   const event = events.find(event => event.id === eventId);
 
+  // Check if the event was found
+  if (!event) {
+    return <div>Event not found</div>; // Or some other fallback UI
+  }
+
   return (
     <div>
       {event.ticketEvent.toLowerCase() === "open" ? (
-        <h2>open</h2>
+        <Open
+          key={event.id}
+          imageEvent={event.imageEvent}
+          eventName={event.eventName}
+          date={event.date}
+          ticketEvent={event.ticketEvent}
+          typeEvent={event.typeEvent}
+          location={event.location}
+        />
       ) : event.ticketEvent.toLowerCase() === "free" ? (
-        <h2>free</h2>
+        <Free
+          key={event.id}
+          imageEvent={event.imageEvent}
+          eventName={event.eventName}
+          date={event.date}
+          creatorName={event.creatorName}
+          ticketEvent={event.ticketEvent}
+          typeEvent={event.typeEvent}
+          location={event.location}
+        />
       ) : (
-        <h2>paid</h2>
+        <Paid
+          key={event.id}
+          imageEvent={event.imageEvent}
+          eventName={event.eventName}
+          date={event.date}
+          creatorName={event.creatorName}
+          ticketEvent={event.ticketEvent}
+          typeEvent={event.typeEvent}
+          location={event.location}
+        />
       )}
     </div>
   )

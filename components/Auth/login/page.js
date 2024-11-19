@@ -32,6 +32,11 @@ export default function Login() {
   const handleSignInFacebook = async () => {
     await signIn('facebook', {callbackUrl: '/'})
   }
+
+  //handle google sign in 
+  const handleSignInGoogle = async () => {
+    await signIn('google', {callbackUrl: '/'})
+  }
   //function for handle sign in
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -145,10 +150,15 @@ export default function Login() {
                     
                   </div>
                 )}
-
-                <Link href="/">
-                  <FaGoogle className="text-4xl" />
-                </Link>
+                {providers && providers.google && (
+                    <div>
+                        <button onClick={handleSignInGoogle}>
+                                <FaGoogle className="text-4xl" />
+                        </button>
+                    </div>
+                )}
+                
+                
               </div>
             </div>
           </div>

@@ -66,10 +66,15 @@ export default function AllEvent() {
         setVisibleCount(prevCount => prevCount + 4);
     };
 
-    // favorite or not
-    const [isFavorite, setIsFavorite] = useState(false);
-    const handleToggle = () => {
-        setIsFavorite(!isFavorite);
+    // Store favorites by event id
+    const [favorites, setFavorites] = useState({});
+
+    // Toggle favorite for a specific event
+    const handleToggleFavorite = (eventId) => {
+        setFavorites(prev => ({
+            ...prev,
+            [eventId]: !prev[eventId],
+        }));
     };
 
     return (
@@ -188,16 +193,16 @@ export default function AllEvent() {
                                                             objectFit='cover'
                                                         />
                                                         <div className='absolute top-2 right-2 z-20 flex'>
-                                                            {!isFavorite ? (
-                                                                <MdFavoriteBorder
-                                                                    size={24}
-                                                                    onClick={handleToggle}
-                                                                />
-                                                            ) : (
+                                                            {favorites[id] ? (
                                                                 <MdFavorite
                                                                     size={24}
-                                                                    onClick={handleToggle}
+                                                                    onClick={() => handleToggleFavorite(id)}
                                                                     color='red'
+                                                                />
+                                                            ) : (
+                                                                <MdFavoriteBorder
+                                                                    size={24}
+                                                                    onClick={() => handleToggleFavorite(id)}
                                                                 />
                                                             )}
                                                         </div>

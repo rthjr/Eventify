@@ -27,7 +27,7 @@ const Header = () => {
   return (
     <div className="flex w-full items-center justify-center py-3 shadow-md sticky top-0 z-50 bg-white">
       <nav className="flex items-center justify-between w-10/12">
-        <Link href ="/">
+        <Link href="/">
           <Image
             src="/assets/logo/eventifyLogo.png"
             alt="logo website"
@@ -66,6 +66,7 @@ const Header = () => {
             >
               <CgProfile size={24} />
               <div>
+                {/* {session.user?.lastName} */}
               </div>
               {isDropdownVisible && (
                 <div className='absolute left-0 top-full mt-0 h-fit z-40 bg-white shadow-lg rounded-md w-56'>
@@ -75,8 +76,12 @@ const Header = () => {
                   >
                     Sign Out
                   </span>
-                  <span className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>My Ticket</span>
-                  <span className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>Booked</span>
+                  <Link href="/profile">
+                    <span className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>My Profile</span>
+                  </Link>
+                  <Link href="/profile">
+                    <span className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>My Booking</span>
+                  </Link>
                 </div>
               )}
             </div>

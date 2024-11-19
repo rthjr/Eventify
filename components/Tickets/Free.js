@@ -20,7 +20,7 @@ export default function Free({ imageEvent, eventName, date, ticketEvent, typeEve
 
               <p className="mb-8">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veniam rerum autem porro quae inventore laboriosam totam et nisi. Repellendus ea aperiam dignissimos doloribus eos accusantium at, non ad minima aliquid!</p>
 
-              <form action="" className="mb-8">
+              <form action="" className="">
                 <div className="flex justify-between">
                   <div className="flex flex-col  mb-8">
                     <label htmlFor="firstName" className="mb-4">First Name</label>
@@ -34,13 +34,14 @@ export default function Free({ imageEvent, eventName, date, ticketEvent, typeEve
                 </div>
 
 
-                <div className="flex flex-col">
+                <div className="flex flex-col mb-8">
                   <label htmlFor="firstName" className="mb-4">Email</label>
                   <input type="text" required placeholder="Enter email here for notification" className="p-2 text-black border-black border-2 rounded-lg" />
                 </div>
+
+                <button className="rounded-lg bg-customPurple-default hover:bg-customPurple-hover text-white p-2 ">Register</button>
               </form>
 
-              <button className="rounded-lg bg-customPurple-default hover:bg-customPurple-hover text-white p-2 ">Register</button>
             </div>
           </div>
 

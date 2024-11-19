@@ -7,7 +7,7 @@ import { BsCashCoin } from "react-icons/bs";
 import { MdOutlineQrCodeScanner } from "react-icons/md";
 import { useState } from "react";
 
-export default function Paid({ imageEvent, eventName, date, ticketEvent, typeEvent, location }) {
+export default function Paid({ imageEvent, eventName, date, ticketEvent, typeEvent, location, eventQr }) {
 
     const [paymentMethod, setPaymentMethod] = useState('');
 
@@ -34,6 +34,24 @@ export default function Paid({ imageEvent, eventName, date, ticketEvent, typeEve
                             <p className="mb-8">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veniam rerum autem porro quae inventore laboriosam totam et nisi. Repellendus ea aperiam dignissimos doloribus eos accusantium at, non ad minima aliquid!</p>
 
                             <form action="" className="mb-8">
+                                <div className="flex justify-between">
+                                    <div className="flex flex-col  mb-8">
+                                        <label htmlFor="firstName" className="mb-4">First Name</label>
+                                        <input type="text" required placeholder="First Name" className="p-2 text-black border-black border-2 rounded-lg" />
+                                    </div>
+
+                                    <div className="flex flex-col  mb-8">
+                                        <label htmlFor="firstName" className="mb-4">Last Name</label>
+                                        <input type="text" required placeholder="Last Name" className="p-2 text-black  border-black border-2 rounded-lg" />
+                                    </div>
+                                </div>
+
+
+                                <div className="flex flex-col mb-8">
+                                    <label htmlFor="firstName" className="mb-4">Email</label>
+                                    <input type="text" required placeholder="Enter email here for notification" className="p-2 text-black border-black border-2 rounded-lg" />
+                                </div>
+
                                 <div>
                                     <h2 className="mb-4 text-black font-bold text-lg">Pay With</h2>
                                     <div className="flex flex-col border-2 border-black rounded-lg p-4 mb-4">
@@ -77,12 +95,12 @@ export default function Paid({ imageEvent, eventName, date, ticketEvent, typeEve
                                 {/* Conditionally render the QR scanner after selecting "By QR" */}
                                 {paymentMethod === 'qr' && (
                                     <div className="mt-4">
-                                        <h3 className="text-black font-bold text-lg mb-4">Scan QR Code</h3>
+                                        <h3 className="text-black font-bold text-lg mb-4">Scan QR Code to Pay</h3>
 
                                         {/* Add your QR scanner component or an image to simulate the scanner */}
                                         <div className="overflow-hidden relative w-36 h-36 mb-4 rounded-lg">
                                             <Image
-                                                src={imageEvent}
+                                                src={eventQr}
                                                 alt={eventName}
                                                 layout='fill'
                                                 objectFit='cover'
@@ -92,23 +110,7 @@ export default function Paid({ imageEvent, eventName, date, ticketEvent, typeEve
                                 )}
 
 
-                                <div className="flex justify-between">
-                                    <div className="flex flex-col  mb-8">
-                                        <label htmlFor="firstName" className="mb-4">First Name</label>
-                                        <input type="text" required placeholder="First Name" className="p-2 text-black border-black border-2 rounded-lg" />
-                                    </div>
 
-                                    <div className="flex flex-col  mb-8">
-                                        <label htmlFor="firstName" className="mb-4">Last Name</label>
-                                        <input type="text" required placeholder="Last Name" className="p-2 text-black  border-black border-2 rounded-lg" />
-                                    </div>
-                                </div>
-
-
-                                <div className="flex flex-col">
-                                    <label htmlFor="firstName" className="mb-4">Email</label>
-                                    <input type="text" required placeholder="Enter email here for notification" className="p-2 text-black border-black border-2 rounded-lg" />
-                                </div>
                             </form>
 
                             <button className="rounded-lg bg-customPurple-default hover:bg-customPurple-hover text-white p-2 ">Register</button>

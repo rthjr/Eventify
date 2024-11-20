@@ -19,7 +19,7 @@ const UpcomingEvent = () => {
     ]);
 
     // Initial number of visible cards
-    const [visibleCount, setVisibleCount] = useState(5);
+    const [visibleCount, setVisibleCount] = useState(8);
 
     const handleSeeMore = () => {
         setVisibleCount(prevCount => prevCount + 4);
@@ -27,20 +27,18 @@ const UpcomingEvent = () => {
 
     return (
         <>
-            <div className='flex w-full justify-center'>
-                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-9'>
-                    {events.slice(0, visibleCount).map((event) => (
-                        <CardEvent
-                            key={event.id}
-                            imageEvent={event.imageEvent}
-                            eventName={event.eventName}
-                            date={event.date}
-                            creatorName={event.creatorName}
-                            ticketEvent={event.ticketEvent}
-                            typeEvent={event.typeEvent}
-                        />
-                    ))}
-                </div>
+            <div className='flex w-full flex-wrap justify-between gap-9'>
+                {events.slice(0, visibleCount).map((event) => (
+                    <CardEvent
+                        key={event.id}
+                        imageEvent={event.imageEvent}
+                        eventName={event.eventName}
+                        date={event.date}
+                        creatorName={event.creatorName}
+                        ticketEvent={event.ticketEvent}
+                        typeEvent={event.typeEvent}
+                    />
+                ))}
             </div>
             <div className='w-full flex items-center justify-center'>
                 {visibleCount < events.length && (

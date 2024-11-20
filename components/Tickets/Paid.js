@@ -7,7 +7,7 @@ import { BsCashCoin } from "react-icons/bs";
 import { MdOutlineQrCodeScanner } from "react-icons/md";
 import { useState } from "react";
 
-export default function Paid({ imageEvent, eventName, date, ticketEvent, typeEvent, location, eventQr }) {
+export default function Paid({ ticket,imageEvent, eventName, date, ticketEvent, typeEvent, location, eventQr }) {
 
     const [paymentMethod, setPaymentMethod] = useState('');
 
@@ -23,7 +23,7 @@ export default function Paid({ imageEvent, eventName, date, ticketEvent, typeEve
                     <div className="w-1/2 h-full flex justify-center items-center p-3">
                         <div className="h-5/6">
                             <div>
-                                <Link href="/">
+                                <Link href={`/find_event/${ticket}`}>
                                     <IoMdArrowRoundBack
                                         size={24}
                                     />

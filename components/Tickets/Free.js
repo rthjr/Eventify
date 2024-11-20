@@ -1,7 +1,7 @@
 import { IoMdArrowRoundBack } from "react-icons/io";
 import Image from "@node_modules/next/image";
 import Link from "@node_modules/next/link";
-export default function Free({ imageEvent, eventName, date, ticketEvent, typeEvent, location }) {
+export default function Free({ticket, imageEvent, eventName, date, ticketEvent, typeEvent, location }) {
   return (
     <div className="w-full flex flex-col justify-center items-center">
       <div className="w-8/12 flex justify-center items-center h-screen ">
@@ -10,7 +10,7 @@ export default function Free({ imageEvent, eventName, date, ticketEvent, typeEve
           <div className="w-1/2 h-full flex justify-center items-center p-3">
             <div className="h-5/6">
               <div>
-                <Link href="/">
+                <Link href={`/find_event/${ticket}`}>
                   <IoMdArrowRoundBack
                     size={24}
                   />

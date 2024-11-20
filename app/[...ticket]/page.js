@@ -37,6 +37,7 @@ export default function TicketType({ params }) {
       {event.ticketEvent.toLowerCase() === "open" ? (
         <Open
           key={event.id}
+          ticket={event.id}
           imageEvent={event.imageEvent}
           eventName={event.eventName}
           date={event.date}
@@ -48,6 +49,8 @@ export default function TicketType({ params }) {
       ) : event.ticketEvent.toLowerCase() === "free" ? (
         <Free
           key={event.id}
+
+          ticket={event.id}
           imageEvent={event.imageEvent}
           eventName={event.eventName}
           date={event.date}
@@ -60,6 +63,7 @@ export default function TicketType({ params }) {
       ) : (
         <Paid
           key={event.id}
+          ticket={event.id}
           imageEvent={event.imageEvent}
           eventName={event.eventName}
           date={event.date}

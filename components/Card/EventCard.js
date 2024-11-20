@@ -11,12 +11,12 @@ const EventCard = () => {
         { id: 5, imageEvent: "/assets/banner/conference.jpg", eventName: "Business Workshop", date: "12/7/2025", creatorName: "BizPro", ticketEvent: "open", typeEvent: "Early Bird", location: "Chicago" },
         { id: 6, imageEvent: "/assets/banner/sportEvent.jpg", eventName: "Soccer Finals", date: "12/8/2025", creatorName: "SportsMania", ticketEvent: "open", typeEvent: "VIP", location: "Dallas" },
         { id: 7, imageEvent: "/assets/banner/techEvent.jpg", eventName: "StartUp Launchpad", date: "12/9/2025", creatorName: "LaunchZone", ticketEvent: "open", typeEvent: "Regular", location: "Seattle" },
-        { id: 8, imageEvent: "/assets/banner/conference2.jpg", eventName: "Healthcare Symposium", date: "12/10/2025", creatorName: "MedPlus", ticketEvent: "closed", typeEvent: "Early Bird", location: "Miami" },
+        { id: 8, imageEvent: "/assets/banner/conference2.jpg", eventName: "Healthcare", date: "12/10/2025", creatorName: "MedPlus", ticketEvent: "closed", typeEvent: "Early Bird", location: "Miami" },
         { id: 9, imageEvent: "/assets/banner/conference2.jpg", eventName: "Global Finance Meet", date: "12/11/2025", creatorName: "FinCon", ticketEvent: "open", typeEvent: "Regular", location: "London" },
     ]);
 
     // Initial number of visible cards
-    const [visibleCount, setVisibleCount] = useState(5);
+    const [visibleCount, setVisibleCount] = useState(8);
 
     const handleSeeMore = () => {
         setVisibleCount(prevCount => prevCount + 4);
@@ -24,21 +24,19 @@ const EventCard = () => {
 
     return (
         <>
-            <div className='flex w-full justify-center'>
-                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-9'>
-                    {events.slice(0, visibleCount).map((event) => (
-                        <CardEvent
-                            key={event.id}
-                            imageEvent={event.imageEvent}
-                            eventName={event.eventName}
-                            date={event.date}
-                            creatorName={event.creatorName}
-                            ticketEvent={event.ticketEvent}
-                            typeEvent={event.typeEvent}
-                            location={event.location}
-                        />
-                    ))}
-                </div>
+            <div className='flex w-full flex-wrap justify-between gap-9'>
+                {events.slice(0, visibleCount).map((event) => (
+                    <CardEvent
+                        key={event.id}
+                        imageEvent={event.imageEvent}
+                        eventName={event.eventName}
+                        date={event.date}
+                        creatorName={event.creatorName}
+                        ticketEvent={event.ticketEvent}
+                        typeEvent={event.typeEvent}
+                        location={event.location}
+                    />
+                ))}
             </div>
             <div className='w-full flex items-center justify-center'>
                 {visibleCount < events.length && (

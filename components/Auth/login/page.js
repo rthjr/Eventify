@@ -18,6 +18,8 @@ export default function Login() {
   const [error, setError] = useState("");
   const [password, setPassword] = useState("");
 
+
+
   useEffect(() => {
     const fetchProviders = async () => {
       const res = await getProviders();
@@ -37,11 +39,18 @@ export default function Login() {
   const handleSignInGoogle = async () => {
     await signIn('google', {callbackUrl: '/'})
   }
+
+  //handle phone number click 
+  const phoneNumberClick = () => {
+    router.push('/login/loginwithphone')
+  }
+
+
   //function for handle sign in
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-      const res = await signIn("credentials", {
+      const res = await signIn("emailCredentials", {
         email,
         password,
         redirect: false,
@@ -133,11 +142,12 @@ export default function Login() {
                 <div className={`${styles.orLine} w-full mb-4`}>or</div>
 
                 {/* add icon phone number */}
-                <button className="p-3 bg-customPurple-default rounded-xl text-white border-none mb-4 hover:bg-customPurple-hover w-full flex items-center justify-center">
+               
+              </form>
+              <button className="p-3 bg-customPurple-default rounded-xl text-white border-none mb-4 hover:bg-customPurple-hover w-full flex items-center justify-center" onClick={phoneNumberClick}>
                   <FaPhone size={24} className="mr-2" />
                   <span>Phone Number</span>
                 </button>
-              </form>
               <span>Other login method</span>
               {/* add other method with facebook and google */}
               <div className="flex gap-4 mt-4">

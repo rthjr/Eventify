@@ -13,6 +13,7 @@ dotenv.config()
 export const authOptions = {
     providers : [
         Credentials({
+            id: "emailCredentials",
             name: "credentials",
             credentials: {},
             async authorize(credentials){
@@ -44,6 +45,30 @@ export const authOptions = {
         Google({
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        }),
+
+        Credentials({
+            id: "phoneCredentials",
+            name: "phone-otp",
+            credentials: {
+                phone: { label: "Phone", type: "text" },
+                otp: { label: "OTP", type: "text" }
+            },
+            async authorize(credentials){
+
+                console.log("phone credentials")
+                const { phone, otp } = credentials
+
+                const fixedOtp = "123456"
+                const fixedPhone = "0123456789"
+                
+                if(phone === fixedPhone && otp === fixedOtp){
+                    console.log("OTP and phone match, returning user object.");
+                    return { id: 2, firstName: "User", lastName: "PhoneNumber"}
+                }
+
+                throw new Error("Invalid phone number or OTP ")
+            }
         })
     ],
     sessions: {
@@ -58,9 +83,10 @@ export const authOptions = {
         //return back what type of session user are authenticating 
         async session({ session, token }){
             if(token){
+                session.user = session.user || {}
                 session.user.id = token.sub
-                session.user.firstName = token.firstName
-                session.user.lastName = token.lastName
+                session.user.firstName = token.firstName || "Guess"
+                session.user.lastName = token.lastName || "User"
             }
             return session
         },

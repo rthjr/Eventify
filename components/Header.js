@@ -78,7 +78,7 @@ const Header = () => {
                 {/* {session.user?.lastName} */}
               </div>
               {isDropdownVisible && (
-                <div className='absolute left-0 top-full mt-0 h-fit z-40 bg-white shadow-lg rounded-md w-56'>
+                <div className='absolute left-0 top-full mt-0 h-fit z-40 bg-white shadow-lg rounded-md w-48 '>
                   <span
                     className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
                     onClick={handleSignOut}

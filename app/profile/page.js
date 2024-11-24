@@ -6,6 +6,9 @@ import Header from '@components/Header';
 import Footer from '@components/Footer';
 import { useState } from 'react';
 import Events from '@components/All_Event/Events';
+import { useEffect } from 'react';
+import { useRouter } from '@node_modules/next/navigation';
+import Loading from '@components/Loading/Loading';
 
 // hook
 import Link from "@node_modules/next/link";
@@ -32,8 +35,25 @@ const My_Booking = () => {
     setActiveSection('myEvents');
   };
 
-  const { data: session } = useSession();
-  console.log(session);
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const [showLoading, setShowLoading] = useState(true);
+
+  // Ensure loading state persists for at least 3000ms
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Redirect to login if unauthenticated
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/login');
+    }
+  }, [status, router]);
 
   // data
   const [events] = useState([
@@ -89,6 +109,15 @@ const My_Booking = () => {
     setVisibleCount(prevCount => prevCount + 4);
   };
 
+  // Show the loading screen during the loading state
+  if (status === 'loading' || showLoading) {
+    return <Loading />;
+  }
+
+  // If unauthenticated, avoid rendering until redirection
+  if (status === 'unauthenticated') {
+    return null;
+  }
 
   return (
     <div>
@@ -337,8 +366,8 @@ const My_Booking = () => {
             {/* for my event sesstion */}
             {activeSection === 'myEvents' && (
               <div>
-                <Events 
-                  noMap = "no"
+                <Events
+                  noMap="no"
                 />
               </div>
             )}

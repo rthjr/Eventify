@@ -19,7 +19,6 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
 
-
   useEffect(() => {
     const fetchProviders = async () => {
       const res = await getProviders();
@@ -28,16 +27,14 @@ export default function Login() {
     fetchProviders();
   }, []);
 
-
-  
   //handle facebook
   const handleSignInFacebook = async () => {
-    await signIn('facebook', {callbackUrl: '/'})
+    await signIn('facebook', { callbackUrl: '/' })
   }
 
   //handle google sign in 
   const handleSignInGoogle = async () => {
-    await signIn('google', {callbackUrl: '/'})
+    await signIn('google', { callbackUrl: '/' })
   }
 
   //handle phone number click 
@@ -60,6 +57,7 @@ export default function Login() {
         return;
       }
       router.replace("/");
+
     } catch (error) {
       console.log(error);
     }
@@ -142,33 +140,33 @@ export default function Login() {
                 <div className={`${styles.orLine} w-full mb-4`}>or</div>
 
                 {/* add icon phone number */}
-               
+
               </form>
               <button className="p-3 bg-customPurple-default rounded-xl text-white border-none mb-4 hover:bg-customPurple-hover w-full flex items-center justify-center" onClick={phoneNumberClick}>
-                  <FaPhone size={24} className="mr-2" />
-                  <span>Phone Number</span>
-                </button>
+                <FaPhone size={24} className="mr-2" />
+                <span>Phone Number</span>
+              </button>
               <span>Other login method</span>
               {/* add other method with facebook and google */}
               <div className="flex gap-4 mt-4">
                 {providers && providers.facebook && (
                   <div>
-                    
+
                     <button onClick={handleSignInFacebook} >
                       <FaFacebookSquare className="text-4xl" />
                     </button>
-                    
+
                   </div>
                 )}
                 {providers && providers.google && (
-                    <div>
-                        <button onClick={handleSignInGoogle}>
-                                <FaGoogle className="text-4xl" />
-                        </button>
-                    </div>
+                  <div>
+                    <button onClick={handleSignInGoogle}>
+                      <FaGoogle className="text-4xl" />
+                    </button>
+                  </div>
                 )}
-                
-                
+
+
               </div>
             </div>
           </div>

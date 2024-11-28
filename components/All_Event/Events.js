@@ -8,7 +8,7 @@ import { useState } from "react";
 // icon
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 
-const Events = ({ favoritePage, noMap }) => {
+const Events = ({ favoritePage, noMap, EventCreator }) => {
 
     const [events] = useState([
         { id: 1, imageEvent: "/assets/banner/conference.jpg", eventName: "Tech Summit", date: "Today", creatorName: "Giga", ticketEvent: "open", typeEvent: "Early Bird", location: "San Francisco", category: "sport" },
@@ -80,7 +80,7 @@ const Events = ({ favoritePage, noMap }) => {
                 <h2 className="text-xl text-center font-bold">Favorite</h2>
             ) : (<></>)}
             <div className="w-full h-auto flex justify-center">
-                <div className="w-10/12 mb-20 mt-10 flex">
+                <div className="w-12/12 mb-20 mt-10 flex">
                     <div className="m-auto">
                         <div className='w-full flex gap-9'>
                             {/* Filter Section */}
@@ -234,11 +234,19 @@ const Events = ({ favoritePage, noMap }) => {
                                                             <h2 className='text-black font-semibold text-lg'>{typeEvent}</h2>
                                                         </div>
 
-                                                        <Link href={`/find_event/${event.id}`}>
-                                                            <button className="border-none bg-customPurple-default hover:bg-customPurple-hover text-white text-lg w-full rounded-lg p-2">
-                                                                Book Now
-                                                            </button>
-                                                        </Link>
+                                                        {EventCreator === "yes" ? (
+                                                            <Link href={`/create_event/${event.id}/${event.date}`}>
+                                                                <button className="border-none bg-customPurple-default hover:bg-customPurple-hover text-white text-lg w-full rounded-lg p-2">
+                                                                    Detail Event
+                                                                </button>
+                                                            </Link>
+                                                        ) : (
+                                                            <Link href={`/find_event/${event.id}`}>
+                                                                <button className="border-none bg-customPurple-default hover:bg-customPurple-hover text-white text-lg w-full rounded-lg p-2">
+                                                                    Book Now
+                                                                </button>
+                                                            </Link>
+                                                        )}
                                                     </div>
                                                 </div>
                                             );

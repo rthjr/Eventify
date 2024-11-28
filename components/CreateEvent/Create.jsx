@@ -1,9 +1,15 @@
 import Image from "@node_modules/next/image";
 import React from "react";
-
+import { useRouter } from "@node_modules/next/navigation";
 import { MdOutlineCreate } from "react-icons/md";
 
 const Create = () => {
+  const router = useRouter();
+
+  const handleRoute = () => {
+    router.push("/create_event/create")
+  }
+
   return (
     <div className="p-4 w-full h-auto flex flex-col font-bold text-lg gap-8">
       <h2 className="text-2xl">Create Event</h2>
@@ -14,7 +20,7 @@ const Create = () => {
           Add all your event details, create new tickets, and set up recurring
           events.
         </p>
-        <button className="bg-customPurple-default hover:bg-customPurple-hover p-2 transition-all rounded-lg text-white w-full">
+        <button onClick={handleRoute} className="bg-customPurple-default hover:bg-customPurple-hover p-2 transition-all rounded-lg text-white w-full">
           Start Now
         </button>
       </div>
@@ -107,7 +113,7 @@ const Create = () => {
       </div>
 
       <div className="w-full flex justify-end">
-        <button className="p-2 text-white bg-customPurple-default hover:bg-customPurple-hover rounded-lg">Create Now</button>
+        <button onClick={handleRoute} className="p-2 text-white bg-customPurple-default hover:bg-customPurple-hover rounded-lg">Create Now</button>
       </div>
     </div>
   );

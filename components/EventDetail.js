@@ -11,7 +11,7 @@ const EventDetail = ({ ticket, imageEvent, eventName, date, creatorName, ticketE
         <div className="w-full h-auto my-20  flex flex-col justify-center items-center">
             <div className="w-8/12 flex flex-col justify-center items-center">
                 <div className="w-full h-full flex flex-col">
-                    <div className="w-auto h-[500px] overflow-hidden rounded-lg relative mb-8 -z-20 shadow-gray shadow-xl ">
+                    <div className="w-auto h-[500px] overflow-hidden rounded-lg relative mb-8 -z-20 shadow-gray shadow-2xl ">
                         <Image
                             src={imageEvent}
                             alt={eventName}

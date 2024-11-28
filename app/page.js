@@ -78,7 +78,7 @@ export default function Home() {
                 </div>
               </Link>
 
-              <Link href="/" className="hover:scale-110 transition-all">
+              <Link href="/create_event" className="hover:scale-110 transition-all">
                 <div className="flex flex-col w-full shadow-lg rounded-lg p-4 lg:p-6 bg-gray-200">
                   <div className="p-4 lg:p-6 text-2xl">
                     <IoCreateOutline />

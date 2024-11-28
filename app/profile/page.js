@@ -109,8 +109,7 @@ const My_Booking = () => {
     setVisibleCount(prevCount => prevCount + 4);
   };
 
-  // Show the loading screen during the loading state
-  if (status === 'loading' || showLoading) {
+  if (showLoading && status === 'unauthenticated') {
     return <Loading />;
   }
 
@@ -368,6 +367,7 @@ const My_Booking = () => {
               <div>
                 <Events
                   noMap="no"
+                    EventCreator="yes"
                 />
               </div>
             )}

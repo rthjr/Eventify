@@ -3,18 +3,29 @@
 import Footer from '@components/Footer';
 import Header from '@components/Header';
 import React, { useState } from 'react';
+import { useRouter } from '@node_modules/next/navigation';
 
 const Tickets = () => {
+    const router = useRouter()
+
     const [isPaid, setIsPaid] = useState(true);
     const [isFree, setIsFree] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    const [isPayment, setIsPayment] = useState(false)
+    const [isRefund, setIsRefund] = useState(false);
+    const [noRefund, setNoRefund] = useState(false);
 
     const handleStateChange = (type) => {
         setIsPaid(type === "paid");
         setIsFree(type === "free");
         setIsOpen(type === "open");
+        setIsRefund(type === "refund");
+        setNoRefund(type === "noRefund");
     };
+
+    const handleRouter = (e) => {
+        e.preventDefault()
+        router.push("/create_event/create/upload/tickets/payments")
+    } 
 
     return (
         <>
@@ -29,7 +40,7 @@ const Tickets = () => {
                 }}
             >
                 <div className='w-10/12 h-auto my-20 m-auto backdrop-blur-2xl opacity-70 flex flex-col lg:flex-wrap gap-8'>
-                    <form action="" className='p-4 bg-gray-100 shadow-2xl rounded-lg w-full h-auto flex flex-col gap-8'>
+                    <div action="" className='p-4 bg-gray-100 shadow-2xl rounded-lg w-full h-auto flex flex-col gap-8'>
                         <h2 className='text-2xl font-bold text-black'>Event Poster</h2>
                         <ul className='flex justify-between'>
                             <li>Basic Info</li>
@@ -68,40 +79,128 @@ const Tickets = () => {
 
                             {/* Conditional rendering */}
                             {isPaid && (
-                                <div className="flex flex-col gap-8">
+                                <form action='' className="flex flex-col gap-8">
                                     <h2 className='text-xl font-bold text-start'>Type of event Regular, Early Bird, Last Event</h2>
-                                    <div>
+                                    <div className='flex flex-col gap-8'>
                                         <div className='flex flex-col gap-4'>
                                             <label htmlFor="Event Tyoe">Event Type</label>
-                                            <input type="text" placeholder='Event Type' className='p-2 bg-customPurple-default hover:bg-customPurple-hover rounded-lg text-white' />
+                                            <input type="text" placeholder='Event Type' className='p-2 border-black border-2 rounded-lg text-white' />
                                         </div>
 
                                         <div className='flex flex-col gap-4'>
                                             <label htmlFor="Amount of Attendee">Amount of Attendee</label>
-                                            <input className='p-2 bg-customPurple-default hover:bg-customPurple-hover rounded-lg text-white' type="text" placeholder='Amount of attendee' />
+                                            <input className='p-2 border-black border-2 rounded-lg text-white' type="text" placeholder='Amount of attendee' />
                                         </div>
 
                                         <div className='flex flex-col gap-4'>
                                             <label htmlFor="Tickets price">Tickets Price</label>
-                                            <input className='p-2 bg-customPurple-default hover:bg-customPurple-hover rounded-lg text-white' type="text" placeholder='Ticket Price' />
+                                            <input className='p-2 border-black border-2 rounded-lg text-white' type="text" placeholder='Ticket Price' />
                                         </div>
 
                                         <h2 className='text-xl font-bold text-start'>Cancellation Policy</h2>
 
-                                        <p className='text-lg font-light'>
+                                        <p className='text-sm font-light'>
                                             Customize a refund policy for your event. You are responsible for you own policies. In some situation,you will be required to issue, regardless of your policy.
                                         </p>
+
+                                        <h2 className='text-xl font-bold text-start'>Set your refund policy</h2>
+
+                                        <div className='flex flex-col gap-8'>
+                                            <div className='flex gap-4'>
+                                                <input
+                                                    type="checkbox"
+                                                    id='refund'
+                                                    name='policy'
+                                                    // Use controlled input
+                                                    checked={isRefund}
+                                                    onChange={() => {
+                                                        setIsRefund(true);
+                                                        setNoRefund(false);
+                                                    }}
+                                                />
+                                                <label htmlFor="refund">Allow to refund</label>
+                                            </div>
+
+                                            <div className='flex gap-4'>
+                                                <input
+                                                    type="checkbox"
+                                                    id='noRefund'
+                                                    name='policy'
+                                                    // Use controlled input
+                                                    checked={noRefund}
+                                                    onChange={() => {
+                                                        setIsRefund(false);
+                                                        setNoRefund(true);
+                                                    }}
+                                                />
+                                                <label htmlFor="noRefund">Don't allow refund</label>
+                                            </div>
+                                        </div>
+
                                     </div>
-                                </div>
+
+                                    {isRefund && (
+                                        <span>24 hours after the event give be refunded is 80%.</span>
+                                    )}
+
+                                    {noRefund && (
+                                        <span>Cannot be refunded.</span>
+                                    )}
+
+                                    <div className='w-full h-auto flex items-end justify-end'>
+                                        <button className='p-2 bg-customPurple-default hover:bg-customPurple-hover text-white rounded-lg' onClick={handleRouter}>
+                                            Save & Continue
+                                        </button>
+                                    </div>
+                                </form>
                             )}
                             {isFree && (
-                                <div className="text-center">You selected Free</div>
+                                <form action='' className="flex flex-col gap-8">
+                                    <h2 className='text-xl font-bold text-start'>Type of event Regular, Early Bird, Last Event</h2>
+                                    <div className='flex flex-col gap-8'>
+                                        <div className='flex flex-col gap-4'>
+                                            <label htmlFor="Event Tyoe">Event Type</label>
+                                            <input type="text" placeholder='Event Type' className='p-2 border-2 border-black rounded-lg text-white' />
+                                        </div>
+
+                                        <div className='flex flex-col gap-4'>
+                                            <label htmlFor="Amount of Attendee">Amount of Attendee</label>
+                                            <input className='p-2 border-2 border-black rounded-lg text-white' type="text" placeholder='Amount of attendee' />
+                                        </div>
+                                    </div>
+
+                                    <div className='w-full h-auto flex items-end justify-end'>
+                                        <button className='p-2 bg-customPurple-default hover:bg-customPurple-hover text-white rounded-lg' onClick={handleRouter}>
+                                            Save & Continue
+                                        </button>
+                                    </div>
+                                </form>
                             )}
                             {isOpen && (
-                                <div className="text-center">You selected Open</div>
+                                <form action='' className="flex flex-col gap-8">
+                                    <h2 className='text-xl font-bold text-start'>Type of event Regular, Early Bird, Last Event</h2>
+                                    <div className='flex flex-col gap-8'>
+                                        <div className='flex flex-col gap-4'>
+                                            <label htmlFor="Event Tyoe">Event Type</label>
+                                            <input type="text" placeholder='Event Type' className='p-2 border-2 border-black rounded-lg text-white' />
+                                        </div>
+
+                                        <div className='flex flex-col gap-4'>
+                                            <label htmlFor="Amount of Attendee">Amount of Attendee</label>
+                                            <input className='p-2 border-2 border-black rounded-lg text-white' type="text" placeholder='Amount of attendee' />
+                                        </div>
+                                    </div>
+
+
+                                    <div className='w-full h-auto flex items-end justify-end'>
+                                        <button className='p-2 bg-customPurple-default hover:bg-customPurple-hover text-white rounded-lg' onClick={handleRouter}>
+                                            Save & Continue
+                                        </button>
+                                    </div>
+                                </form>
                             )}
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
 

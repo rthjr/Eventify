@@ -2,6 +2,8 @@
 import Footer from '@components/Footer'
 import Header from '@components/Header'
 import React from 'react'
+import Button from '@components/Button/Button'
+import BackButton from '@components/Button/BackButton'
 
 import { useRouter } from '@node_modules/next/navigation'
 // icon
@@ -31,7 +33,7 @@ const Uploadmage = () => {
                 style={{ backgroundImage: 'url(/assets/banner/createEvent.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}
             >
                 <div className='w-10/12 h-auto my-20 m-auto backdrop-blur-2xl opacity-70 flex flex-col lg:flex-wrap gap-8 '>
-                    <form action="" className='p-4  bg-gray-100 shadow-2xl rounded-lg w-full h-auto flex flex-col gap-8'>
+                    <form className='p-4  bg-gray-100 shadow-2xl rounded-lg w-full h-auto flex flex-col gap-8'>
                         <h2 className='text-2xl font-bold text-black'>Event Poster</h2>
                         <ul className='flex justify-between'>
                             <li >Basic Info</li>
@@ -55,13 +57,15 @@ const Uploadmage = () => {
                         </div>
 
                         <div className='w-full h-auto flex items-end justify-between'>
-                            <button className='rounded-lg bg-customPurple-default hover:bg-customPurple-hover text-white p-2' onClick={handleBack}>Back</button>
+                            <BackButton
+                                onClick={handleBack}
+                                param="Back"
+                            />
 
-                            <button className='rounded-lg bg-customPurple-default hover:bg-customPurple-hover text-white p-2'
+                            <Button
                                 onClick={handleNext}
-                            >
-                                Save & Continue
-                            </button>
+                                param="Save & Continue"
+                            />
                         </div>
                     </form>
                 </div>

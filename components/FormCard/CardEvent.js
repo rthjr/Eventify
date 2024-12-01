@@ -6,7 +6,11 @@ import { MdFavorite } from "react-icons/md";
 import { useState } from 'react';
 import style from "@styles/cardevent.module.css"
 import React, { useRef } from 'react';
-const CardEvent = ({ imageEvent, eventName, date, creatorName, ticketEvent, typeEvent, location }) => {
+import { useRouter } from '@node_modules/next/navigation';
+import Button from '@components/Button/Button';
+const CardEvent = ({id, imageEvent, eventName, date, creatorName, ticketEvent, typeEvent, location }) => {
+
+    const router = useRouter()
 
     const [isFavorite, setIsFavorite] = useState(false);
 
@@ -40,6 +44,11 @@ const CardEvent = ({ imageEvent, eventName, date, creatorName, ticketEvent, type
             current.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
         }
     };
+
+    const handleRouter = (e) => {
+        e.preventDefault();
+        router.push(`/find_event/${id}`);
+    }
 
     return (
         <div
@@ -101,7 +110,10 @@ const CardEvent = ({ imageEvent, eventName, date, creatorName, ticketEvent, type
                 <h2 className='text-black font-semibold text-lg'>{creatorName}</h2>
                 <h2 className='text-black font-semibold text-lg'>{typeEvent}</h2>
             </div>
-            <button className='border-none bg-customPurple-default hover:bg-customPurple-hover text-white text-lg w-full rounded-lg p-2'>Book Now</button>
+            <Button
+                param="Book Now"
+                onClick={handleRouter}
+            />
         </div>
     )
 }

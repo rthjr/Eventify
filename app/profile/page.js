@@ -14,11 +14,10 @@ import Loading from '@components/Loading/Loading';
 import Link from "@node_modules/next/link";
 import Image from "@node_modules/next/image";
 
-// icon
-import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 
 // lib to check  login and sign up after login
 import { signOut, useSession } from '@node_modules/next-auth/react';
+import Button from '@components/Button/Button';
 
 const My_Booking = () => {
 
@@ -34,6 +33,8 @@ const My_Booking = () => {
   const handleEvents = () => {
     setActiveSection('myEvents');
   };
+
+  // reload
 
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -318,9 +319,9 @@ const My_Booking = () => {
                                         </div>
 
                                         <Link href={`/profile/${event.id}`}>
-                                          <button className="border-none bg-customPurple-default hover:bg-customPurple-hover text-white text-lg w-full rounded-lg p-2">
-                                            See Detail
-                                          </button>
+                                          <Button
+                                            param="See Detail"
+                                          />
                                         </Link>
                                       </div>
                                     </div>
@@ -344,14 +345,12 @@ const My_Booking = () => {
                           </div>
 
                           {/* See More Button */}
-                          <div className="w-full flex items-center justify-center">
+                          <div className="w-full flex items-center justify-center mt-12">
                             {visibleCount < filteredEvents.length && (
-                              <button
+                              <Button
                                 onClick={handleSeeMore}
-                                className="mt-12 p-3 bg-customPurple-default hover:bg-customPurple-hover transition-all text-white rounded"
-                              >
-                                See More
-                              </button>
+                                param="See More"
+                              />
                             )}
                           </div>
 
@@ -367,7 +366,7 @@ const My_Booking = () => {
               <div>
                 <Events
                   noMap="no"
-                    EventCreator="yes"
+                  EventCreator="yes"
                 />
               </div>
             )}

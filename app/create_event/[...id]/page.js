@@ -55,11 +55,6 @@ const DynamicRoutePage = ({ params }) => {
 
     return (
         <div>
-            <h1>Dynamic Route Page</h1>
-            <p>Event ID: {eventIdNumber}</p>
-            <p>Event Date: {event.date}</p>
-            <p>Days until event: {dayDiff} days</p>
-            <p>{upcomingEvent ? "This event is upcoming!" : "This event is in the past"}</p>
 
             <EventDetail
                 key={event.id}

@@ -1,8 +1,7 @@
 "use client"
 import React, { useState } from 'react'
 import CardEvent from '@components/FormCard/CardEvent'
-// Import Image if it's an external component
-// import Image from 'next/image'; // Example import if using Next.js
+import Button from '@components/Button/Button'
 
 const UpcomingEvent = () => {
     const [events] = useState([
@@ -40,11 +39,12 @@ const UpcomingEvent = () => {
                     />
                 ))}
             </div>
-            <div className='w-full flex items-center justify-center'>
+            <div className='w-full flex items-center justify-center mt-12'>
                 {visibleCount < events.length && (
-                    <button onClick={handleSeeMore} className='mt-12 p-3 bg-customPurple-default hover:bg-customPurple-hover transition-all text-white rounded'>
-                        See More
-                    </button>
+                    <Button
+                        onClick={handleSeeMore}
+                        param="See More"
+                    />
                 )}
             </div>
         </>

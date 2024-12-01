@@ -4,6 +4,8 @@ import Footer from '@components/Footer';
 import Header from '@components/Header';
 import React, { useState } from 'react';
 import { useRouter } from '@node_modules/next/navigation';
+import Button from '@components/Button/Button';
+import BackButton from '@components/Button/BackButton';
 
 const Tickets = () => {
     const router = useRouter()
@@ -22,10 +24,32 @@ const Tickets = () => {
         setNoRefund(type === "noRefund");
     };
 
+    const handleBack = (event) => {
+        event.preventDefault()
+        router.push("/create_event/create/upload")
+    }
+
     const handleRouter = (e) => {
         e.preventDefault()
         router.push("/create_event/create/upload/tickets/payments")
-    } 
+    }
+
+    // button
+    const displayButton = () => {
+        return (
+            <div className='w-full h-auto flex flex-wrap justify-between'>
+                <BackButton
+                    onClick={handleBack}
+                    param="Back"
+                />
+
+                <Button
+                    onClick={handleRouter}
+                    param="Save & Continue"
+                />
+            </div>
+        )
+    }
 
     return (
         <>
@@ -79,7 +103,7 @@ const Tickets = () => {
 
                             {/* Conditional rendering */}
                             {isPaid && (
-                                <form action='' className="flex flex-col gap-8">
+                                <form className="flex flex-col gap-8">
                                     <h2 className='text-xl font-bold text-start'>Type of event Regular, Early Bird, Last Event</h2>
                                     <div className='flex flex-col gap-8'>
                                         <div className='flex flex-col gap-4'>
@@ -147,15 +171,11 @@ const Tickets = () => {
                                         <span>Cannot be refunded.</span>
                                     )}
 
-                                    <div className='w-full h-auto flex items-end justify-end'>
-                                        <button className='p-2 bg-customPurple-default hover:bg-customPurple-hover text-white rounded-lg' onClick={handleRouter}>
-                                            Save & Continue
-                                        </button>
-                                    </div>
+                                    {displayButton()}
                                 </form>
                             )}
                             {isFree && (
-                                <form action='' className="flex flex-col gap-8">
+                                <form className="flex flex-col gap-8">
                                     <h2 className='text-xl font-bold text-start'>Type of event Regular, Early Bird, Last Event</h2>
                                     <div className='flex flex-col gap-8'>
                                         <div className='flex flex-col gap-4'>
@@ -169,15 +189,11 @@ const Tickets = () => {
                                         </div>
                                     </div>
 
-                                    <div className='w-full h-auto flex items-end justify-end'>
-                                        <button className='p-2 bg-customPurple-default hover:bg-customPurple-hover text-white rounded-lg' onClick={handleRouter}>
-                                            Save & Continue
-                                        </button>
-                                    </div>
+                                    {displayButton()}
                                 </form>
                             )}
                             {isOpen && (
-                                <form action='' className="flex flex-col gap-8">
+                                <form className="flex flex-col gap-8">
                                     <h2 className='text-xl font-bold text-start'>Type of event Regular, Early Bird, Last Event</h2>
                                     <div className='flex flex-col gap-8'>
                                         <div className='flex flex-col gap-4'>
@@ -192,11 +208,7 @@ const Tickets = () => {
                                     </div>
 
 
-                                    <div className='w-full h-auto flex items-end justify-end'>
-                                        <button className='p-2 bg-customPurple-default hover:bg-customPurple-hover text-white rounded-lg' onClick={handleRouter}>
-                                            Save & Continue
-                                        </button>
-                                    </div>
+                                    {displayButton()}
                                 </form>
                             )}
                         </div>

@@ -5,3 +5,4 @@ next-auth
 mongoose
 bcrypt
 react-spinners@0.14.1
+daisyui@4.12.14

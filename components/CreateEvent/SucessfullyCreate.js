@@ -3,6 +3,7 @@
 import React from 'react'
 import { FaRegCheckCircle } from "react-icons/fa";
 import { useRouter } from '@node_modules/next/navigation';
+import Button from '@components/Button/Button';
 
 const SucessfullyCreate = () => {
     const router = useRouter()
@@ -17,12 +18,13 @@ const SucessfullyCreate = () => {
             <div className='p-12 bg-white shadow-xl rounded-lg flex flex-col gap-8 items-center justify-center'>
                 <FaRegCheckCircle size={100} color='green' />
                 <div className='w-full h-auto flex flex-wrap justify-between gap-12'>
-                    <button className='bg-customPurple-default hover:bg-customPurple-hover rounded-lg p-2 text-white'>
-                        View Event
-                    </button>
-                    <button onClick={handleRouter} className='bg-customPurple-default hover:bg-customPurple-hover rounded-lg p-2 text-white'>
-                        Finish
-                    </button>
+                    <Button
+                        param="View Event"
+                    />
+                    <Button
+                        onClick={handleRouter}
+                        param="Home"
+                    />
                 </div>
             </div>
         </div>

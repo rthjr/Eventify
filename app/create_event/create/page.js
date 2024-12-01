@@ -5,6 +5,9 @@ import Header from '@components/Header'
 import React from 'react'
 
 import { useRouter } from '@node_modules/next/navigation'
+import Input from '@components/InputButton/Input'
+import Button from '@components/Button/Button'
+import BackButton from '@components/Button/BackButton'
 
 const Create = () => {
 
@@ -21,7 +24,7 @@ const Create = () => {
     return (
         <>
             <Header />
-            
+
             <div
                 className='w-full h-full flex flex-wrap m-auto '
                 style={{ backgroundImage: 'url(/assets/banner/createEvent.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}
@@ -43,34 +46,50 @@ const Create = () => {
                             <p>This will be your event's title. Your title will be used to help create your event's summary, description, category</p>
                         </div>
 
-                        <dir className="flex flex-col gap-4">
-                            <label htmlFor="event name" className='text-lg font-bold text-black'>Event Name</label>
-                            <input type="text" className='w-full p-4 rounded-lg border-2 border-black' required placeholder='Enter name of Event' />
-                        </dir>
+                        <Input
+                            name="Event Name"
+                            type="text"
+                        />
 
                         <h2 className='text-2xl font-bold'>Schedule</h2>
 
-                        <input type="date" required placeholder='select the date' className='p-4 border-2 border-black w-full rounded-lg' />
+                        <Input
+                            name="Date"
+                            type="date"
+                        />
 
                         <div className='flex justify-between gap-4 w-full'>
-                            <input type="time" className='w-full p-4 rounded-lg border-2 border-black' required />
-                            <input type="time" className='w-full p-4 rounded-lg border-2 border-black' required />
+                            <Input
+                                name="Start Time"
+                                type="time"
+                            />
+
+
+                            <Input
+                                name="End Time"
+                                type="time"
+                            />
                         </div>
 
-                        <h2>Where is it Location?</h2>
+                        <Input
+                            name="Where is it Location?"
+                            type="url"
+                        />
 
-                        <input type="url" placeholder='input the url map' className='w-full p-4 rounded-lg border-2 border-black' />
-
-                        <textarea name="" id="" className='w-full p-4 rounded-lg border-2 border-black' placeholder='Write anything here'></textarea>
+                        <Input
+                            name="Description"
+                            textArea="textArea"
+                        />
 
                         <div className='w-full flex justify-between items-end'>
-                            <button className='rounded-lg bg-customPurple-default hover:bg-customPurple-hover text-white p-2' onClick={handleBack}>Back</button>
-                            <button
+                            <BackButton
+                                param="Back"
+                            />
+
+                            <Button
                                 onClick={handleRedirect}
-                                className='p-2 bg-customPurple-default text-white text-lg font-bold hover:bg-customPurple-hover rounded-lg transition-all'
-                            >
-                                Save & Continue
-                            </button>
+                                param="Save & Continue"
+                            />
                         </div>
                     </form>
                 </div>

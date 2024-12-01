@@ -1,6 +1,7 @@
 "use client"
 import React, { useState } from 'react'
 import CardEvent from '@components/FormCard/CardEvent'
+import Button from '@components/Button/Button';
 
 const EventCard = () => {
     const [events] = useState([
@@ -28,6 +29,7 @@ const EventCard = () => {
                 {events.slice(0, visibleCount).map((event) => (
                     <CardEvent
                         key={event.id}
+                        id={event.id}
                         imageEvent={event.imageEvent}
                         eventName={event.eventName}
                         date={event.date}
@@ -38,11 +40,12 @@ const EventCard = () => {
                     />
                 ))}
             </div>
-            <div className='w-full flex items-center justify-center'>
+            <div className='w-full flex items-center justify-center mt-12'>
                 {visibleCount < events.length && (
-                    <button onClick={handleSeeMore} className='mt-12 p-3 bg-customPurple-default hover:bg-customPurple-hover transition-all text-white rounded'>
-                        See More
-                    </button>
+                    <Button
+                        param="See More"
+                        onClick={handleSeeMore}
+                    />
                 )}
             </div>
         </>

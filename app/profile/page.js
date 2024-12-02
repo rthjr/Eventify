@@ -9,6 +9,7 @@ import Events from '@components/All_Event/Events';
 import { useEffect } from 'react';
 import { useRouter } from '@node_modules/next/navigation';
 import Loading from '@components/Loading/Loading';
+import events from '@model/eventData';
 
 // hook
 import Link from "@node_modules/next/link";
@@ -55,19 +56,6 @@ const My_Booking = () => {
       router.push('/login');
     }
   }, [status, router]);
-
-  // data
-  const [events] = useState([
-    { id: 1, imageEvent: "/assets/banner/conference.jpg", eventName: "Tech Summit", date: "Today", creatorName: "Giga", ticketEvent: "open", typeEvent: "Early Bird", location: "San Francisco", category: "sport", qr: "/assets/banner/fakeQR.png" },
-    { id: 2, imageEvent: "/assets/banner/sportEvent.jpg", eventName: "Marathon 2025", date: "Tomorrow", creatorName: "RunClub", ticketEvent: "open", typeEvent: "Regular", location: "New York", category: "conference", qr: "/assets/banner/fakeQR.png" },
-    { id: 3, imageEvent: "/assets/banner/techEvent.jpg", eventName: "Innovation Expo", date: "Today", creatorName: "TechWorld", ticketEvent: "open", typeEvent: "Regular", location: "Los Angeles", category: "technology", qr: "/assets/banner/fakeQR.png" },
-    { id: 4, imageEvent: "/assets/banner/conference2.jpg", eventName: "AI Conference", date: "Month", creatorName: "Giga AI", ticketEvent: "Free", typeEvent: "Late", location: "Boston", category: "technology", qr: "/assets/banner/fakeQR.png" },
-    { id: 5, imageEvent: "/assets/banner/conference.jpg", eventName: "Business Workshop", date: "Today", creatorName: "BizPro", ticketEvent: "open", typeEvent: "Early Bird", location: "Chicago", category: "technology", qr: "/assets/banner/fakeQR.png" },
-    { id: 6, imageEvent: "/assets/banner/sportEvent.jpg", eventName: "Soccer Finals", date: "Tomorrow", creatorName: "SportsMania", ticketEvent: "open", typeEvent: "Regular", location: "Dallas", category: "technology", qr: "/assets/banner/fakeQR.png" },
-    { id: 7, imageEvent: "/assets/banner/techEvent.jpg", eventName: "StartUp Launchpad", date: "Month", creatorName: "LaunchZone", ticketEvent: "open", typeEvent: "Regular", location: "Seattle", category: "technology", qr: "/assets/banner/fakeQR.png" },
-    { id: 8, imageEvent: "/assets/banner/conference2.jpg", eventName: "Healthcare Symposium", date: "Tomorrow", creatorName: "MedPlus", ticketEvent: "paid", typeEvent: "Early Bird", location: "Miami", category: "technology", qr: "/assets/banner/fakeQR.png" },
-    { id: 9, imageEvent: "/assets/banner/conference2.jpg", eventName: "Global Finance Meet", date: "Month", creatorName: "FinCon", ticketEvent: "open", typeEvent: "Regular", location: "London", category: "technology", qr: "/assets/banner/fakeQR.png" },
-  ]);
 
   // Filter states
   const [selectedDates, setSelectedDates] = useState([]);

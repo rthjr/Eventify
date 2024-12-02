@@ -24,23 +24,6 @@ export default function Home() {
       <Header />
       <div className="w-full h-auto flex flex-col justify-center items-center mt-12">
         <SwiperBanner />
-        {/* put content here */}
-        <h1>
-          {/* {session && session.user ? (
-            <div>
-              <p> Welcome, {session.user?.email}!  </p>
-              <p> Welcome, {session.user?.lastName}!  </p>
-              <button onClick={signOut}>Log out</button>
-            </div>
-          ) : (
-            <div>
-              <p>please sign in</p>
-            </div>
-
-          )} */}
-
-          {/* put content here */}
-        </h1>
         <div className="w-10/12 flex flex-col">
           <h2 className="font-bold text-black text-xl  my-12">Browse By Category</h2>
 

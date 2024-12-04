@@ -78,7 +78,7 @@ const Header = () => {
                 {/* {session.user?.lastName} */}
               </div>
               {isDropdownVisible && (
-                <div className='absolute left-0 top-full mt-0 h-fit z-40 bg-white shadow-lg rounded-md w-56'>
+                <div className='absolute left-0 top-full mt-0 h-fit z-40 bg-white shadow-lg rounded-md w-48 '>
                   <span
                     className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
                     onClick={handleSignOut}
@@ -121,7 +121,7 @@ const Header = () => {
         {isMobileMenuOpen && (
           <ul className="lg:hidden absolute top-16 right-5 w-40 bg-white shadow-lg rounded-lg p-3 z-50">
             <li className="py-2 border-b border-gray-200">
-              <Link href="/create" onClick={toggleMobileMenu}>Create Event</Link>
+              <Link href="/create_event" onClick={toggleMobileMenu}>Create Event</Link>
             </li>
             <li className="py-2 border-b border-gray-200">
               <Link href="/favorite" onClick={toggleMobileMenu}>Favorite</Link>

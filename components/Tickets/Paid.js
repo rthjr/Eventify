@@ -16,9 +16,9 @@ export default function Paid({ ticket,imageEvent, eventName, date, ticketEvent, 
     };
 
     return (
-        <div className="w-full flex flex-col justify-center items-center">
-            <div className="w-8/12 flex justify-center items-center h-screen ">
-                <div className=" flex h-fit shadow-lg p-8 rounded-lg">
+        <div className=" w-full flex flex-col justify-center items-center">
+            <div className="  w-8/12 flex justify-center items-center h-screen ">
+                <div className=" flex h-fit border-2 border-black rounded-lg">
                     {/* ui for the left side */}
                     <div className="w-1/2 h-full flex justify-center items-center p-3">
                         <div className="h-5/6">

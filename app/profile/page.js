@@ -6,16 +6,19 @@ import Header from '@components/Header';
 import Footer from '@components/Footer';
 import { useState } from 'react';
 import Events from '@components/All_Event/Events';
+import { useEffect } from 'react';
+import { useRouter } from '@node_modules/next/navigation';
+import Loading from '@components/Loading/Loading';
+import events from '@model/eventData';
 
 // hook
 import Link from "@node_modules/next/link";
 import Image from "@node_modules/next/image";
 
-// icon
-import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 
 // lib to check  login and sign up after login
 import { signOut, useSession } from '@node_modules/next-auth/react';
+import Button from '@components/Button/Button';
 
 const My_Booking = () => {
 
@@ -32,21 +35,27 @@ const My_Booking = () => {
     setActiveSection('myEvents');
   };
 
-  const { data: session } = useSession();
-  console.log(session);
+  // reload
 
-  // data
-  const [events] = useState([
-    { id: 1, imageEvent: "/assets/banner/conference.jpg", eventName: "Tech Summit", date: "Today", creatorName: "Giga", ticketEvent: "open", typeEvent: "Early Bird", location: "San Francisco", category: "sport", qr: "/assets/banner/fakeQR.png" },
-    { id: 2, imageEvent: "/assets/banner/sportEvent.jpg", eventName: "Marathon 2025", date: "Tomorrow", creatorName: "RunClub", ticketEvent: "open", typeEvent: "Regular", location: "New York", category: "conference", qr: "/assets/banner/fakeQR.png" },
-    { id: 3, imageEvent: "/assets/banner/techEvent.jpg", eventName: "Innovation Expo", date: "Today", creatorName: "TechWorld", ticketEvent: "open", typeEvent: "Regular", location: "Los Angeles", category: "technology", qr: "/assets/banner/fakeQR.png" },
-    { id: 4, imageEvent: "/assets/banner/conference2.jpg", eventName: "AI Conference", date: "Month", creatorName: "Giga AI", ticketEvent: "Free", typeEvent: "Late", location: "Boston", category: "technology", qr: "/assets/banner/fakeQR.png" },
-    { id: 5, imageEvent: "/assets/banner/conference.jpg", eventName: "Business Workshop", date: "Today", creatorName: "BizPro", ticketEvent: "open", typeEvent: "Early Bird", location: "Chicago", category: "technology", qr: "/assets/banner/fakeQR.png" },
-    { id: 6, imageEvent: "/assets/banner/sportEvent.jpg", eventName: "Soccer Finals", date: "Tomorrow", creatorName: "SportsMania", ticketEvent: "open", typeEvent: "Regular", location: "Dallas", category: "technology", qr: "/assets/banner/fakeQR.png" },
-    { id: 7, imageEvent: "/assets/banner/techEvent.jpg", eventName: "StartUp Launchpad", date: "Month", creatorName: "LaunchZone", ticketEvent: "open", typeEvent: "Regular", location: "Seattle", category: "technology", qr: "/assets/banner/fakeQR.png" },
-    { id: 8, imageEvent: "/assets/banner/conference2.jpg", eventName: "Healthcare Symposium", date: "Tomorrow", creatorName: "MedPlus", ticketEvent: "paid", typeEvent: "Early Bird", location: "Miami", category: "technology", qr: "/assets/banner/fakeQR.png" },
-    { id: 9, imageEvent: "/assets/banner/conference2.jpg", eventName: "Global Finance Meet", date: "Month", creatorName: "FinCon", ticketEvent: "open", typeEvent: "Regular", location: "London", category: "technology", qr: "/assets/banner/fakeQR.png" },
-  ]);
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const [showLoading, setShowLoading] = useState(true);
+
+  // Ensure loading state persists for at least 3000ms
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Redirect to login if unauthenticated
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/login');
+    }
+  }, [status, router]);
 
   // Filter states
   const [selectedDates, setSelectedDates] = useState([]);
@@ -89,12 +98,20 @@ const My_Booking = () => {
     setVisibleCount(prevCount => prevCount + 4);
   };
 
+  if (showLoading && status === 'unauthenticated') {
+    return <Loading />;
+  }
+
+  // If unauthenticated, avoid rendering until redirection
+  if (status === 'unauthenticated') {
+    return null;
+  }
 
   return (
     <div>
       <Header />
       <div className='w-full h-full my-20 flex flex-col justify-center items-center'>
-        <div className='w-9/12 h-auto '>
+        <div className='w-9/12 h-auto flex flex-col '>
 
           <div className='flex justify-between border-t-2 border-dotted border-black border-b-2 p-2 mb-8'>
             <div className='w-1/2 flex justify-center items-center'>
@@ -146,11 +163,11 @@ const My_Booking = () => {
           {/* Conditionally render content for my booking*/}
           <div className='w-full h-auto'>
             {activeSection === 'myBooking' && (
-              <div>
+              <div className='w-full'>
                 <div className="w-full h-auto flex justify-center ">
                   <div className="w-full flex ">
                     <div className=" w-full">
-                      <div className='w-full flex justify-center gap-16'>
+                      <div className='w-full lg:flex justify-center gap-16'>
                         {/* Filter Section */}
                         <div>
                           <div className="hidden lg:flex flex-col space-y-6">
@@ -244,15 +261,15 @@ const My_Booking = () => {
                         </div>
 
                         {/* Event Display Section */}
-                        <div>
-                          <div className="h-auto flex w-full justify-center">
+                        <div className=' w-full'>
+                          <div className="h-auto flex w-full lg:w-full justify-center">
                             <div className="grid grid-cols-1 gap-9">
                               {filteredEvents.slice(0, visibleCount).map(event => {
                                 const { id, imageEvent, eventName, date, ticketEvent, location, creatorName, typeEvent, qr } = event;
                                 return (
-                                  <div key={id} className='w-auto h-auto flex gap-16'>
-                                    <div className='rounded-lg w-auto h-auto shadow-2xl bg-white flex justify-between gap-4 p-4 transition-transform transform hover:scale-105 '>
-                                      <div className='overflow-hidden w-52 lg:w-96 h-auto relative rounded-lg'>
+                                  <div key={id} className='w-full h-auto flex flex-wrap sm:flex-nowrap gap-8 lg:gap-16'>
+                                    <div className='rounded-lg w-full  h-auto shadow-2xl bg-white flex justify-between gap-4 p-4 transition-transform transform hover:scale-105 '>
+                                      <div className='overflow-hidden w-36 lg:w-96 h-auto relative rounded-lg'>
                                         <Image
                                           src={imageEvent}
                                           alt={eventName}
@@ -290,13 +307,13 @@ const My_Booking = () => {
                                         </div>
 
                                         <Link href={`/profile/${event.id}`}>
-                                          <button className="border-none bg-customPurple-default hover:bg-customPurple-hover text-white text-lg w-full rounded-lg p-2">
-                                            See Detail
-                                          </button>
+                                          <Button
+                                            param="See Detail"
+                                          />
                                         </Link>
                                       </div>
                                     </div>
-                                    <div className='overflow-hidden w-full h-auto relative rounded-lg p-4 shadow-2xl bg-white transition-transform transform hover:scale-105'>
+                                    <div className='overflow-hidden w-7/12 h-auto relative rounded-lg p-4 shadow-2xl bg-white transition-transform transform hover:scale-105'>
                                       <Image
                                         src={qr}
                                         alt="QR"
@@ -316,14 +333,12 @@ const My_Booking = () => {
                           </div>
 
                           {/* See More Button */}
-                          <div className="w-full flex items-center justify-center">
+                          <div className="w-3/12 lg:w-full flex items-center justify-center mt-12">
                             {visibleCount < filteredEvents.length && (
-                              <button
+                              <Button
                                 onClick={handleSeeMore}
-                                className="mt-12 p-3 bg-customPurple-default hover:bg-customPurple-hover transition-all text-white rounded"
-                              >
-                                See More
-                              </button>
+                                param="See More"
+                              />
                             )}
                           </div>
 
@@ -337,8 +352,9 @@ const My_Booking = () => {
             {/* for my event sesstion */}
             {activeSection === 'myEvents' && (
               <div>
-                <Events 
-                  noMap = "no"
+                <Events
+                  noMap="no"
+                  EventCreator="yes"
                 />
               </div>
             )}

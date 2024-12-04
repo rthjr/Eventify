@@ -3,6 +3,7 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Loading from "@components/Loading/Loading"; // Your custom loading component
 
 export default function LoginPhone() {
   const router = useRouter();
@@ -11,10 +12,12 @@ export default function LoginPhone() {
   const [otp, setOtp] = useState("");
   const [verify, setVerify] = useState(false);
   const [error, setError] = useState(null);
+  const [isLoadingFields, setIsLoadingFields] = useState(false); // State to handle form loading
 
   const handlePhoneVerify = async (e) => {
     e.preventDefault();
     setError(null);
+    setIsLoadingFields(true); // Show loading
 
     try {
       const res = await fetch("/api/phone", {
@@ -22,7 +25,7 @@ export default function LoginPhone() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ phone: phoneNumber }), // Fixed the key
+        body: JSON.stringify({ phone: phoneNumber }),
       });
 
       if (res.ok) {
@@ -33,12 +36,18 @@ export default function LoginPhone() {
       }
     } catch (error) {
       setError("An unexpected error occurred");
+    } finally {
+      // Wait 5000ms before hiding the loading indicator
+      setTimeout(() => {
+        setIsLoadingFields(false); // Hide loading
+      }, 5000);
     }
   };
 
   const handleOtpVerify = async (e) => {
     e.preventDefault();
     setError(null);
+    setIsLoadingFields(true); // Show loading
 
     try {
       const res = await fetch("/api/otp", {
@@ -52,17 +61,24 @@ export default function LoginPhone() {
       if (res.ok) {
         const phone = "0123456789";
         const otp = "123456";
-        await signIn('phoneCredentials', { phone,
+        await signIn("phoneCredentials", {
+          phone,
           otp,
           redirect: false,
-          callbackUrl: "/", })
-        router.push('/')
+          callbackUrl: "/",
+        });
+        router.push("/");
       } else {
         const errorData = await res.json();
         setError(errorData.message);
       }
     } catch (error) {
       setError("An unexpected error occurred");
+    } finally {
+      // Wait 5000ms before hiding the loading indicator
+      setTimeout(() => {
+        setIsLoadingFields(false); // Hide loading
+      }, 4000);
     }
   };
 
@@ -78,21 +94,12 @@ export default function LoginPhone() {
               className="flex flex-col mb-8"
               onSubmit={verify ? handleOtpVerify : handlePhoneVerify}
             >
-              {!verify ? (
-                <>
-                  <label htmlFor="phone" className="mb-2 font-bold">
-                    Phone Number
-                  </label>
-                  <input
-                    className="border-2 p-2 rounded-xl border-black mb-6"
-                    type="tel"
-                    value={phoneNumber}
-                    required
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    placeholder="Enter phone number"
-                  />
-                </>
-              ) : (
+              {isLoadingFields ? (
+                <div className="fixed top-0 left-0 w-full h-full bg-white bg-opacity-100 flex justify-center items-center z-50">
+                  <Loading />
+                </div>
+
+              ) : verify ? (
                 <>
                   <label htmlFor="otp" className="mb-2 font-bold">
                     OTP
@@ -106,13 +113,29 @@ export default function LoginPhone() {
                     placeholder="Enter OTP"
                   />
                 </>
+              ) : (
+                <>
+                  <label htmlFor="phone" className="mb-2 font-bold">
+                    Phone Number
+                  </label>
+                  <input
+                    className="border-2 p-2 rounded-xl border-black mb-6"
+                    type="tel"
+                    value={phoneNumber}
+                    required
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    placeholder="Enter phone number"
+                  />
+                </>
               )}
-              <button
-                type="submit" // Changed type to "submit"
-                className="p-3 border-none rounded-xl bg-customPurple-default hover:bg-customPurple-hover text-center text-white"
-              >
-                {verify ? "Verify OTP" : "Send OTP"}
-              </button>
+              {!isLoadingFields && (
+                <button
+                  type="submit"
+                  className="p-3 border-none rounded-xl bg-customPurple-default hover:bg-customPurple-hover text-center text-white"
+                >
+                  {verify ? "Verify OTP" : "Send OTP"}
+                </button>
+              )}
               {error && <p className="text-red-500 mt-4">{error}</p>}
             </form>
           </div>

@@ -10,7 +10,7 @@ import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 import Button from "@components/Button/Button";
 import events from "@model/eventData";
 
-const Events = ({ favoritePage, EventCreator, widthE, gapE }) => {
+const Events = ({ favoritePage, EventCreator, nameClass, widthE }) => {
 
     // Filter states
     const [selectedDates, setSelectedDates] = useState([]);
@@ -65,15 +65,15 @@ const Events = ({ favoritePage, EventCreator, widthE, gapE }) => {
     };
 
     return (
-        <div className="mt-10">
+        <div className="mt-10 w-full flex flex-col justify-center items-center">
             {favoritePage === "yes" ? (
                 <h2 className="text-xl text-center font-bold">Favorite</h2>
             ) : (<></>)}
-            <div className="w-full h-auto flex justify-center">
+            <div className={`${widthE} h-auto`}>
                 <div className="w-full mb-20 mt-10 flex justify-center items-center">
-                    <div className={`w-full flex justify-around ${gapE}`}>
+                    <div className={`w-full flex ${nameClass}`}>
                         {/* Filter Section */}
-                        <div className={widthE}>
+                        <div>
                             <div className="hidden lg:flex flex-col space-y-6">
                                 <div className="flex justify-between items-center">
                                     <h2 className="text-lg font-bold text-black">Filters</h2>

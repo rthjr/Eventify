@@ -11,7 +11,10 @@ export default function AllEvent() {
         <>
             <Header />
 
-            <Events />
+            <Events 
+                nameClass= "justify-around"
+                widthE = "w-10/12"
+            />
 
             <Footer />
         </>

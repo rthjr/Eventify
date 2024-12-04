@@ -2,10 +2,10 @@ import React from "react";
 
 const Dashboard = () => {
   return (
-    <div className="font-bold text-lg flex flex-col p-4 gap-8">
+    <div className="font-bold w-full text-lg flex flex-col p-4 gap-8">
       <h2 className="text-2xl">Dashboard</h2>
 
-      <div className="flex flex-wrap gap-4 lg:justify-between">
+      <div className="flex flex-wrap gap-4 justify-center lg:justify-between">
         <div className="flex flex-col justify-center items-center p-4 w-52 h-52 bg-gray-100 rounded-lg shadow-lg">
           <h2 className="text-7xl">10</h2>
           <span className="font-light">My Total Event</span>

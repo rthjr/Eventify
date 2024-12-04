@@ -42,12 +42,12 @@ const CreateEvent = () => {
   return (
     <div className='w-full h-full flex flex-col justify-center items-center border'>
       <Header />
-      <div className='w-10/12 flex my-20 justify-between'>
+      <div className='w-10/12 flex my-20 lg:justify-between'>
 
-        <div className='w-3/12 '>
+        <div className='lg:w-3/12 '>
           <Sidebar onMenuSelect={handleMenuSelect} />
         </div>
-        <div className='w-8/12 '>
+        <div className='lg:w-8/12'>
           {isMenu === 'create' ? (
             <Create />
           ) : isMenu === 'myevent' ? (

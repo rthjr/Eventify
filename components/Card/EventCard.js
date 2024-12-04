@@ -14,7 +14,7 @@ const EventCard = () => {
 
     return (
         <>
-            <div className="flex w-full flex-wrap justify-between gap-9">
+            <div className="flex w-full flex-wrap justify-center gap-9">
                 {events.slice(0, visibleCount).map((event) => (
                     <CardEvent
                         key={event.id}

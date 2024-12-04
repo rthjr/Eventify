@@ -111,7 +111,7 @@ const My_Booking = () => {
     <div>
       <Header />
       <div className='w-full h-full my-20 flex flex-col justify-center items-center'>
-        <div className='w-9/12 h-auto '>
+        <div className='w-9/12 h-auto flex flex-col '>
 
           <div className='flex justify-between border-t-2 border-dotted border-black border-b-2 p-2 mb-8'>
             <div className='w-1/2 flex justify-center items-center'>
@@ -163,11 +163,11 @@ const My_Booking = () => {
           {/* Conditionally render content for my booking*/}
           <div className='w-full h-auto'>
             {activeSection === 'myBooking' && (
-              <div>
+              <div className='w-full'>
                 <div className="w-full h-auto flex justify-center ">
                   <div className="w-full flex ">
                     <div className=" w-full">
-                      <div className='w-full flex justify-center gap-16'>
+                      <div className='w-full lg:flex justify-center gap-16'>
                         {/* Filter Section */}
                         <div>
                           <div className="hidden lg:flex flex-col space-y-6">
@@ -261,15 +261,15 @@ const My_Booking = () => {
                         </div>
 
                         {/* Event Display Section */}
-                        <div>
-                          <div className="h-auto flex w-full justify-center">
+                        <div className=' w-full'>
+                          <div className="h-auto flex w-full lg:w-full justify-center">
                             <div className="grid grid-cols-1 gap-9">
                               {filteredEvents.slice(0, visibleCount).map(event => {
                                 const { id, imageEvent, eventName, date, ticketEvent, location, creatorName, typeEvent, qr } = event;
                                 return (
-                                  <div key={id} className='w-auto h-auto flex gap-16'>
-                                    <div className='rounded-lg w-auto h-auto shadow-2xl bg-white flex justify-between gap-4 p-4 transition-transform transform hover:scale-105 '>
-                                      <div className='overflow-hidden w-52 lg:w-96 h-auto relative rounded-lg'>
+                                  <div key={id} className='w-full h-auto flex flex-wrap sm:flex-nowrap gap-8 lg:gap-16'>
+                                    <div className='rounded-lg w-full  h-auto shadow-2xl bg-white flex justify-between gap-4 p-4 transition-transform transform hover:scale-105 '>
+                                      <div className='overflow-hidden w-36 lg:w-96 h-auto relative rounded-lg'>
                                         <Image
                                           src={imageEvent}
                                           alt={eventName}
@@ -313,7 +313,7 @@ const My_Booking = () => {
                                         </Link>
                                       </div>
                                     </div>
-                                    <div className='overflow-hidden w-full h-auto relative rounded-lg p-4 shadow-2xl bg-white transition-transform transform hover:scale-105'>
+                                    <div className='overflow-hidden w-7/12 h-auto relative rounded-lg p-4 shadow-2xl bg-white transition-transform transform hover:scale-105'>
                                       <Image
                                         src={qr}
                                         alt="QR"
@@ -333,7 +333,7 @@ const My_Booking = () => {
                           </div>
 
                           {/* See More Button */}
-                          <div className="w-full flex items-center justify-center mt-12">
+                          <div className="w-3/12 lg:w-full flex items-center justify-center mt-12">
                             {visibleCount < filteredEvents.length && (
                               <Button
                                 onClick={handleSeeMore}

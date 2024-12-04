@@ -29,11 +29,11 @@ const EventDetail = ({ ticket, imageEvent, eventName, date, creatorName, ticketE
     return (
         <div className="w-full h-auto my-20 flex flex-col justify-center items-center">
             <div className="w-8/12 flex flex-col justify-center items-center">
-                
+
                 <div className="flex w-full justify-start mb-8">
                     <BackButton
                         onClick={handleBack}
-                        param = "Back"
+                        param="Back"
                     />
                 </div>
 
@@ -47,22 +47,20 @@ const EventDetail = ({ ticket, imageEvent, eventName, date, creatorName, ticketE
                         />
                     </div>
 
-                    <div className="flex justify-between mb-12">
+                    <div className="flex justify-between mb-12 w-full h-full ">
                         <h2 className="font-bold text-2xl">{eventName}</h2>
 
                         {bookOtp === "true" ? (
-                            <div className="relative">
-                                <div className="flex flex-col gap-2 absolute top-0 right-0">
-                                    <p className="font-semibold text-green-500">{ticketEvent}</p>
+                            <div className="flex flex-col gap-2">
+                                <p className="font-semibold text-green-500">{ticketEvent}</p>
 
-                                    {/* Book button with authentication check */}
-                                    <button
-                                        onClick={handleBookNow}
-                                        className="p-3 bg-customPurple-default hover:bg-customPurple-hover transition-all text-white rounded-lg"
-                                    >
-                                        Book
-                                    </button>
-                                </div>
+                                {/* Book button with authentication check */}
+                                <button
+                                    onClick={handleBookNow}
+                                    className="p-3 bg-customPurple-default hover:bg-customPurple-hover transition-all text-white rounded-lg"
+                                >
+                                    Book
+                                </button>
                             </div>
                         ) : (
                             <div></div>

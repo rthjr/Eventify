@@ -13,7 +13,8 @@ export default function Favorite() {
             <Header />
 
             <Events
-                favoritePage="yes"
+                nameClass="justify-around"
+                widthE="w-10/12"
             />
 
             <Footer />

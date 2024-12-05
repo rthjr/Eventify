@@ -1,8 +1,8 @@
 "use client"
 
 // component
-import Header from "@components/Header"
-import Footer from "@components/Footer"
+import Header from "@components/layout/Header"
+import Footer from "@components/layout/Footer"
 import Events from "@components/All_Event/Events"
 
 export default function Favorite() {
@@ -13,7 +13,8 @@ export default function Favorite() {
             <Header />
 
             <Events
-                favoritePage="yes"
+                nameClass="justify-around"
+                widthE="w-10/12"
             />
 
             <Footer />

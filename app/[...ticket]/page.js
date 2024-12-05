@@ -5,9 +5,9 @@ import Image from "@node_modules/next/image";
 import Link from "@node_modules/next/link";
 import events from "@model/eventData";
 // components
-import Free from "../../components/Tickets/Free"
-import Open from "../../components/Tickets/Open"
-import Paid from "../../components/Tickets/Paid"
+import Open from "@components/Tickets/Open"
+import Paid from "@components/Tickets/Paid"
+import Free from "@components/Tickets/Free";
 
 export default function TicketType({ params }) {
 

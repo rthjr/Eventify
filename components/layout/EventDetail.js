@@ -4,8 +4,8 @@ import { IoLocation } from "react-icons/io5";
 import { RxAvatar } from "react-icons/rx";
 import { useRouter } from "@node_modules/next/navigation";
 import { useSession } from "@node_modules/next-auth/react";
-import Button from "./Button/Button";
-import BackButton from "./Button/BackButton";
+import Button from "../Button/Button";
+import BackButton from "../Button/BackButton";
 
 const EventDetail = ({ ticket, imageEvent, eventName, date, creatorName, ticketEvent, typeEvent, location, bookOtp }) => {
     const { status } = useSession(); // Check session status

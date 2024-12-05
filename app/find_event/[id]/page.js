@@ -2,9 +2,9 @@
 import { useState } from "react";
 import { use } from "react"; // Import the use hook
 // compornent
-import Header from "@components/Header";
-import Footer from "@components/Footer";
-import EventDetail from "@components/EventDetail";
+import Header from "@components/layout/Header";
+import Footer from "@components/layout/Footer";
+import EventDetail from "@components/layout/EventDetail";
 import events from "@model/eventData";
 
 const Page = ({ params }) => {

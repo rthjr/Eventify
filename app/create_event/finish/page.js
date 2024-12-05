@@ -1,4 +1,4 @@
-import SucessfullyCreate from '@components/CreateEvent/SucessfullyCreate'
+import SucessfullyCreate from '@components/pages/CreateEvent/SucessfullyCreate'
 import React from 'react'
 
 const Finish = () => {

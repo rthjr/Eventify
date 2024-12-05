@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react";
-import EventDetail from "@components/EventDetail";
+import EventDetail from "@components/layout/EventDetail";
 import { use } from "react"; // Import `use` from React
 
 const DynamicRoutePage = ({ params }) => {

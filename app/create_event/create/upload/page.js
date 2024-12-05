@@ -1,6 +1,6 @@
 "use client"
-import Footer from '@components/Footer'
-import Header from '@components/Header'
+import Footer from '@components/layout/Footer'
+import Header from '@components/layout/Header'
 import React from 'react'
 import Button from '@components/Button/Button'
 import BackButton from '@components/Button/BackButton'

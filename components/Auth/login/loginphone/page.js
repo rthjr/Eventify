@@ -29,7 +29,7 @@ export default function LoginPhone() {
       });
 
       if (res.ok) {
-        setVerify(true); // Move to OTP input
+        setVerify(true); 
       } else {
         const errorData = await res.json();
         setError(errorData.message);
@@ -83,9 +83,9 @@ export default function LoginPhone() {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row h-screen w-full overflow-hidden">
-      <div className="w-full lg:w-6/12 h-auto p-4 lg:p-10">
-        <div className="flex flex-col justify-center items-center h-full">
+    <div className="flex justify-center items-center h-screen">
+      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
+        <div className="text-center mb-6">
           <h1 className="text-black font-bold text-2xl md:text-3xl lg:text-4xl">
             Login with Phone Number
           </h1>

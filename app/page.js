@@ -2,8 +2,8 @@
 "use client"
 import Link from "@node_modules/next/link";
 import { signOut, useSession } from "next-auth/react";
-import Header from "../components/Header"
-import Footer from "../components/Footer"
+import Header from "../components/layout/Header"
+import Footer from "../components/layout/Footer"
 import Category from "@components/Card/Category";
 import EventCard from "@components/Card/EventCard";
 import UpcomingEvent from "@components/Card/UpcomingEvent";

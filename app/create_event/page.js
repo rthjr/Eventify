@@ -1,15 +1,15 @@
 "use client";
 
-import Footer from '@components/Footer';
-import Header from '@components/Header';
+import Footer from '@components/layout/Footer';
+import Header from '@components/layout/Header';
 import React, { useState, useEffect } from 'react';
-import Sidebar from '@components/Sidebar';
+import Sidebar from '@components/layout/Sidebar';
 import Loading from '@components/Loading/Loading';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import Create from '@components/CreateEvent/Create';
-import MyEvent from '@components/CreateEvent/MyEvent';
-import Dashboard from '@components/CreateEvent/Dashboard';
+import Create from '@components/pages/CreateEvent/Create';
+import MyEvent from '@components/pages/CreateEvent/MyEvent';
+import Dashboard from '@components/pages/CreateEvent/Dashboard';
 
 const CreateEvent = () => {
   const { data: session, status } = useSession();

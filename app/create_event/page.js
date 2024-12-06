@@ -3,7 +3,7 @@
 import Footer from '@components/layout/Footer';
 import Header from '@components/layout/Header';
 import React, { useState, useEffect } from 'react';
-import Sidebar from '@components/layout/Sidebar';
+import MenuBar from '@components/layout/MenuBar';
 import Loading from '@components/Loading/Loading';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
@@ -45,7 +45,7 @@ const CreateEvent = () => {
       <div className='w-10/12 flex my-20 lg:justify-between'>
 
         <div className='lg:w-3/12 '>
-          <Sidebar onMenuSelect={handleMenuSelect} />
+          <MenuBar onMenuSelect={handleMenuSelect} />
         </div>
         <div className='lg:w-8/12'>
           {isMenu === 'create' ? (

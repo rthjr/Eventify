@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
+    "@mui/material": "^6.1.10",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
     "firebase": "^11.0.2",

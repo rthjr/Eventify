@@ -6,7 +6,7 @@ import { MdComputer } from "react-icons/md";
 import { CiMenuBurger } from "react-icons/ci";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 
-const Sidebar = ({ onMenuSelect }) => {
+const Menubar = ({ onMenuSelect }) => {
   const [activeMenu, setActiveMenu] = useState("create");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -113,4 +113,4 @@ const Sidebar = ({ onMenuSelect }) => {
   );
 };
 
-export default Sidebar;
+export default Menubar;

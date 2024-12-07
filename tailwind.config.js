@@ -10,6 +10,7 @@ module.exports = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        dashboardBG: "#f8f8f8",
 
         customPurple: {
           default: "#471aa0",

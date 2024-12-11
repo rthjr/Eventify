@@ -4,10 +4,11 @@ import { IoLocation } from "react-icons/io5";
 import { RxAvatar } from "react-icons/rx";
 import { useRouter } from "@node_modules/next/navigation";
 import { useSession } from "@node_modules/next-auth/react";
-import Button from "../Button/Button";
-import BackButton from "../Button/BackButton";
+import BackButton from "@components/Button/BackButton";
+import Link from "@node_modules/next/link";
+import Button from "@components/Button/Button";
 
-const EventDetail = ({ ticket, imageEvent, eventName, date, creatorName, ticketEvent, typeEvent, location, bookOtp }) => {
+const EventDetail = ({ ticket, imageEvent, eventName, date, creatorName, ticketEvent, typeEvent, location, bookOtp, pageEvent }) => {
     const { status } = useSession(); // Check session status
     const router = useRouter();
 
@@ -16,14 +17,19 @@ const EventDetail = ({ ticket, imageEvent, eventName, date, creatorName, ticketE
             // Redirect to login page if unauthenticated
             router.push("/login");
         } else {
-            // Redirect to ticket route if authenticated
-            router.push(`/${ticket}`);
+
+            return (
+                <Link href={`/${ticket}?pageEvent=${pageEvent}`}>
+                    <Button param="Book" />
+                </Link>
+
+            )
         }
     };
 
     const handleBack = (e) => {
         e.preventDefault()
-        router.push('/find_event')
+        router.push(`/${pageEvent}`)
     }
 
     return (
@@ -38,7 +44,7 @@ const EventDetail = ({ ticket, imageEvent, eventName, date, creatorName, ticketE
                 </div>
 
                 <div className="w-full h-full flex flex-col">
-                    <div className="w-auto h-[500px] overflow-hidden rounded-lg relative mb-8 -z-20 shadow-gray shadow-2xl">
+                    <div className="w-auto h-[500px] overflow-hidden rounded-lg relative mb-8 z-20 shadow-gray shadow-2xl">
                         <Image
                             src={imageEvent}
                             alt={eventName}
@@ -55,12 +61,7 @@ const EventDetail = ({ ticket, imageEvent, eventName, date, creatorName, ticketE
                                 <p className="font-semibold text-green-500">{ticketEvent}</p>
 
                                 {/* Book button with authentication check */}
-                                <button
-                                    onClick={handleBookNow}
-                                    className="p-3 bg-customPurple-default hover:bg-customPurple-hover transition-all text-white rounded-lg"
-                                >
-                                    Book
-                                </button>
+                                {handleBookNow()}
                             </div>
                         ) : (
                             <div></div>
@@ -85,16 +86,18 @@ const EventDetail = ({ ticket, imageEvent, eventName, date, creatorName, ticketE
                         </div>
                     </div>
 
-                    <div className="flex flex-col gap-2 mb-12">
+                    <div className="flex flex-col h-full mb-12 gap-2">
                         <p className="font-bold text-xl">Show Map</p>
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3909.978511266007!2d104.94329991169158!3d11.481475538666379!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x310959f3e2eaeca3%3A0x837121df56bef030!2sTa%20Khmau%2C%20Krong%20Ta%20Khmau!5e0!3m2!1sen!2skh!4v1731726698814!5m2!1sen!2skh"
-                            width="600"
-                            height="400"
-                            allowFullScreen
-                            title="Event Location"
-                        ></iframe>
+                        <div className="relative w-full h-full pb-[50%] rounded-xlx"> {/* 16:9 aspect ratio */}
+                            <iframe
+                                className="absolute top-0 left-0 w-[70%] h-[100%] "
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3909.978511266007!2d104.94329991169158!3d11.481475538666379!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x310959f3e2eaeca3%3A0x837121df56bef030!2sTa%20Khmau%2C%20Krong%20Ta%20Khmau!5e0!3m2!1sen!2skh!4v1731726698814!5m2!1sen!2skh"
+                                allowFullScreen
+                                title="Event Location"
+                            ></iframe>
+                        </div>
                     </div>
+
 
                     <div className="flex flex-col gap-2 mb-12">
                         <p className="font-bold text-xl">About Event</p>

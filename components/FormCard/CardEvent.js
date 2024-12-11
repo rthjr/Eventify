@@ -8,7 +8,7 @@ import style from "@styles/cardevent.module.css"
 import React, { useRef } from 'react';
 import { useRouter } from '@node_modules/next/navigation';
 import Button from '@components/Button/Button';
-const CardEvent = ({id, imageEvent, eventName, date, creatorName, ticketEvent, typeEvent, location }) => {
+const CardEvent = ({ id, imageEvent, eventName, date, creatorName, ticketEvent, typeEvent, location, page }) => {
 
     const router = useRouter()
 
@@ -50,6 +50,24 @@ const CardEvent = ({id, imageEvent, eventName, date, creatorName, ticketEvent, t
         router.push(`/find_event/${id}`);
     }
 
+    // three dot 
+    const threeDot = () => {
+        if (page !== "homePage") {
+            return (
+                <span className='text-black font-bold text-lg relative group cursor-pointer'>
+                    ...
+                    <div className='absolute hidden group-hover:block bg-white text-black border-gray-300 rounded-lg shadow-lg'>
+                        <div className='p-2 flex flex-col'>
+                            <ul>
+                                <li>Report</li>
+                            </ul>
+                        </div>
+                    </div>
+                </span>
+            )
+        }
+    }
+
     return (
         <div
             className={`${style.CardEvent} p-3 w-72 shadow-2xl bg-white rounded-lg`}
@@ -86,15 +104,7 @@ const CardEvent = ({id, imageEvent, eventName, date, creatorName, ticketEvent, t
 
             <div className='flex justify-between my-3 '>
                 <h2 className='text-black font-extrabold text-xl'>{eventName}</h2>
-                {/* <span className='text-black font-bold text-lg relative group cursor-pointer'>
-                    ...
-                    <div className='absolute hidden group-hover:block bg-white text-black border-gray-300 rounded-lg shadow-lg'>
-                        <div className='p-2 flex flex-col'>
-                            <Link href="" className='z-[100]'>Delete</Link>
-                            <Link href="" className='z-100'>Report</Link>
-                        </div>
-                    </div>
-                </span> */}
+                {threeDot()}
             </div>
 
             <div className='mb-3 flex justify-between'>

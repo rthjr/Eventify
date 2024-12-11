@@ -49,10 +49,10 @@ const Payment = () => {
                     <div action="" className='p-4 bg-gray-100 shadow-2xl rounded-lg w-full h-auto flex flex-col gap-8'>
                         <h2 className='text-2xl font-bold text-black'>Event Poster</h2>
                         <ul className='flex justify-between'>
-                            <li>Basic Info</li>
-                            <li>Upload Media</li>
-                            <li>Tickets</li>
-                            <li className='border-b-2 border-customPurple-default text-customPurple-default text-lg font-bold'>Payment Info</li>
+                            <li className='text-sm md:text-base lg:text-lg xl:text-xl'>Basic Info</li>
+                            <li className='text-sm md:text-base lg:text-lg xl:text-xl'>Upload Media</li>
+                            <li className='text-sm md:text-base lg:text-lg xl:text-xl'>Tickets</li>
+                            <li className='border-b-2 border-customPurple-default text-customPurple-default text-sm md:text-base lg:text-lg xl:text-xl font-bold'>Payment Info</li>
                         </ul>
 
                         {/* ticket system */}
@@ -106,7 +106,7 @@ const Payment = () => {
                                 <div className='flex flex-col gap-8'>
                                     <h2 className='text-xl font-bold '>Upload QR</h2>
 
-                                    <form action='' className='flex flex-col gap-8'>
+                                    <form className='flex flex-col gap-8'>
                                         <input
                                             type="file"
                                             accept="image/*" // Limit to image files only

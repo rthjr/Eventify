@@ -14,6 +14,7 @@ export default function AllEvent() {
             <Events 
                 nameClass= "justify-around"
                 widthE = "w-10/12"
+                pageEvent = "find_event"
             />
 
             <Footer />

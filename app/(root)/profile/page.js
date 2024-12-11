@@ -351,10 +351,12 @@ const My_Booking = () => {
             )}
             {/* for my event sesstion */}
             {activeSection === 'myEvents' && (
-              <div>
+              <div className = "w-full">
                 <Events
-                  noMap="no"
                   EventCreator="yes"
+                  widthE = "w-full"
+                  nameClass= "justify-around"
+                  pageEvent = "MyEvent"
                 />
               </div>
             )}

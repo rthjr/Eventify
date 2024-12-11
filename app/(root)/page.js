@@ -34,13 +34,17 @@ export default function Home() {
 
           {/* card event */}
           <div className="w-full h-auto mb-20">
-            <EventCard />
+            <EventCard
+              page="homePage"
+            />
           </div>
 
           {/* upcoming event */}
           <div className="w-full h-auto mb-20">
             <h2 className="mb-12 text-black text-xl font-bold">Up Coming Events </h2>
-            <UpcomingEvent />
+            <UpcomingEvent
+              page="homePage"
+            />
           </div>
 
           {/* create and find  */}
@@ -80,6 +84,7 @@ export default function Home() {
 
         </div>
       </div>
+
       <Footer />
     </>
   )

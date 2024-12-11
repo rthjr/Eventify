@@ -4,7 +4,7 @@ import CardEvent from '@components/FormCard/CardEvent'
 import Button from '@components/Button/Button'
 import events from '@model/eventData'
 
-const UpcomingEvent = () => {
+const UpcomingEvent = ({page}) => {
 
     // Initial number of visible cards
     const [visibleCount, setVisibleCount] = useState(8);
@@ -27,6 +27,7 @@ const UpcomingEvent = () => {
                         ticketEvent={event.ticketEvent}
                         typeEvent={event.typeEvent}
                         location={event.location}
+                        page= {page}
                     />
                 ))}
             </div>

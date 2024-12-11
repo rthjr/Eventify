@@ -5,7 +5,7 @@ import CardEvent from "@components/FormCard/CardEvent";
 import Button from "@components/Button/Button";
 import events from "../../model/eventData"; // Import the data
 
-const EventCard = () => {
+const EventCard = ({page}) => {
     const [visibleCount, setVisibleCount] = useState(8); // Number of visible cards
 
     const handleSeeMore = () => {
@@ -26,6 +26,7 @@ const EventCard = () => {
                         ticketEvent={event.ticketEvent}
                         typeEvent={event.typeEvent}
                         location={event.location}
+                        page = {page}
                     />
                 ))}
             </div>

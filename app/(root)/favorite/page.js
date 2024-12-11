@@ -15,6 +15,8 @@ export default function Favorite() {
             <Events
                 nameClass="justify-around"
                 widthE="w-10/12"
+                pageEvent = "favorite"
+                removeLike = "false"
             />
 
             <Footer />

@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import { use } from "react"; // Import the use hook
 // compornent
 import Header from "@components/layout/Header";
@@ -28,10 +27,9 @@ const Page = ({ params }) => {
           ticketEvent={event.ticketEvent}
           typeEvent={event.typeEvent}
           location={event.location}
-          eventQr = {event.qr}
+          eventQr = {event.eventQr}
           bookOtp="true"
-          pageEvent = "find_event"
-
+          pageEvent = "favorite"
         />
       ) : (
         <p>No event found with ID {unwrappedParams.id}</p>

@@ -35,10 +35,10 @@ const Create = () => {
                         <h2 className='text-2xl font-bold text-black'>Create an Event</h2>
 
                         <ul className='flex justify-between'>
-                            <li className='border-b-2 border-customPurple-default text-customPurple-default text-lg font-bold'>Basic Info</li>
-                            <li>Upload Media</li>
-                            <li>Tickets</li>
-                            <li>Payment Info</li>
+                            <li className='border-b-2 border-customPurple-default text-customPurple-default font-bold text-sm md:text-base lg:text-lg xl:text-xl'>Basic Info</li>
+                            <li className='text-sm md:text-base lg:text-lg xl:text-xl'>Upload Media</li>
+                            <li className='text-sm md:text-base lg:text-lg xl:text-xl'>Tickets</li>
+                            <li className='text-sm md:text-base lg:text-lg xl:text-xl'>Payment Info</li>
                         </ul>
 
                         <div className='flex flex-wrap lg:flex-col gap-4'>

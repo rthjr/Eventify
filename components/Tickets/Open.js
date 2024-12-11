@@ -1,66 +1,86 @@
 import { IoMdArrowRoundBack } from "react-icons/io";
 import Image from "@node_modules/next/image";
 import Link from "@node_modules/next/link";
-export default function Open({ticket, imageEvent, eventName, date, ticketEvent, typeEvent, location }) {
+import Button from "@components/Button/Button";
+
+export default function Open({
+  ticket,
+  imageEvent,
+  eventName,
+  date,
+  ticketEvent,
+  typeEvent,
+  location,
+  page,
+}) {
   return (
-    <div className=" w-full flex flex-col justify-center items-center">
-      <div className=" w-8/12 flex justify-center items-center h-screen ">
-        <div className = " flex h-fit border-2 border-black rounded-lg">
-          {/* ui for the left side */}
-          <div className="w-1/2 h-full flex justify-center items-center p-3">
-            <div className="h-5/6">
-              <div>
-                <Link href={`/find_event/${ticket}`}>
-                  <IoMdArrowRoundBack
-                    size={24}
-                  />
-                </Link>
-                <h2 className="text-center font-bold text-lg mb-8">Checkout</h2>
-              </div>
+    <div className="w-full flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-screen-lg flex flex-col lg:flex-row justify-center items-center min-h-screen gap-4">
+        {/* left Side */}
+        <div className="lg:w-1/2 w-full mt-8 lg:mt-0 lg:ml-6">
+          <div className="border-2 border-black rounded-lg p-4">
+            <div className="relative w-full h-72 sm:h-96 mb-6 rounded-lg overflow-hidden">
+              <Image
+                src={imageEvent}
+                alt={eventName}
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
 
-              <p className="mb-8">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veniam rerum autem porro quae inventore laboriosam totam et nisi. Repellendus ea aperiam dignissimos doloribus eos accusantium at, non ad minima aliquid!</p>
+            <span className="text-sm sm:text-base text-black mb-4 block">
+              {typeEvent}
+            </span>
 
-              <button className="rounded-lg bg-customPurple-default hover:bg-customPurple-hover text-white p-2">Register</button>
+            <h2 className="text-lg sm:text-xl font-bold text-black mb-4">
+              {eventName}
+            </h2>
+
+            <div className="mb-4">
+              <p className="text-sm sm:text-base text-gray-600">Date</p>
+              <span className="text-sm sm:text-base text-black">{date}</span>
+            </div>
+
+            <div className="mb-4">
+              <p className="text-sm sm:text-base font-bold text-black">
+                Location
+              </p>
+              <span className="text-sm sm:text-base text-black">{location}</span>
+            </div>
+
+            <div className="mb-4 flex justify-between">
+              <p className="text-sm sm:text-base text-gray-600">Ticket</p>
+              <span className="text-sm sm:text-base text-black">
+                {ticketEvent}
+              </span>
+            </div>
+
+            <div className="flex justify-between">
+              <p className="text-sm sm:text-base text-gray-600">Total</p>
+              <span className="text-sm sm:text-base text-black">$0.00</span>
             </div>
           </div>
+        </div>
 
-          {/* ui for the right side */}
-          <div className="w-1/2 h-5/6 flex justify-center">
-            <div className="w-full flex flex-col p-3 border-l border-black">
-              <div className="overflow-hidden w-full h-72 mb-8 relative rounded-lg">
-                <Image
-                  src={imageEvent}
-                  alt={eventName}
-                  layout='fill'
-                  objectFit='cover'
-                />
-              </div>
+        <div className="flex flex-col lg:w-1/2 w-full border-2 border-black rounded-lg p-4">
+          {/* right Side */}
+          <div className="flex flex-col h-full">
+            <Link href={`/${page}/${ticket}`}>
+              <IoMdArrowRoundBack size={24} className="mb-4 cursor-pointer" />
+            </Link>
+            <h2 className="text-center font-bold text-lg sm:text-xl mb-6">
+              Checkout
+            </h2>
+            <p className="mb-6 text-sm sm:text-base">
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veniam
+              rerum autem porro quae inventore laboriosam totam et nisi.
+              Repellendus ea aperiam dignissimos doloribus eos accusantium at,
+              non ad minima aliquid!
+            </p>
 
-              <span className="text-black mb-8">{typeEvent}</span>
-
-              <h2 className="text-xl font-bold text-black mb-8">{eventName}</h2>
-
-              <div className="mb-8">
-                <span>Date</span>
-                <span>{date}</span>F
-              </div>
-
-              <div>
-                <p className="text-black font-bold text-lg">Location</p>
-                <span>{location}</span>
-              </div>
-
-              <div className="mb-8 flex justify-between">
-                <p>Ticket</p>
-                <span>{ticketEvent}</span>
-              </div>
-
-              <div className=" flex justify-between">
-                <p>Total</p>
-                <span>$0.00</span>
-              </div>
-
-            </div>
+            <Button
+              param = "Register"
+            />
           </div>
         </div>
       </div>

@@ -1,9 +1,9 @@
 "use client"
-import ReportForm from '@components/FormCard/ReportForm'
+import CancellationForm from '@components/FormCard/CancellationForm';
 import React, { useState } from 'react'
 import { useRouter, useSearchParams } from '@node_modules/next/navigation';
 
-const Report = () => {
+const Cancellation = () => {
     const router = useRouter();
 
     // get param from path
@@ -17,14 +17,15 @@ const Report = () => {
     };
 
     return (
-        <div className="w-full h-auto flex items-center justify-center p-4">
+        <div className=" flex justify-center items-center p-4 w-screen h-screen">
             {pageEvent && (
-                <ReportForm onClick={handleRouteBack} 
-                    pageEvent = {pageEvent}
+                <CancellationForm
+                    onClick={handleRouteBack}
+                    pageEvent={pageEvent}
                 />
             )}
         </div>
     );
 };
 
-export default Report;
+export default Cancellation;

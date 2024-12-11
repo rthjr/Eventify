@@ -123,6 +123,9 @@ const Header = () => {
             <li className="py-2 border-b border-gray-200">
               <Link href="/favorite" onClick={toggleMobileMenu}>Favorite</Link>
             </li>
+            <li className="py-2 border-b border-gray-200">
+              <Link href="/profile" onClick={toggleMobileMenu}>My Profile</Link>
+            </li>
 
             {session && session.user ? (
               <div className="">

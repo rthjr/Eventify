@@ -1,8 +1,16 @@
+
+"use client"
 import BackButton from "@components/Button/BackButton";
 import Button from "@components/Button/Button";
 import React from "react";
+import { useRouter } from "@node_modules/next/navigation";
 
-const ReportForm = ({onClick}) => {
+const ReportForm = ({onClick, pageEvent}) => {
+  const router = useRouter();
+  const handleRouteBack = (e) => {
+    e.preventDefault();
+    router.push(`/${pageEvent}`);
+  };
   return (
     <div className="flex flex-col gap-8 w-10/12 h-auto m-auto p-2 shadow-xl rounded-lg bg-gray-100">
       <h2 className="text-center text-2xl font-bold">Report This Event</h2>
@@ -89,6 +97,7 @@ const ReportForm = ({onClick}) => {
           />
           <Button
             param = "Submit Report"
+            onClick={handleRouteBack}
           />
         </div>
       </form>

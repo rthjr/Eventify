@@ -10,7 +10,7 @@ import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 import Button from "@components/Button/Button";
 import events from "@model/eventData";
 
-const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, removeLike }) => {
+const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, removeLike, paramPage }) => {
 
     // Filter states
     const [selectedDates, setSelectedDates] = useState([]);
@@ -31,7 +31,12 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
         const priceMatch = selectedPrices.length === 0 || selectedPrices.includes(event.ticketEvent);
         const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(event.typeEvent);
         const groupEventMatch = selectedGroupEvent.length === 0 || selectedGroupEvent.includes(event.category);
-        const isFavorite = favorites[event.id]
+
+        // to allow favorite page only
+        let isFavorite = true;
+        if (pageEvent === "favorite") {
+            isFavorite = favorites[event.id];
+        }
 
         return dateMatch && priceMatch && categoryMatch && groupEventMatch && isFavorite;
     });
@@ -109,7 +114,7 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
         if (pageEvent) {
             return (
                 <>
-                    {pageEvent !== "MyEvent" && (
+                    {paramPage !== "MyEventProfile" && (
                         <span className="text-black font-bold text-lg relative group cursor-pointer">
                             ...
                             <div className="absolute hidden group-hover:block bg-white text-black border-gray-300 rounded-lg shadow-lg">
@@ -128,6 +133,15 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                                         >
                                             Delete
                                         </button>
+                                    )}
+
+                                    {paramPage === "MyBookingProfile" && (
+                                        <Link
+                                            href={`/cancellation?pageEvent=${pageEvent}`}
+                                            className="hover:border-b-2 border-b-2 border-b-transparent  hover:border-b-black font-light text-sm"
+                                        >
+                                            Cancellation
+                                        </Link>
                                     )}
                                 </div>
                             </div>
@@ -247,7 +261,7 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                                 <div className="h-auto flex w-full justify-center">
                                     <div className="grid grid-cols-1 gap-9">
                                         {filteredEvents.slice(0, visibleCount).map(event => {
-                                            const { id, imageEvent, eventName, date, ticketEvent, location, creatorName, typeEvent } = event;
+                                            const { id, imageEvent, eventName, date, ticketEvent, location, creatorName, typeEvent, qr } = event;
                                             return (
                                                 <div key={id} className='w-auto h-auto rounded-lg shadow-2xl bg-white flex justify-between gap-4 p-4 transition-transform transform hover:scale-105'>
                                                     <div className='overflow-hidden w-52 lg:w-96 h-auto relative rounded-lg'>
@@ -297,6 +311,20 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                                                             </Link>
                                                         )}
                                                     </div>
+
+                                                    {paramPage === "MyBookingProfile" && (
+                                                        <div className='overflow-hidden h-auto rounded-lg p-4'>
+                                                            <Image
+                                                                src={qr}
+                                                                alt="QR"
+                                                                layout="responsive"
+                                                                width={500}  // Set base width
+                                                                height={500} // Set base height to maintain aspect ratio
+                                                                objectFit='cover'
+                                                                className='border-2 border-black'
+                                                            />
+                                                        </div>
+                                                    )}
                                                 </div>
                                             );
                                         })}

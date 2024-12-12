@@ -4,7 +4,7 @@ import Table from "@components/util/Table";
 
 export default function DashboardAdmin() {
     return(
-        <div className="bg-dashboardBG flex flex-col items-center h-screen  md:ml-64 md:items-center ">
+        <div className="bg-dashboardBG flex flex-col items-center h-screen  sm:ml-64 md:items-center ">
             <h1 className="text-blue-500  font-semibold text-2xl mt-10 mx-0">
                 Dashboard
             </h1>

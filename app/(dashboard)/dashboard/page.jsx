@@ -9,7 +9,6 @@ export default function DashBoard() {
     return(
         <div>
             <DashboardAdmin/>
-            <Category/>
         </div>
     )
 }

@@ -1,5 +1,4 @@
 "use client";
-
 import Image from "next/image";
 import { FaFacebookSquare } from "react-icons/fa";
 import Link from "@node_modules/next/link";

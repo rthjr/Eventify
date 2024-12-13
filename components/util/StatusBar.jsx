@@ -1,6 +1,6 @@
 export default function StatusBar() {
   return (
-    <div className="flex flex-col md:flex-row md:w-fit stat space-y-4 md:space- ">
+    <div className="flex flex-col sm:flex-row sm:w-fit stat space-y-4 ">
       <div className="stat border-blue-500 border rounded-lg text-black">
         <div className="stat-figure text-black">
           <svg

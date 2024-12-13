@@ -9,15 +9,10 @@ import Events from '@components/All_Event/Events';
 import { useEffect } from 'react';
 import { useRouter } from '@node_modules/next/navigation';
 import Loading from '@components/Loading/Loading';
-import events from '@model/eventData';
-
-// hook
-import Link from "@node_modules/next/link";
-import Image from "@node_modules/next/image";
 
 
 // lib to check  login and sign up after login
-import { signOut, useSession } from '@node_modules/next-auth/react';
+import { useSession } from '@node_modules/next-auth/react';
 import Button from '@components/Button/Button';
 
 const My_Booking = () => {
@@ -34,6 +29,7 @@ const My_Booking = () => {
   const handleEvents = () => {
     setActiveSection('myEvents');
   };
+
 
   // reload
 
@@ -57,46 +53,42 @@ const My_Booking = () => {
     }
   }, [status, router]);
 
-  // Filter states
-  const [selectedDates, setSelectedDates] = useState([]);
-  const [selectedPrices, setSelectedPrices] = useState([]);
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [selectedGroupEvent, setSelectedGroupEvent] = useState([]);
-  const [visibleCount, setVisibleCount] = useState(8);
 
-  const handleCheckboxChange = (filterType, value) => {
-    if (filterType === "date") {
-      setSelectedDates(prev =>
-        prev.includes(value) ? prev.filter(item => item !== value) : [...prev, value]
-      );
-    } else if (filterType === "price") {
-      setSelectedPrices(prev =>
-        prev.includes(value) ? prev.filter(item => item !== value) : [...prev, value]
-      );
-    } else if (filterType === "category") {
-      setSelectedCategories(prev =>
-        prev.includes(value) ? prev.filter(item => item !== value) : [...prev, value]
-      );
-    } else if (filterType === "groupEvent") {
-      setSelectedGroupEvent(prev =>
-        prev.includes(value) ? prev.filter(item => item !== value) : [...prev, value]
-      );
+  // handle update user profile
+  const [name, setName] = useState(session?.user?.lastName || "Default")
+  const [email, setEmail] = useState(session?.user?.email || "default@gmail.com")
+  const [dateOfBirth, setDateOfBirth] = useState("11/12/2024")
+  const [isPopupOpen, setIsPopupOpen] = useState(false)
+  const [profileImage, setProfileImage] = useState(null)
+  const [previewImage, setPreviewImage] = useState(null)
+
+
+  const handleUpdateUserProfile = () => {
+    setIsPopupOpen(true)
+  }
+
+  const handleConfirmUpdate = () => {
+    setIsPopupOpen(false);
+  };
+
+  const handleCancelUpdate = () => {
+    setIsPopupOpen(false);
+  };
+
+  // prevent scrolling when model popup
+  useEffect(() => {
+    // Disable scrolling when the popup is open
+    if (isPopupOpen) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
     }
-  };
 
-  // Filter events based on selected filters
-  const filteredEvents = events.filter(event => {
-    const dateMatch = selectedDates.length === 0 || selectedDates.includes(event.date);
-    const priceMatch = selectedPrices.length === 0 || selectedPrices.includes(event.ticketEvent);
-    const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(event.typeEvent);
-    const groupEventMatch = selectedGroupEvent.length === 0 || selectedGroupEvent.includes(event.category);
-
-    return dateMatch && priceMatch && categoryMatch && groupEventMatch;
-  });
-
-  const handleSeeMore = () => {
-    setVisibleCount(prevCount => prevCount + 4);
-  };
+    // Cleanup on component unmount
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, [isPopupOpen]);
 
   if (showLoading && status === 'unauthenticated') {
     return <Loading />;
@@ -113,32 +105,103 @@ const My_Booking = () => {
       <div className='w-full h-full my-20 flex flex-col justify-center items-center'>
         <div className='w-9/12 h-auto flex flex-col '>
 
-          <div className='flex justify-between border-t-2 border-dotted border-black border-b-2 p-2 mb-8'>
-            <div className='w-1/2 flex justify-center items-center'>
-              <RxAvatar
-                size={150}
-              />
+          {/* Profile Details Section */}
+          <div className='flex flex-col items-center'>
+            {/* Profile Section */}
+            <div className='flex justify-between border-t-2 border-dotted border-black border-b-2 p-2 mb-8 w-full'>
+              <div className='w-1/2 flex justify-center items-center'>
+                {previewImage ? (
+                  <img
+                    src={previewImage}
+                    alt="Profile"
+                    className='w-36 h-36 rounded-full object-cover'
+                  />
+                ) : (
+                  <RxAvatar size={150} className='text-gray-400' />
+                )}
+              </div>
+
+              <div className='w-1/2 flex flex-col justify-center items-start gap-4'>
+                <p>Name: {name}</p>
+                <p>Email: {email}</p>
+                <p>Date of Birth: {dateOfBirth}</p>
+                <Button param="Update" onClick={handleUpdateUserProfile} />
+              </div>
             </div>
 
-            <div className='w-1/2 flex justify-center items-center'>
-              {session && session.user ? (
-                <div className='flex flex-col gap-4'>
-                  <p>Name : {session.user?.lastName}</p>
-                  <p>Email : {session.user?.email}</p>
-                  <p>Date of Birth : 11/18/2024</p>
-                </div>
-              ) : (
-                <div>
-                  <p>Name : Null</p>
-                  <p>Email : null</p>
-                </div>
-              )}
-            </div>
+            {/* Popup/Modal */}
+            {isPopupOpen && (
+              <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[9999]'>
+                <div className='bg-white p-8 rounded shadow-lg w-96'>
+                  <h2 className='text-xl font-bold mb-4'>Update Profile</h2>
+                  <div className='flex flex-col gap-4'>
 
-            <div className='w-1/2 flex justify-center items-center'>
-              <button className='bg-customPurple-default hover:bg-customPurple-hover text-white transition-all w-fit h-fit p-3 rounded-lg'>Update</button>
-            </div>
+                    <div className='flex flex-col items-center gap-2'>
+                      <label>Profile Picture</label>
+                      {profileImage ? (
+                        <img src={`${previewImage}`} alt="profile preview" className='w-24 h-24 rounded-full object-full' />
+                      ) : (
+                        <RxAvatar size={96} className='text-gray-400' />
+                      )}
+                      <input type="file"
+                        accept='image/*'
+                        onChange={(e) => {
+                          const file = e.target.files[0]
+                          if (file) {
+                            setProfileImage(file)
+                            setPreviewImage(URL.createObjectURL(file))
+                          }
+                        }}
+                        className='border p-2 rounded w-full'
+                      />
+                    </div>
+
+                    <label>
+                      Name:
+                      <input
+                        type='text'
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className='border p-2 rounded w-full'
+                      />
+                    </label>
+
+                    <label>
+                      Email:
+                      <input
+                        type='email'
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className='border p-2 rounded w-full'
+                      />
+                    </label>
+
+                    <label>
+                      Date of Birth:
+                      <input
+                        type='date'
+                        value={dateOfBirth}
+                        onChange={(e) => setDateOfBirth(e.target.value)}
+                        className='border p-2 rounded w-full'
+                      />
+                    </label>
+
+                  </div>
+                  <div className='flex justify-end gap-4 mt-6'>
+                    <Button
+                      onClick={handleCancelUpdate}
+                      param="Cancel"
+                    />
+                    <Button
+                      onClick={handleConfirmUpdate}
+                      param="Confirm"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
+          {/* end profile update */}
 
           <div className='flex gap-12 mb-8'>
             {/* Button for "My Booking" */}
@@ -165,24 +228,24 @@ const My_Booking = () => {
             {activeSection === 'myBooking' && (
               <div className='w-full'>
                 <Events
-                  pageEvent = "profile"
-                  widthE = "w-full"
-                  paramPage = "MyBookingProfile"
-                  nameClass = "justify-between"
+                  pageEvent="profile"
+                  widthE="w-full"
+                  paramPage="MyBookingProfile"
+                  nameClass="justify-between"
                   EventCreator="yes"
                 />
               </div>
             )}
-            
+
             {/* for my event sesstion */}
             {activeSection === 'myEvents' && (
-              <div className = "w-full">
+              <div className="w-full">
                 <Events
                   EventCreator="yes"
-                  widthE = "w-full"
-                  nameClass= "justify-around"
-                  pageEvent = "profile"
-                  paramPage = "MyEventProfile"
+                  widthE="w-full"
+                  nameClass="justify-around"
+                  pageEvent="profile"
+                  paramPage="MyEventProfile"
                 />
               </div>
             )}

@@ -3,12 +3,13 @@
 // hook
 import Link from "@node_modules/next/link";
 import Image from "@node_modules/next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // icon
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 import Button from "@components/Button/Button";
 import events from "@model/eventData";
+import defaultFavorites from "@model/favoritePageData";
 
 const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, removeLike, paramPage }) => {
 
@@ -20,10 +21,18 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
     const [visibleCount, setVisibleCount] = useState(8);
 
     // default event
-    const [favorites, setFavorites] = useState({
-        1: true,
-        2: true,
+    const [favorites, setFavorites] = useState({});
+
+    // Initialize state with localStorage data or default favorites
+    const [pageFavorite, setPageFavorite] = useState(() => {
+        const storedFavorites = localStorage.getItem("pageFavorite");
+        return storedFavorites ? JSON.parse(storedFavorites) : defaultFavorites;
     });
+
+    // Save to localStorage whenever pageFavorite changes
+    useEffect(() => {
+        localStorage.setItem("pageFavorite", JSON.stringify(pageFavorite));
+    }, [pageFavorite]);
 
     // Filter events based on selected filters
     const filteredEvents = events.filter(event => {
@@ -35,8 +44,9 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
         // to allow favorite page only
         let isFavorite = true;
         if (pageEvent === "favorite") {
-            isFavorite = favorites[event.id];
+            isFavorite = pageFavorite[event.id];
         }
+
 
         return dateMatch && priceMatch && categoryMatch && groupEventMatch && isFavorite;
     });
@@ -74,17 +84,17 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
         }));
     };
 
+    // add card to favorite page
+    // Add event to pageFavorite
+    const handleAddToFavorite = (eventId) => {
+        setPageFavorite(prev => ({
+            ...prev,
+            [eventId]: true,
+        }));
+    };
+
     // like
     const handleFavoriteCompo = (id) => {
-        if (removeLike) {
-            return (
-                <MdFavorite
-                    size={24}
-                    color='red'
-                    style={{ cursor: 'not-allowed' }}
-                />
-            );
-        }
         return favorites[id] ? (
             <MdFavorite
                 size={24}
@@ -101,7 +111,7 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
 
     // function delete event from favorite page
     const handleDeleteFavorite = (eventId) => {
-        setFavorites(prev => {
+        setPageFavorite(prev => {
             const updateFavorite = { ...prev };
             delete updateFavorite[eventId]
             return updateFavorite
@@ -125,6 +135,18 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                                     >
                                         Report
                                     </Link>
+
+                                    {/* add to favorite page​ which is assign id to pageFavorite by id and set to true*/}
+                                    {pageEvent !== "favorite" && pageEvent !== "profile" && (
+                                        <button
+                                            onClick={() => handleAddToFavorite(eventId)}
+                                            className={`hover:border-b-2 border-b-2 border-b-transparent hover:border-b-black font-light text-sm`}
+                                            // disable button if already favorited
+                                            disabled={!!pageFavorite[eventId]} 
+                                        >
+                                            {pageFavorite[eventId] ? "Favorited" : "Favorite"}
+                                        </button>
+                                    )}
 
                                     {pageEvent === "favorite" && (
                                         <button
@@ -273,7 +295,7 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                                                         />
                                                         <div className='absolute top-2 right-2 z-20 flex'>
                                                             {/* handle favorite */}
-                                                            {handleFavoriteCompo()}
+                                                            {handleFavoriteCompo(id)}
                                                         </div>
                                                     </div>
 

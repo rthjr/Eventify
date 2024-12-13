@@ -108,5 +108,4 @@ const events = [
     qr: "/assets/banner/fakeQR.png",
   },
 ];
-
 export default events;

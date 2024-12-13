@@ -47,26 +47,10 @@ const CardEvent = ({ id, imageEvent, eventName, date, creatorName, ticketEvent, 
 
     const handleRouter = (e) => {
         e.preventDefault();
-        router.push(`/find_event/${id}`);
-    }
+        router.push(`/find_event/${id}?pageEvent=${encodeURIComponent("/")}`);
+    };
 
-    // three dot 
-    const threeDot = () => {
-        if (page !== "homePage") {
-            return (
-                <span className='text-black font-bold text-lg relative group cursor-pointer'>
-                    ...
-                    <div className='absolute hidden group-hover:block bg-white text-black border-gray-300 rounded-lg shadow-lg'>
-                        <div className='p-2 flex flex-col'>
-                            <ul>
-                                <li>Report</li>
-                            </ul>
-                        </div>
-                    </div>
-                </span>
-            )
-        }
-    }
+
 
     return (
         <div
@@ -104,7 +88,6 @@ const CardEvent = ({ id, imageEvent, eventName, date, creatorName, ticketEvent, 
 
             <div className='flex justify-between my-3 '>
                 <h2 className='text-black font-extrabold text-xl'>{eventName}</h2>
-                {threeDot()}
             </div>
 
             <div className='mb-3 flex justify-between'>

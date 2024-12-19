@@ -1,7 +1,26 @@
+'use client'
+import { useState, useEffect } from "react";
 export default function StatusBar() {
+
+      const [eventsData, setEventsData] = useState([])
+      
+      useEffect(() => {
+          async function fetchData() {
+            try {
+              const response = await fetch('https://coding-fairy.com/api/mock-api-resources/1734491523/events');
+              const result = await response.json();
+              setEventsData(result);
+            } catch (error) {
+              console.error('Error fetching data:', error);
+            }
+          }
+      
+          fetchData();
+        }, []);
+
   return (
-    <div className="flex flex-col sm:flex-row sm:w-fit stat space-y-4 ">
-      <div className="stat border-blue-500 border rounded-lg text-black">
+    <div className="flex flex-col sm:flex-row sm:w-fit stat ">
+      <div className="stat border-blue-500 border rounded-lg text-black h-full">
         <div className="stat-figure text-black">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -23,10 +42,10 @@ export default function StatusBar() {
           </svg>
         </div>
         <div className="stat-title text-black opacity-90">Total Users</div>
-        <div className="stat-value text-black opacity-90">31K</div>
+        <div className="stat-value text-black opacity-90">{eventsData[0].totalUsers}</div>
       </div>
 
-      <div className="stat border-blue-500 border rounded-lg text-black">
+      <div className="stat border-blue-500 border rounded-lg text-black h-full">
         <div className="stat-figure text-black">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -47,10 +66,10 @@ export default function StatusBar() {
           </svg>
         </div>
         <div className="stat-title text-black opacity-90">Total Creators</div>
-        <div className="stat-value text-black opacity-90">4,200</div>
+        <div className="stat-value text-black opacity-90">{eventsData[0].totalCreators}</div>
       </div>
 
-      <div className="stat border-blue-500 border rounded-lg text-black">
+      <div className="stat border-blue-500 border rounded-lg text-black h-full">
         <div className="stat-figure text-black">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -67,7 +86,7 @@ export default function StatusBar() {
           </svg>
         </div>
         <div className="stat-title text-black opacity-90">Total Events</div>
-        <div className="stat-value text-black opacity-90">1,200</div>
+        <div className="stat-value text-black opacity-90">{eventsData[0].totalEvents}</div>
       </div>
     </div>
   );

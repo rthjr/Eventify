@@ -4,7 +4,7 @@ import React from "react";
 
 const FeedBack = () => {
   return (
-    <form className="w-10/12 h-auto p-2 flex flex-col gap-8">
+    <form className="w-10/12 h-auto flex flex-col gap-8 m-auto p-4 rounded-lg shadow-xl bg-gray-100">
       <h2 className="text-center text-black font-bold text-2xl">
         Help us improve
       </h2>
@@ -36,12 +36,12 @@ const FeedBack = () => {
 
       <textarea name="" placeholder="Description" id=""></textarea>
 
-      <div className="w-full flex flex-wrap justify-between">
+      <div className="w-full flex justify-between">
         <Button
           param = "Feedback"
         />
         <BackButton
-          backParam = "Go Back"
+          param = "Go Back"
         />
       </div>
     </form>

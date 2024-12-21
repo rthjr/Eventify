@@ -1,26 +1,52 @@
-export default function Table() {
+export default function Table({ param }) {
+  // condition for dash board in create event
+  const isDashboard = param === "dashboardCreateEvent";
+
   return (
-    <div className="overflow-x-auto overflow-y-auto ">
-      <table className=" table-xs md:table-lg text-black border-1 border-black">
-        {/* head */}
+    <div className="overflow-x-auto overflow-y-auto">
+      <table className="table-xs md:table-lg text-black border-1 border-black">
+        {/* Table Head */}
         <thead>
           <tr>
-          <th></th>
+            {/* condition for dash board in create event */}
+            <th>{isDashboard ? "ID" : ""}</th>
             <th>Event Name</th>
             <th>Created</th>
-            <th>Owner</th>
-            <th>Category</th>
-            <th>Event Type</th>
+            {!isDashboard && (
+              <>
+                <th>Owner</th>
+                <th>Category</th>
+                <th>Event Type</th>
+              </>
+            )}
+            {isDashboard && (
+              <>
+                <th>Start Event</th>
+                <th>End Event</th>
+                <th>Registration</th>
+              </>
+            )}
           </tr>
         </thead>
+
+        {/* Table Body */}
         <tbody>
-          {/* row 1 */}
           <tr>
+            {/* condition for dash board in create event */}
             <th>
-              <label>
-                <input type="checkbox" className="checkbox text-black border-black" />
-              </label>
+              {!isDashboard ? (
+                <label>
+                  <input
+                    type="checkbox"
+                    className="checkbox text-black border-black"
+                  />
+                </label>
+              ) : (
+                // where ID display in create_event dashboard
+                "1"
+              )}
             </th>
+            {/* Event Name and Details */}
             <td>
               <div className="flex items-center gap-3">
                 <div>
@@ -29,18 +55,31 @@ export default function Table() {
                 </div>
               </div>
             </td>
-            <td>
-              Zemlak, Daniel and Leannon
-              <br />
-            
-            </td>
-            <td>Purple</td>
-            <td>
-              <button className="btn btn-ghost btn-xs">details</button>
-            </td>
-            <td>
-              <button className="btn btn-ghost btn-xs">Stupid</button>
-            </td>
+
+            {/* Created Information */}
+            <td>Zemlak, Daniel and Leannon</td>
+
+            {/* condition for dash board in create event */}
+            {!isDashboard && <td>Purple</td>}
+            {isDashboard && (
+              <>
+                <td>12:30</td>
+                <td>5:30</td>
+                <td>50</td>
+              </>
+            )}
+
+            {/* Actions */}
+            {!isDashboard && (
+              <>
+                <td>
+                  <button className="btn btn-ghost btn-xs">Details</button>
+                </td>
+                <td>
+                  <button className="btn btn-ghost btn-xs">Stupid</button>
+                </td>
+              </>
+            )}
           </tr>
         </tbody>
       </table>

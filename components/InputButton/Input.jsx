@@ -34,7 +34,6 @@ const Input = ({ name, type, textArea }) => {
           <input
             type={type}
             className="w-full p-4 rounded-lg border-2 border-black"
-            required
             placeholder="Enter name of Event"
           />
         </div>
@@ -50,7 +49,6 @@ const Input = ({ name, type, textArea }) => {
         <input
           type={type}
           className="w-full p-4 rounded-lg border-2 border-black"
-          required
           placeholder="Enter name of Event"
         />
       );

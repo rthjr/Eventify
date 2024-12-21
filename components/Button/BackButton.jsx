@@ -3,7 +3,7 @@ import React from "react";
 const BackButton = ({ param, onClick }) => {
   return (
     <button
-      className="btn border-b-2 border-b-black hover:border-b-customPurple-hover btn-xs sm:btn-sm md:btn-md lg:btn-lg "
+      className="btn bg-customPurple-default text-white hover:bg-customPurple-hover border-none sm:btn-1/2 md:btn-1/3 lg:btn-1/4 "
       onClick={onClick}
     >
       {param}

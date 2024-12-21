@@ -39,6 +39,7 @@ const Page = ({ params }) => {
                     typeEvent={event.typeEvent}
                     location={event.location}
                     bookOtp="false"
+                    pageEvent="profile"
                 />
             ) : (
                 <p>No event found with ID {unwrappedParams.id}</p>

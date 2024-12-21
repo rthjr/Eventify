@@ -10,13 +10,25 @@ module.exports = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        dashboardBG: "#f8f8f8",
 
         customPurple: {
           default: "#471aa0",
           hover: "#6f34f3",
-        }
+        },
+      },
+      keyframes: {
+        popup: {
+          "0%": { transform: "translateY(100%)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+      },
+      animation: {
+        popup: "popup 1s ease-out",
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('daisyui'),
+  ],
 };

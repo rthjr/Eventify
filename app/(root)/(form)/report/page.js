@@ -17,13 +17,15 @@ const Report = () => {
     };
 
     return (
-        <div className="w-full h-auto flex items-center justify-center p-4">
-            {pageEvent && (
-                <ReportForm onClick={handleRouteBack} 
-                    pageEvent = {pageEvent}
-                />
-            )}
-        </div>
+        <>
+            <div className="w-full h-auto flex items-center justify-center p-4">
+                {pageEvent && (
+                    <ReportForm onClick={handleRouteBack}
+                        pageEvent={pageEvent}
+                    />
+                )}
+            </div>
+        </>
     );
 };
 

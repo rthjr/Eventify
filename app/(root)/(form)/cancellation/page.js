@@ -1,6 +1,5 @@
 "use client"
 import CancellationForm from '@components/FormCard/CancellationForm';
-import React, { useState } from 'react'
 import { useRouter, useSearchParams } from '@node_modules/next/navigation';
 
 const Cancellation = () => {
@@ -17,12 +16,14 @@ const Cancellation = () => {
     };
 
     return (
-        <div className=" flex justify-center items-center p-4 w-screen h-screen">
+        <div className=" flex justify-center items-center p-4 w-full h-screen">
             {pageEvent && (
-                <CancellationForm
-                    onClick={handleRouteBack}
-                    pageEvent={pageEvent}
-                />
+                <div className='w-full h-fit'>
+                    <CancellationForm
+                        onClick={handleRouteBack}
+                        pageEvent={pageEvent}
+                    />
+                </div>
             )}
         </div>
     );

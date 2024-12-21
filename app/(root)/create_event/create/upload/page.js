@@ -33,7 +33,7 @@ const Uploadmage = () => {
 
     return (
         <>
-            <Header />
+            <Header isMenu = "create"/>
 
             <div
                 className='w-full h-full flex flex-wrap m-auto '

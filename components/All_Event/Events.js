@@ -10,8 +10,9 @@ import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 import Button from "@components/Button/Button";
 import events from "@model/eventData";
 import defaultFavorites from "@model/favoritePageData";
+import UpdateEventDetail from "@components/FormCard/UpdateEventDetail";
 
-const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, removeLike, paramPage }) => {
+const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, removeLike, paramPage, searchQuery }) => {
 
     // Filter states
     const [selectedDates, setSelectedDates] = useState([]);
@@ -36,19 +37,24 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
 
     // Filter events based on selected filters
     const filteredEvents = events.filter(event => {
+        // Search matching
+        const matchesSearchQuery =
+            !searchQuery || event.eventName.toLowerCase().includes(searchQuery.toLowerCase());
+    
+        // Filters matching
         const dateMatch = selectedDates.length === 0 || selectedDates.includes(event.date);
         const priceMatch = selectedPrices.length === 0 || selectedPrices.includes(event.ticketEvent);
         const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(event.typeEvent);
         const groupEventMatch = selectedGroupEvent.length === 0 || selectedGroupEvent.includes(event.category);
-
+    
         // to allow favorite page only
         let isFavorite = true;
         if (pageEvent === "favorite") {
             isFavorite = pageFavorite[event.id];
         }
-
-
-        return dateMatch && priceMatch && categoryMatch && groupEventMatch && isFavorite;
+    
+        // the event only if it matches search query and all the filters
+        return matchesSearchQuery && dateMatch && priceMatch && categoryMatch && groupEventMatch && isFavorite;
     });
 
     const handleCheckboxChange = (filterType, value) => {
@@ -119,56 +125,77 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
     }
 
 
+
     // Three dot menu rendering
     const threeDot = (eventId) => {
         if (pageEvent) {
             return (
                 <>
-                    {paramPage !== "MyEventProfile" && (
-                        <span className="text-black font-bold text-lg relative group cursor-pointer">
-                            ...
-                            <div className="absolute hidden group-hover:block bg-white text-black border-gray-300 rounded-lg shadow-lg">
-                                <div className="p-2 flex flex-col gap-2">
+                    <span className="text-black font-bold text-lg relative group cursor-pointer">
+                        ...
+                        <div className="absolute hidden group-hover:block bg-white text-black border-gray-300 rounded-lg shadow-lg">
+                            <div className="p-2 flex flex-col gap-2">
+                                {paramPage !== "profileMyEvent" && (
                                     <Link
                                         href={`/report?pageEvent=${pageEvent}`}
                                         className="hover:border-b-2 border-b-2 border-b-transparent  hover:border-b-black font-light text-sm"
                                     >
                                         Report
                                     </Link>
+                                )}
 
-                                    {/* add to favorite page​ which is assign id to pageFavorite by id and set to true*/}
-                                    {pageEvent !== "favorite" && pageEvent !== "profile" && (
-                                        <button
-                                            onClick={() => handleAddToFavorite(eventId)}
-                                            className={`hover:border-b-2 border-b-2 border-b-transparent hover:border-b-black font-light text-sm`}
-                                            // disable button if already favorited
-                                            disabled={!!pageFavorite[eventId]} 
-                                        >
-                                            {pageFavorite[eventId] ? "Favorited" : "Favorite"}
-                                        </button>
-                                    )}
+                                {/* add to favorite page​ which is assign id to pageFavorite by id and set to true*/}
+                                {pageEvent !== "favorite" && pageEvent !== "profile" && paramPage !== "profileMyEvent" && (
+                                    <button
+                                        onClick={() => handleAddToFavorite(eventId)}
+                                        className={`hover:border-b-2 border-b-2 border-b-transparent hover:border-b-black font-light text-sm`}
+                                        // disable button if already favorited
+                                        disabled={!!pageFavorite[eventId]}
+                                    >
+                                        {pageFavorite[eventId] ? "Favorited" : "Favorite"}
+                                    </button>
+                                )}
 
-                                    {pageEvent === "favorite" && (
+                                {pageEvent === "favorite" && (
+                                    <button
+                                        onClick={() => handleDeleteFavorite(eventId)}
+                                        className="hover:border-b-2 border-b-2 border-b-transparent  hover:border-b-black font-light text-sm"
+                                    >
+                                        Delete
+                                    </button>
+                                )}
+
+                                {paramPage === "MyBookingProfile" && (
+                                    <Link
+                                        href={`/cancellation?pageEvent=${pageEvent}`}
+                                        className="hover:border-b-2 border-b-2 border-b-transparent  hover:border-b-black font-light text-sm"
+                                    >
+                                        Cancellation
+                                    </Link>
+                                )}
+
+                                {paramPage === "profileMyEvent" && (
+                                    <div>
+                                        {/* this delete logic only available in 24 hours if it exceeded pop up warning ui */}
                                         <button
                                             onClick={() => handleDeleteFavorite(eventId)}
                                             className="hover:border-b-2 border-b-2 border-b-transparent  hover:border-b-black font-light text-sm"
                                         >
                                             Delete
                                         </button>
-                                    )}
 
-                                    {paramPage === "MyBookingProfile" && (
+                                        {/* enable to update the created data */}
                                         <Link
-                                            href={`/cancellation?pageEvent=${pageEvent}`}
+                                            href={`/updateDataEvent?eventID=${eventId}`}
                                             className="hover:border-b-2 border-b-2 border-b-transparent  hover:border-b-black font-light text-sm"
                                         >
-                                            Cancellation
+                                            Update
                                         </Link>
-                                    )}
-                                </div>
+                                    </div>
+                                )}
                             </div>
-                        </span>
-                    )}
+                        </div>  
+                    </span>
                 </>
             );
         }

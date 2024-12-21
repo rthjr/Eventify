@@ -12,7 +12,7 @@ const ReportForm = ({onClick, pageEvent}) => {
     router.push(`/${pageEvent}`);
   };
   return (
-    <div className="flex flex-col gap-8 w-10/12 h-auto m-auto p-2 shadow-xl rounded-lg bg-gray-100">
+    <div className="flex flex-col gap-8 w-10/12 h-auto m-auto p-2 shadow-xl rounded-lg bg-gray-200">
       <h2 className="text-center text-2xl font-bold">Report This Event</h2>
 
       <p className="text-lg font-light">

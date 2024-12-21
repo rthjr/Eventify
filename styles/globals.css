@@ -25,3 +25,13 @@ input,
 textarea {
   background-color: transparent;
 }
+
+
+/* table */
+tr th{
+  white-space: nowrap;
+}
+
+tr td{
+  white-space: nowrap;
+}

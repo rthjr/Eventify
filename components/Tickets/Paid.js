@@ -1,18 +1,23 @@
 "use client";
 
-import Link from "@node_modules/next/link";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import Image from "@node_modules/next/image";
 import { BsCashCoin } from "react-icons/bs";
 import { MdOutlineQrCodeScanner } from "react-icons/md";
 import { useState } from "react";
+import { useRouter } from "@node_modules/next/navigation";
 import Button from "@components/Button/Button";
 
-export default function Paid({ ticket, imageEvent, eventName, date, ticketEvent, typeEvent, location, eventQr, page }) {
+export default function Paid({ imageEvent, eventName, date, ticketEvent, typeEvent, location, eventQr }) {
     const [paymentMethod, setPaymentMethod] = useState('');
 
     const handleRadioChange = (event) => {
         setPaymentMethod(event.target.value);
+    };
+
+    const router = useRouter()
+    const handleBackClick = () => {
+        router.back(); // This will navigate to the previous page in the browser history
     };
 
     return (
@@ -55,9 +60,13 @@ export default function Paid({ ticket, imageEvent, eventName, date, ticketEvent,
                     <div className="w-full lg:w-1/2 h-full flex justify-center items-center p-4 border-2 rounded-lg border-black">
                         <div className="w-full">
                             <div className="mb-8">
-                                <Link href={`/${page}/${ticket}`}>
-                                    <IoMdArrowRoundBack size={24} className="mb-4" />
-                                </Link>
+                                <div className="w-fit h-fit">
+                                    <Button
+                                        onClick={handleBackClick}
+                                        param={
+                                            <IoMdArrowRoundBack size={24} className="cursor-pointer" />}
+                                    />
+                                </div>
                                 <h2 className="text-center font-bold text-lg">Checkout</h2>
                             </div>
 
@@ -133,7 +142,7 @@ export default function Paid({ ticket, imageEvent, eventName, date, ticketEvent,
                             </form>
 
                             <Button
-                                param = "Register"
+                                param="Register"
                             />
                         </div>
                     </div>

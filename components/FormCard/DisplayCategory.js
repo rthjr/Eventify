@@ -1,9 +1,18 @@
 import React from 'react';
 import Image from 'next/image';
 
-const EventCard = ({ imageSrc, eventType }) => {
+const EventCard = ({ imageSrc, eventType, onClick }) => {
+
+  const handleClick = () => {
+    if (onClick) {
+      onClick(eventType); 
+    }
+  };
+
   return (
-    <div className="relative w-72 h-48 rounded-lg overflow-hidden shadow-sm lg:shadow-lg flex items-center justify-center bg-white group">
+    <div
+      onClick={handleClick}
+      className="relative w-72 h-48 rounded-lg overflow-hidden shadow-sm lg:shadow-lg flex items-center justify-center bg-white group">
       <div className="absolute inset-0 transition-transform transform group-hover:scale-110 group-hover:blur-sm">
         <Image src={imageSrc} alt={eventType} layout="fill" objectFit="cover" />
       </div>

@@ -99,9 +99,13 @@ const My_Booking = () => {
     return null;
   }
 
+  // search query
+  const [searchQuery, setSearchQuery] = useState("");
+
+
   return (
     <div>
-      <Header />
+      <Header  searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
       <div className='w-full h-full my-20 flex flex-col justify-center items-center'>
         <div className='w-9/12 h-auto flex flex-col '>
 
@@ -233,6 +237,7 @@ const My_Booking = () => {
                   paramPage="MyBookingProfile"
                   nameClass="justify-between"
                   EventCreator="yes"
+                  searchQuery={searchQuery}
                 />
               </div>
             )}
@@ -245,7 +250,8 @@ const My_Booking = () => {
                   widthE="w-full"
                   nameClass="justify-around"
                   pageEvent="profile"
-                  paramPage="MyEventProfile"
+                  paramPage="profileMyEvent"
+                  searchQuery={searchQuery}
                 />
               </div>
             )}

@@ -1,18 +1,21 @@
+"use client"
 import { IoMdArrowRoundBack } from "react-icons/io";
 import Image from "@node_modules/next/image";
-import Link from "@node_modules/next/link";
 import Button from "@components/Button/Button";
+import { useRouter } from "@node_modules/next/navigation";
 
 export default function Free({
-  ticket,
   imageEvent,
   eventName,
   date,
   ticketEvent,
   typeEvent,
   location,
-  page,
 }) {
+  const router = useRouter()
+  const handleBackClick = () => {
+    router.back(); // This will navigate to the previous page in the browser history
+  };
   return (
     <div className="w-full flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-screen-lg gap-4 flex flex-col lg:flex-row justify-center items-center min-h-screen">
@@ -65,9 +68,13 @@ export default function Free({
         <div className="flex flex-col lg:w-1/2 w-full border-2 border-black rounded-lg p-4">
           {/* Left Side */}
           <div className="flex flex-col h-full">
-            <Link href={`/${page}/${ticket}`}>
-              <IoMdArrowRoundBack size={24} className="mb-4 cursor-pointer" />
-            </Link>
+            <div className="w-fit h-fit">
+              <Button
+                onClick={handleBackClick}
+                param={
+                  <IoMdArrowRoundBack size={24} className="cursor-pointer" />}
+              /> 
+            </div>
             <h2 className="text-center font-bold text-lg mb-6">Checkout</h2>
             <p className="mb-6 text-sm sm:text-base">
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veniam
@@ -115,7 +122,7 @@ export default function Free({
               </div>
 
               <Button
-                param = "Register"
+                param="Register"
               />
             </form>
           </div>

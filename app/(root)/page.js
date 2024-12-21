@@ -7,6 +7,7 @@ import Footer from "../../components/layout/Footer"
 import Category from "@components/Card/Category";
 import EventCard from "@components/Card/EventCard";
 import UpcomingEvent from "@components/Card/UpcomingEvent";
+import { useState } from "react";
 
 // react icon
 import { FaSearch } from "react-icons/fa";
@@ -19,9 +20,16 @@ export default function Home() {
 
   const { data: session } = useSession()
   console.log(session)
+
+  const [categoryDis, setCategoryDis] = useState("");
+
+  // search query
+  const [searchQuery, setSearchQuery] = useState("");
+
+
   return (
     <>
-      <Header />
+      <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
       <div className="w-full h-auto flex flex-col justify-center items-center mt-12">
         <SwiperBanner />
         <div className="w-10/12 flex flex-col">
@@ -29,13 +37,17 @@ export default function Home() {
 
           {/* brow by category */}
           <div className="w-full h-auto mb-20">
-            <Category />
+            <Category
+              onClick={setCategoryDis}
+            />
           </div>
 
           {/* card event */}
           <div className="w-full h-auto mb-20">
             <EventCard
               page="homePage"
+              categoryDis={categoryDis}
+              searchQuery = {searchQuery}
             />
           </div>
 
@@ -44,11 +56,13 @@ export default function Home() {
             <h2 className="mb-12 text-black text-xl font-bold">Up Coming Events </h2>
             <UpcomingEvent
               page="homePage"
+              categoryDis={categoryDis}
+              searchQuery = {searchQuery}
             />
           </div>
 
           {/* create and find  */}
-          <dir className="flex flex-col mb-20 w-full rounded-md">
+          <div className="flex flex-col mb-20 w-full rounded-md">
             <h2 className="font-bold text-black text-xl  mb-12">How Eventify work?</h2>
             <div className="flex flex-wrap gap-6">
 
@@ -79,7 +93,7 @@ export default function Home() {
               </Link>
 
             </div>
-          </dir>
+          </div>
 
 
         </div>

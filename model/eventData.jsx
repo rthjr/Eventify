@@ -8,7 +8,7 @@ const events = [
     ticketEvent: "open",
     typeEvent: "Early Bird",
     location: "San Francisco",
-    eventCategory: "technology",
+    eventCategory: "Technology",
     qr: "/assets/banner/fakeQR.png",
   },
   {
@@ -20,7 +20,7 @@ const events = [
     ticketEvent: "open",
     typeEvent: "Regular",
     location: "New York",
-    eventCategory: "sports",
+    eventCategory: "Sport",
     qr: "/assets/banner/fakeQR.png",
   },
   {
@@ -32,7 +32,7 @@ const events = [
     ticketEvent: "open",
     typeEvent: "VIP",
     location: "Los Angeles",
-    eventCategory: "technology",
+    eventCategory: "Technology",
     qr: "/assets/banner/fakeQR.png",
   },
   {
@@ -44,7 +44,7 @@ const events = [
     ticketEvent: "paid",
     typeEvent: "Late",
     location: "Boston",
-    eventCategory: "technology",
+    eventCategory: "Technology",
     qr: "/assets/banner/fakeQR.png",
   },
   {
@@ -56,7 +56,7 @@ const events = [
     ticketEvent: "open",
     typeEvent: "Early Bird",
     location: "Chicago",
-    eventCategory: "business",
+    eventCategory: "Technology",
     qr: "/assets/banner/fakeQR.png",
   },
   {
@@ -68,7 +68,7 @@ const events = [
     ticketEvent: "open",
     typeEvent: "VIP",
     location: "Dallas",
-    eventCategory: "sports",
+    eventCategory: "Sport",
     qr: "/assets/banner/fakeQR.png",
   },
   {
@@ -80,7 +80,7 @@ const events = [
     ticketEvent: "open",
     typeEvent: "Regular",
     location: "Seattle",
-    eventCategory: "business",
+    eventCategory: "Conference",
     qr: "/assets/banner/fakeQR.png",
   },
   {
@@ -92,7 +92,7 @@ const events = [
     ticketEvent: "free",
     typeEvent: "Early Bird",
     location: "Miami",
-    eventCategory: "healthcare",
+    eventCategory: "Conference",
     qr: "/assets/banner/fakeQR.png",
   },
   {
@@ -104,7 +104,7 @@ const events = [
     ticketEvent: "paid",
     typeEvent: "Regular",
     location: "London",
-    eventCategory: "finance",
+    eventCategory: "Sport",
     qr: "/assets/banner/fakeQR.png",
   },
 ];

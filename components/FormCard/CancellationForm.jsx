@@ -12,8 +12,8 @@ const CancellationForm = ({ onClick, pageEvent }) => {
     router.push(`/${pageEvent}`);
   };
   return (
-    <div className="w-full h-full">
-      <div className="m-auto w-28 h-28 lg:w-1/4 lg:h-1/4 flex flex-col gap-8 shadow-xl bg-gray-100 p-4 rounded-lg">
+    <div className="w-full h-full ">
+      <div className="m-auto w-full h-fit lg:w-1/4 lg:h-fit flex flex-col gap-8 shadow-xl bg-gray-200 p-4 rounded-lg">
         <h2 className="font-bold text-xl text-center">Cancellation Ticket</h2>
 
         <div className="flex flex-col gap-8">

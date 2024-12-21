@@ -29,7 +29,7 @@ const EventDetail = ({ ticket, imageEvent, eventName, date, creatorName, ticketE
 
     const handleBack = (e) => {
         e.preventDefault()
-        router.push(`/${pageEvent}`)
+        router.back()
     }
 
     return (

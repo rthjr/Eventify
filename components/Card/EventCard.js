@@ -38,8 +38,8 @@ const EventCard = () => {
     return (
         <>
             <div className="flex w-full flex-wrap justify-center gap-9">
-                {
-                    eventData.map((event) => ( 
+            
+                {eventData.map((event) => ( 
                         <CardEvent
                         key={event.id}
                         id={event.id}
@@ -51,8 +51,7 @@ const EventCard = () => {
                         typeEvent={event.typeEvent}
                         location={event.location}
                     />
-                    ))
-                }
+                    ))}
             </div>
             <div className="w-full flex items-center justify-center mt-12">
                 {visibleCount < events.length && (

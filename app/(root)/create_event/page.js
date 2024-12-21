@@ -12,6 +12,7 @@ import MyEvent from '@components/pages/CreateEvent/MyEvent';
 import Dashboard from '@components/pages/CreateEvent/Dashboard';
 
 const CreateEvent = () => {
+  const [searchQuery, setSearchQuery] = useState("");
   const { data: session, status } = useSession();
   const router = useRouter();
   const [showLoading, setShowLoading] = useState(true);
@@ -41,7 +42,6 @@ const CreateEvent = () => {
 
 
   // search query
-  const [searchQuery, setSearchQuery] = useState("");
 
   return (
     <div className='w-full h-full flex flex-col justify-center items-center border'>

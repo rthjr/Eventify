@@ -11,7 +11,7 @@ import { useRouter } from '@node_modules/next/navigation';
 // lib to check  login and sign up after login
 import { signOut, useSession } from '@node_modules/next-auth/react';
 
-const Header = () => {
+const Header = ({ searchQuery, setSearchQuery, isMenu }) => {
 
   // when signout redirect to home page
   const router = useRouter();
@@ -45,16 +45,20 @@ const Header = () => {
           /></Link>
 
         {/* Desktop Search Bar */}
-        <div className="hidden lg:flex border-2 rounded-lg border-black w-1/5 justify-between items-center p-2">
-          <input
-            type="text"
-            className="hidden lg:flex border-none focus:outline-none "
-            placeholder="Enter text here"
-          />
-          <button className='relative left-0'>
-            <IoSearch />
-          </button>
-        </div>
+        {isMenu !== "create" && isMenu !== "dashboard" && (
+          <div className="hidden lg:flex border-2 rounded-lg border-black w-1/5 justify-between items-center p-2">
+            <input
+              type="text"
+              className="hidden lg:flex border-none focus:outline-none "
+              placeholder="Enter text here"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <button className='relative left-0'>
+              <IoSearch />
+            </button>
+          </div>
+        )}
 
         {/* Desktop Menu */}
         <ul className="hidden lg:flex flex-wrap items-center justify-center border-b-2 border-transparent">
@@ -87,9 +91,6 @@ const Header = () => {
                   </span>
                   <Link href="/profile">
                     <span className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>My Profile</span>
-                  </Link>
-                  <Link href="/profile">
-                    <span className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>My Booking</span>
                   </Link>
                 </div>
               )}
@@ -125,6 +126,9 @@ const Header = () => {
             </li>
             <li className="py-2 border-b border-gray-200">
               <Link href="/favorite" onClick={toggleMobileMenu}>Favorite</Link>
+            </li>
+            <li className="py-2 border-b border-gray-200">
+              <Link href="/profile" onClick={toggleMobileMenu}>My Profile</Link>
             </li>
 
             {session && session.user ? (

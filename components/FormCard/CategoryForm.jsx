@@ -1,15 +1,27 @@
+'use client'
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";   
 
-export default function CategoryForm() {
-    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+export default function CategoryForm(){
     const [submitted, setSubmitted] = useState(false);
-
+    const { register, handleSubmit, formState: { errors }, reset } = useForm()
     const onSubmit = (data) => {
-        const Category = JSON.parse(localStorage.getItem("categories")) || [];
-        const newCategory = { ...data, createdAt: new Date().toISOString() };
-        Category.push(newCategory);
-        localStorage.setItem("categories", JSON.stringify(Category));
+            async function PostData() {
+                try {
+                    const res = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/category", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(data),
+                    });
+                    const category = await res.json();
+                    setCategories(category);
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                }
+            }
+        PostData();
         setSubmitted(true);
         reset();
     };
@@ -17,7 +29,7 @@ export default function CategoryForm() {
     if (submitted) {
         return <p>Category added successfully!</p>;
     }
-
+    
     return (
         <div>
         <form onSubmit={handleSubmit(onSubmit)}>

@@ -1,25 +1,14 @@
 "use client"
 
-import { useState, useEffect } from "react";
 import EventDetail from "@components/layout/EventDetail";
 import { use } from "react"; // Import `use` from React
+import events from "@model/eventData";
+import Header from "@components/layout/Header";
+import Footer from "@components/layout/Footer";
 
 const DynamicRoutePage = ({ params }) => {
     // Unwrap params using React.use()
     const unwrappedParams = use(params);
-
-    // Use state for events data
-    const [events] = useState([
-        { id: 1, imageEvent: "/assets/banner/conference.jpg", eventName: "Tech Summit", date: "2024-11-26", creatorName: "Giga", ticketEvent: "open", typeEvent: "Early Bird", location: "San Francisco", eventQr: "/assets/banner/fakeQR.png" },
-        { id: 2, imageEvent: "/assets/banner/sportEvent.jpg", eventName: "Marathon 2025", date: "2025-01-01", creatorName: "RunClub", ticketEvent: "open", typeEvent: "Regular", location: "New York", eventQr: "/assets/banner/fakeQR.png" },
-        { id: 3, imageEvent: "/assets/banner/techEvent.jpg", eventName: "Innovation Expo", date: "2024-11-26", creatorName: "TechWorld", ticketEvent: "open", typeEvent: "Regular", location: "Los Angeles", eventQr: "/assets/banner/fakeQR.png" },
-        { id: 4, imageEvent: "/assets/banner/conference2.jpg", eventName: "AI Conference", date: "2024-12-01", creatorName: "Giga AI", ticketEvent: "Free", typeEvent: "Late", location: "Boston", eventQr: "/assets/banner/fakeQR.png" },
-        { id: 5, imageEvent: "/assets/banner/conference.jpg", eventName: "Business Workshop", date: "2024-11-26", creatorName: "BizPro", ticketEvent: "open", typeEvent: "Early Bird", location: "Chicago", eventQr: "/assets/banner/fakeQR.png" },
-        { id: 6, imageEvent: "/assets/banner/sportEvent.jpg", eventName: "Soccer Finals", date: "2024-11-27", creatorName: "SportsMania", ticketEvent: "open", typeEvent: "Regular", location: "Dallas", eventQr: "/assets/banner/fakeQR.png" },
-        { id: 7, imageEvent: "/assets/banner/techEvent.jpg", eventName: "StartUp Launchpad", date: "2024-12-15", creatorName: "LaunchZone", ticketEvent: "open", typeEvent: "Regular", location: "Seattle", eventQr: "/assets/banner/fakeQR.png" },
-        { id: 8, imageEvent: "/assets/banner/conference2.jpg", eventName: "Healthcare Symposium", date: "2024-11-27", creatorName: "MedPlus", ticketEvent: "paid", typeEvent: "Early Bird", location: "Miami", eventQr: "/assets/banner/fakeQR.png" },
-        { id: 9, imageEvent: "/assets/banner/conference2.jpg", eventName: "Global Finance Meet", date: "2024-12-05", creatorName: "FinCon", ticketEvent: "open", typeEvent: "Regular", location: "London", eventQr: "/assets/banner/fakeQR.png" },
-    ]);
 
     // Ensure params are available before destructuring
     if (!unwrappedParams) {
@@ -55,7 +44,7 @@ const DynamicRoutePage = ({ params }) => {
 
     return (
         <div>
-
+            <Header/>
             <EventDetail
                 key={event.id}
                 ticket={event.id}
@@ -68,6 +57,7 @@ const DynamicRoutePage = ({ params }) => {
                 location={event.location}
                 eventQr={event.eventQr}
             />
+            <Footer/>
         </div>
     );
 };

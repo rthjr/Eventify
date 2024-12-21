@@ -27,7 +27,7 @@ const AutoSwiper = () => {
                     className="mySwiper h-96"
                 >
                     <SwiperSlide>
-                        <img src="/assets/banner/events.jpg" alt="event image" className='m-auto h-full rounded-xl' />
+                        <img src="https://images.unsplash.com/photo-1720048170996-40507a45c720?q=80&w=1913&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="event image" className='m-auto h-full rounded-xl' />
                     </SwiperSlide>
                     <SwiperSlide>
                         <img src="/assets/banner/upcomingEvent.jpg" alt="event image" className='m-auto h-full rounded-xl' />

@@ -8,11 +8,24 @@ export default function Category() {
   const [click, setClick] = useState(false);
   const [categories, setCategories] = useState([]);
 
+  // useEffect(() => {
+  //   const storedCategories = localStorage.getItem("categories");
+  //   if (storedCategories) {
+  //     setCategories(JSON.parse(storedCategories));
+  //   }
+  // }, []);
+
   useEffect(() => {
-    const storedCategories = localStorage.getItem("categories");
-    if (storedCategories) {
-      setCategories(JSON.parse(storedCategories));
+    async function fetchData() {
+      try {
+        const res = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/category");
+        const category = await res.json();
+        setCategories(category);
+      } catch (error) {
+        console.error("Error fetching data:", error);
     }
+  }
+    fetchData();
   }, []);
   console.log(categories)
   return (

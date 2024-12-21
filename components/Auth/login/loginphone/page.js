@@ -89,9 +89,9 @@ export default function LoginPhone() {
           <h1 className="text-black font-bold text-2xl md:text-3xl lg:text-4xl">
             Login with Phone Number
           </h1>
-          <div className="mt-10 flex flex-col justify-center w-9/12">
+          <div className="mt-10 flex flex-col justify-center w-full">
             <form
-              className="flex flex-col mb-8"
+              className="flex flex-col mb-8 w-full"
               onSubmit={verify ? handleOtpVerify : handlePhoneVerify}
             >
               {isLoadingFields ? (
@@ -101,7 +101,7 @@ export default function LoginPhone() {
 
               ) : verify ? (
                 <>
-                  <label htmlFor="otp" className="mb-2 font-bold">
+                  <label htmlFor="otp" className="mb-2 font-bold text-start">
                     OTP
                   </label>
                   <input
@@ -114,19 +114,19 @@ export default function LoginPhone() {
                   />
                 </>
               ) : (
-                <>
-                  <label htmlFor="phone" className="mb-2 font-bold">
+                <div className="w-full flex flex-col items-center justify-center">
+                  <label htmlFor="phone" className="mb-2 font-bold text-left w-full">
                     Phone Number
                   </label>
                   <input
-                    className="border-2 p-2 rounded-xl border-black mb-6"
+                    className="border-2 p-2 rounded-xl border-black mb-6 w-full"
                     type="tel"
                     value={phoneNumber}
                     required
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     placeholder="Enter phone number"
                   />
-                </>
+                </div>
               )}
               {!isLoadingFields && (
                 <button

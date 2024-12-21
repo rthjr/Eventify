@@ -1,4 +1,5 @@
-export default function Table() {
+export default function Table({ categories, name }) {
+  console.log(categories);
   return (
     <div className="overflow-x-auto overflow-y-auto ">
       <table className=" table-xs md:table-lg text-black border-1 border-black">
@@ -6,7 +7,7 @@ export default function Table() {
         <thead>
           <tr>
           <th></th>
-            <th>Event Name</th>
+            <th>{name}</th>
             <th>Created</th>
             <th>Owner</th>
             <th>Category</th>
@@ -24,13 +25,13 @@ export default function Table() {
             <td>
               <div className="flex items-center gap-3">
                 <div>
-                  <div className="font-bold">Hart Hagerty</div>
+                  <div className="font-bold"></div>
                   <div className="text-sm opacity-50">United States</div>
                 </div>
               </div>
             </td>
             <td>
-              Zemlak, Daniel and Leannon
+              Placeholder Name
               <br />
             
             </td>

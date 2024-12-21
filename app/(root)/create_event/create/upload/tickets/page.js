@@ -53,7 +53,7 @@ const Tickets = () => {
 
     return (
         <>
-            <Header />
+            <Header isMenu = "create"/>
 
             <div
                 className='w-full h-full flex flex-wrap m-auto '
@@ -67,10 +67,10 @@ const Tickets = () => {
                     <div action="" className='p-4 bg-gray-100 shadow-2xl rounded-lg w-full h-auto flex flex-col gap-8'>
                         <h2 className='text-2xl font-bold text-black'>Event Poster</h2>
                         <ul className='flex justify-between'>
-                            <li>Basic Info</li>
-                            <li>Upload Media</li>
-                            <li className='border-b-2 border-customPurple-default text-customPurple-default text-lg font-bold'>Tickets</li>
-                            <li>Payment Info</li>
+                            <li className='text-sm md:text-base lg:text-lg xl:text-xl'>Basic Info</li>
+                            <li className='text-sm md:text-base lg:text-lg xl:text-xl'>Upload Media</li>
+                            <li className='border-b-2 border-customPurple-default text-customPurple-default text-sm md:text-base lg:text-lg xl:text-xl font-bold'>Tickets</li>
+                            <li className='text-sm md:text-base lg:text-lg xl:text-xl'>Payment Info</li>
                         </ul>
 
                         {/* ticket system */}
@@ -193,7 +193,7 @@ const Tickets = () => {
                                 </form>
                             )}
                             {isOpen && (
-                                <form className="flex flex-col gap-8">
+                                <form action="" className="flex flex-col gap-8">
                                     <h2 className='text-xl font-bold text-start'>Type of event Regular, Early Bird, Last Event</h2>
                                     <div className='flex flex-col gap-8'>
                                         <div className='flex flex-col gap-4'>

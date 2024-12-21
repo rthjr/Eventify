@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 
-
 export default function CategoryForm(){
     const { register, handleSubmit, formState: { errors } } = useForm()
     const onSubmit = (data) => {
         console.log("category: ", data)
     }
+    
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col items-center w-auto h-fit  p-12 rounded-lg">

@@ -6,3 +6,10 @@ mongoose
 bcrypt
 react-spinners@0.14.1
 daisyui@4.12.14
+@emotion/react@11.14.0
+@emotion/styled@11.14.0
+@mui/material@6.1.10
+@mui/x-data-grid@7.23.1
+slate-history@0.110.3
+slate-react@0.112.0
+slate@0.112.

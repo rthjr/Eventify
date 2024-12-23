@@ -1,0 +1,58 @@
+[
+    {
+        "id": 1,
+        "name": "Music"
+    },
+    {
+        "id": 2,
+        "name": "Sports"
+    },
+    {
+        "id": 3,
+        "name": "Arts"
+    },
+    {
+        "id": 4,
+        "name": "Food"
+    },
+    {
+        "id": 5,
+        "name": "Tech"
+    },
+    {
+        "id": 6,
+        "name": "Health"
+    },
+    {
+        "id": 7,
+        "name": "Fashion"
+    },
+    {
+        "id": 8,
+        "name": "Film"
+    },
+    {
+        "id": 9,
+        "name": "Science"
+    },
+    {
+        "id": 10,
+        "name": "Travel"
+    },
+    {
+        "id": 11,
+        "name": "Education"
+    },
+    {
+        "id": 12,
+        "name": "Government"
+    },
+    {
+        "id": 13,
+        "name": "Community"
+    },
+    {
+        "id": 14,
+        "name": "Hobbies"
+    }
+]

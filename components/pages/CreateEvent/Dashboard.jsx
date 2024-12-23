@@ -5,7 +5,7 @@ import React from "react";
 import { useState } from "react";
 
 const Dashboard = () => {
-
+  const thNames = ["Event Name", "Date", "Location", "Ticket Price", "Action"];
   const [filter, setFilter] = useState("month"); // State to store the filter type
 
   // Handle filter change
@@ -50,7 +50,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <Table param="dashboardCreateEvent" />
+      <Table param={thNames} />
     </div>
   );
 };

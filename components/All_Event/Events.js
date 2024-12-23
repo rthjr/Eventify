@@ -128,7 +128,7 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
 
     // Three dot menu rendering
     const threeDot = (eventId) => {
-        if (pageEvent) {
+        if (pageEvent !== "history") {
             return (
                 <>
                     <span className="text-black font-bold text-lg relative group cursor-pointer">
@@ -309,74 +309,80 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                             <div>
                                 <div className="h-auto flex w-full justify-center">
                                     <div className="grid grid-cols-1 gap-9">
-                                        {filteredEvents.slice(0, visibleCount).map(event => {
-                                            const { id, imageEvent, eventName, date, ticketEvent, location, creatorName, typeEvent, qr } = event;
-                                            return (
-                                                <div key={id} className='w-auto h-auto rounded-lg shadow-2xl bg-white flex justify-between gap-4 p-4 transition-transform transform hover:scale-105'>
-                                                    <div className='overflow-hidden w-52 lg:w-96 h-auto relative rounded-lg'>
-                                                        <Image
-                                                            src={imageEvent}
-                                                            alt={eventName}
-                                                            layout='fill'
-                                                            objectFit='cover'
-                                                        />
-                                                        <div className='absolute top-2 right-2 z-20 flex'>
-                                                            {/* handle favorite */}
-                                                            {handleFavoriteCompo(id)}
-                                                        </div>
-                                                    </div>
-
-                                                    <div className='w-64'>
-                                                        <div className='flex justify-between my-3 w-full'>
-                                                            <h2 className='text-black font-extrabold text-xl'>{eventName}</h2>
-                                                            {threeDot(id)}
+                                        {filteredEvents.length > 0 ? (
+                                            filteredEvents.slice(0, visibleCount).map(event => {
+                                                const { id, imageEvent, eventName, date, ticketEvent, location, creatorName, typeEvent, qr } = event;
+                                                return (
+                                                    <div key={id} className='w-auto h-auto rounded-lg shadow-2xl bg-white flex justify-between gap-4 p-4 transition-transform transform hover:scale-105'>
+                                                        <div className='overflow-hidden w-52 lg:w-96 h-auto relative rounded-lg'>
+                                                            <Image
+                                                                src={imageEvent}
+                                                                alt={eventName}
+                                                                layout='fill'
+                                                                objectFit='cover'
+                                                            />
+                                                            <div className='absolute top-2 right-2 z-20 flex'>
+                                                                {/* handle favorite */}
+                                                                {handleFavoriteCompo(id)}
+                                                            </div>
                                                         </div>
 
-                                                        <div className='mb-3 flex justify-between'>
-                                                            <h2 className='text-black font-semibold text-lg'>{date}</h2>
-                                                            <span className='text-black font-semibold text-lg'>{ticketEvent}</span>
+                                                        <div className='w-64'>
+                                                            <div className='flex justify-between my-3 w-full'>
+                                                                <h2 className='text-black font-extrabold text-xl'>{eventName}</h2>
+                                                                {threeDot(id)}
+                                                            </div>
+
+                                                            <div className='mb-3 flex justify-between'>
+                                                                <h2 className='text-black font-semibold text-lg'>{date}</h2>
+                                                                <span className='text-black font-semibold text-lg'>{ticketEvent}</span>
+                                                            </div>
+
+                                                            <div className="mb-3">
+                                                                <h2 className='text-black font-semibold text-lg'>{location}</h2>
+                                                            </div>
+
+                                                            <div className='mb-3 flex justify-between'>
+                                                                <h2 className='text-black font-semibold text-lg'>{creatorName}</h2>
+                                                                <h2 className='text-black font-semibold text-lg'>{typeEvent}</h2>
+                                                            </div>
+
+                                                            {EventCreator === "yes" ? (
+                                                                <Link href={`/${pageEvent}/${event.id}`}>
+                                                                    <Button
+                                                                        param="Detail Event"
+                                                                    />
+                                                                </Link>
+                                                            ) : (
+                                                                <Link href={`/${pageEvent}/${event.id}`}>
+                                                                    <Button
+                                                                        param="Book Now"
+                                                                    />
+                                                                </Link>
+                                                            )}
                                                         </div>
 
-                                                        <div className="mb-3">
-                                                            <h2 className='text-black font-semibold text-lg'>{location}</h2>
-                                                        </div>
-
-                                                        <div className='mb-3 flex justify-between'>
-                                                            <h2 className='text-black font-semibold text-lg'>{creatorName}</h2>
-                                                            <h2 className='text-black font-semibold text-lg'>{typeEvent}</h2>
-                                                        </div>
-
-                                                        {EventCreator === "yes" ? (
-                                                            <Link href={`/${pageEvent}/${event.id}`}>
-                                                                <Button
-                                                                    param="Detail Event"
+                                                        {paramPage === "MyBookingProfile" && (
+                                                            <div className='overflow-hidden h-auto rounded-lg p-4'>
+                                                                <Image
+                                                                    src={qr}
+                                                                    alt="QR"
+                                                                    layout="responsive"
+                                                                    width={500}  // Set base width
+                                                                    height={500} // Set base height to maintain aspect ratio
+                                                                    objectFit='cover'
+                                                                    className='border-2 border-black'
                                                                 />
-                                                            </Link>
-                                                        ) : (
-                                                            <Link href={`/${pageEvent}/${event.id}`}>
-                                                                <Button
-                                                                    param="Book Now"
-                                                                />
-                                                            </Link>
+                                                            </div>
                                                         )}
                                                     </div>
-
-                                                    {paramPage === "MyBookingProfile" && (
-                                                        <div className='overflow-hidden h-auto rounded-lg p-4'>
-                                                            <Image
-                                                                src={qr}
-                                                                alt="QR"
-                                                                layout="responsive"
-                                                                width={500}  // Set base width
-                                                                height={500} // Set base height to maintain aspect ratio
-                                                                objectFit='cover'
-                                                                className='border-2 border-black'
-                                                            />
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            );
-                                        })}
+                                                );
+                                            })
+                                        ) : (
+                                            <div className="text-center text-gray-500">
+                                                No events found.
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 

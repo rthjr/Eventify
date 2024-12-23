@@ -27,6 +27,14 @@ textarea {
 }
 
 
+select{
+  background-color: transparent;
+  border: none;
+}
+option{
+  background-color: white;
+}
+
 /* table */
 tr th{
   white-space: nowrap;

@@ -92,6 +92,9 @@ const Header = ({ searchQuery, setSearchQuery, isMenu }) => {
                   <Link href="/profile">
                     <span className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>My Profile</span>
                   </Link>
+                  <Link href="/history">
+                    <span className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>History</span>
+                  </Link>
                 </div>
               )}
             </div>
@@ -126,6 +129,9 @@ const Header = ({ searchQuery, setSearchQuery, isMenu }) => {
             </li>
             <li className="py-2 border-b border-gray-200">
               <Link href="/favorite" onClick={toggleMobileMenu}>Favorite</Link>
+            </li>
+            <li className="py-2 border-b border-gray-200">
+              <Link href="/history" onClick={toggleMobileMenu}>History</Link>
             </li>
             <li className="py-2 border-b border-gray-200">
               <Link href="/profile" onClick={toggleMobileMenu}>My Profile</Link>

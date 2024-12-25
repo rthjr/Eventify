@@ -26,20 +26,19 @@ textarea {
   background-color: transparent;
 }
 
-
-select{
+select {
   background-color: transparent;
   border: none;
 }
-option{
+option {
   background-color: white;
 }
 
 /* table */
-tr th{
+tr th {
   white-space: nowrap;
 }
 
-tr td{
+tr td {
   white-space: nowrap;
 }

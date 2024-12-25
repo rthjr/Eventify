@@ -16,7 +16,7 @@ const CreateEvent = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [showLoading, setShowLoading] = useState(true);
-  const [isMenu, setIsMenu] = useState('create'); // Initialize with a default value
+  const [isMenu, setIsMenu] = useState('dashboard'); // Initialize with a default value
 
   useEffect(() => {
     if (status === 'loading' || status === 'unauthenticated') {
@@ -56,16 +56,16 @@ const CreateEvent = () => {
           <MenuBar onMenuSelect={handleMenuSelect} />
         </div>
         <div className='lg:w-8/12'>
-          {isMenu === 'create' ? (
+          {isMenu === 'dashboard' ? (
+            <Dashboard />
+          ) : isMenu === 'create' ? (
             <Create />
-          ) : isMenu === 'myevent' ? (
+          ) : isMenu === "myevent" && (
             <MyEvent
               paramPage="profileMyEvent"
               pageEvent="create_event"
               searchQuery={searchQuery}
             />
-          ) : isMenu === "dashboard" && (
-            <Dashboard />
           )}
         </div>
       </div>

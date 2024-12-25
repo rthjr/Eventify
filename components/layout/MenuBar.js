@@ -7,7 +7,7 @@ import { CiMenuBurger } from "react-icons/ci";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 
 const Menubar = ({ onMenuSelect }) => {
-  const [activeMenu, setActiveMenu] = useState("create");
+  const [activeMenu, setActiveMenu] = useState("dashboard");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // handle action
@@ -28,11 +28,21 @@ const Menubar = ({ onMenuSelect }) => {
         <div className="w-full border-t-2 border-black"></div>
         <ul className="w-full h-full flex justify-center items-center">
           <div className="flex flex-col gap-8 p-4">
+
+            <button
+              onClick={() => handleMenuClick("dashboard")}
+              className={`flex gap-4 ${activeMenu === "dashboard" ? "text-customPurple-default" : ""
+                } hover:text-customPurple-hover transition-all`}
+            >
+              <CiMenuBurger size={24} />
+              <li>Dashboard</li>
+            </button>
+
+
             <button
               onClick={() => handleMenuClick("create")}
-              className={`flex gap-4 ${
-                activeMenu === "create" ? "text-customPurple-default" : ""
-              } hover:text-customPurple-hover transition-all`}
+              className={`flex gap-4 ${activeMenu === "create" ? "text-customPurple-default" : ""
+                } hover:text-customPurple-hover transition-all`}
             >
               <IoCreateOutline size={24} />
               <li>Create</li>
@@ -40,22 +50,11 @@ const Menubar = ({ onMenuSelect }) => {
 
             <button
               onClick={() => handleMenuClick("myevent")}
-              className={`flex gap-4 ${
-                activeMenu === "myevent" ? "text-customPurple-default" : ""
-              } hover:text-customPurple-hover transition-all`}
+              className={`flex gap-4 ${activeMenu === "myevent" ? "text-customPurple-default" : ""
+                } hover:text-customPurple-hover transition-all`}
             >
               <MdComputer size={24} />
               <li>My Event</li>
-            </button>
-
-            <button
-              onClick={() => handleMenuClick("dashboard")}
-              className={`flex gap-4 ${
-                activeMenu === "dashboard" ? "text-customPurple-default" : ""
-              } hover:text-customPurple-hover transition-all`}
-            >
-              <CiMenuBurger size={24} />
-              <li>Dashboard</li>
             </button>
           </div>
         </ul>
@@ -78,9 +77,8 @@ const Menubar = ({ onMenuSelect }) => {
             <div className="flex flex-col gap-8 p-4">
               <button
                 onClick={() => handleMenuClick("create")}
-                className={`flex gap-4 ${
-                  activeMenu === "create" ? "text-customPurple-default" : ""
-                } hover:text-customPurple-hover transition-all`}
+                className={`flex gap-4 ${activeMenu === "create" ? "text-customPurple-default" : ""
+                  } hover:text-customPurple-hover transition-all`}
               >
                 <IoCreateOutline size={24} />
                 <li>Create</li>
@@ -88,9 +86,8 @@ const Menubar = ({ onMenuSelect }) => {
 
               <button
                 onClick={() => handleMenuClick("myevent")}
-                className={`flex gap-4 ${
-                  activeMenu === "myevent" ? "text-customPurple-default" : ""
-                } hover:text-customPurple-hover transition-all`}
+                className={`flex gap-4 ${activeMenu === "myevent" ? "text-customPurple-default" : ""
+                  } hover:text-customPurple-hover transition-all`}
               >
                 <MdComputer size={24} />
                 <li>My Event</li>
@@ -98,9 +95,8 @@ const Menubar = ({ onMenuSelect }) => {
 
               <button
                 onClick={() => handleMenuClick("dashboard")}
-                className={`flex gap-4 ${
-                  activeMenu === "dashboard" ? "text-customPurple-default" : ""
-                } hover:text-customPurple-hover transition-all`}
+                className={`flex gap-4 ${activeMenu === "dashboard" ? "text-customPurple-default" : ""
+                  } hover:text-customPurple-hover transition-all`}
               >
                 <CiMenuBurger size={24} />
                 <li>Dashboard</li>

@@ -28,7 +28,7 @@ const Create = () => {
             Start Now
           </button>
         </div>
-      </div>
+      </div> 
       <h2 className="flex flex-col gap-8">
         Benefits of Creating Event with{" "}
         <span className="text-2xl text-customPurple-default">Eventify</span>

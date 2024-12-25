@@ -140,6 +140,8 @@ const RichTextEditor = () => {
                     </Button>
                     <ColorPicker />
                 </div>
+
+                {/* place input text */}
                 <Editable
                     renderElement={renderElement}
                     renderLeaf={renderLeaf}

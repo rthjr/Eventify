@@ -50,7 +50,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <Table param={thNames} />
+      {/* <Table param={thNames} /> */}
     </div>
   );
 };

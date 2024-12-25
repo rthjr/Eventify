@@ -2,11 +2,18 @@ import React from "react";
 
 const Input = ({ name, type, textArea }) => {
   const displayInput = () => {
+    let labelText = name;
+    if (type === "date") {
+      labelText += " (month/day/year)";
+    } else if (type === "time") {
+      labelText += " (hour / minute)";
+    }
+
     if (textArea && name) {
       return (
         <div className="w-full flex flex-col gap-4">
           <label htmlFor="event name" className="font-medium text-black">
-            {name}
+            {labelText}
           </label>
           <textarea
             name=""
@@ -29,7 +36,7 @@ const Input = ({ name, type, textArea }) => {
       return (
         <div className="w-full flex flex-col gap-4">
           <label htmlFor="event name" className="font-medium text-black">
-            {name}
+            {labelText}
           </label>
           <input
             type={type}
@@ -41,7 +48,7 @@ const Input = ({ name, type, textArea }) => {
     } else if (name) {
       return (
         <label htmlFor="event name" className="font-medium text-black">
-          {name}
+          {labelText}
         </label>
       );
     } else if (type) {

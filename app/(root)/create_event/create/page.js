@@ -8,6 +8,7 @@ import { useRouter } from '@node_modules/next/navigation'
 import Input from '@components/InputButton/Input'
 import Button from '@components/Button/Button'
 import BackButton from '@components/Button/BackButton'
+import RichTextEditor from '@components/TextEditor/RichTextEditor'
 
 const Create = () => {
 
@@ -76,10 +77,7 @@ const Create = () => {
                             type="url"
                         />
 
-                        <Input
-                            name="Description"
-                            textArea="textArea"
-                        />
+                        <RichTextEditor/>
 
                         <div className='w-full flex justify-between items-end'>
                             <BackButton

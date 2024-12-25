@@ -37,10 +37,9 @@ const Uploadmage = () => {
 
             <div
                 className='w-full h-full flex flex-wrap m-auto '
-                style={{ backgroundImage: 'url(/assets/banner/createEvent.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}
             >
-                <div className='w-10/12 h-auto my-20 m-auto backdrop-blur-2xl opacity-70 flex flex-col lg:flex-wrap gap-8 '>
-                    <form className='p-4 bg-gray-100 shadow-2xl rounded-lg w-full h-auto flex flex-col gap-8'>
+                <div className='w-5/12 h-auto my-20 m-auto  flex flex-col lg:flex-wrap gap-8 border-2 border-black rounded-lg'>
+                    <form className='p-4 bg-gray-100 rounded-lg w-full h-auto flex flex-col gap-8'>
                         <h2 className='text-2xl font-bold text-black'>Event Poster</h2>
                         <ul className='flex justify-between'>
                             <li className='text-sm md:text-base lg:text-lg xl:text-xl'>Basic Info</li>

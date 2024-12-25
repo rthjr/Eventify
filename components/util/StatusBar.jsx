@@ -14,22 +14,32 @@ function StatCard({ title, value, icon }) {
 }
 
 export default function StatusBar() {
-  const [eventsData, setEventsData] = useState([]);
+  const [eventsData, setEventsData] = useState({ totalUsers: 0, totalCreators: 0, totalEvents: 0 });
 
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await fetch('https://coding-fairy.com/api/mock-api-resources/1734491523/events');
         const result = await response.json();
-        setEventsData(result);
+  
+        // Combine data from the array into a single object
+        const combinedData = result.reduce((acc, item) => {
+          if (item.totalUsers) acc.totalUsers = item.totalUsers;
+          if (item.totalCreators) acc.totalCreators = item.totalCreators;
+          if (item.totalEvents) acc.totalEvents = item.totalEvents;
+          return acc;
+        }, { totalUsers: 0, totalCreators: 0, totalEvents: 0 });
+  
+        console.log('Combined Data:', combinedData); // Debugging
+        setEventsData(combinedData);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     }
-
+  
     fetchData();
   }, []);
-
+  
   const stats = [
     {
       title: "Total Users",
@@ -45,7 +55,7 @@ export default function StatusBar() {
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="icon icon-tabler icons-tabler-outline icon-tabler-users"
+          className="icon icon-tabler icon-tabler-users"
         >
           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
           <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
@@ -69,7 +79,7 @@ export default function StatusBar() {
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="icon icon-tabler icons-tabler-outline icon-tabler-user-check"
+          className="icon icon-tabler icon-tabler-user-check"
         >
           <path stroke="none" d="M0 0h24v24H0z" fill="none" />
           <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />

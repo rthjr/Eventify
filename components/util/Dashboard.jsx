@@ -11,7 +11,6 @@ export default function DashboardAdmin() {
       owner: "Zemlak, Daniel and Leannon",
       created: "Purple",
       updated: "12:30",
-      action: "5:30",
     },
   ];
   return (

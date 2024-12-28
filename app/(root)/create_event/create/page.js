@@ -153,7 +153,7 @@ const Create = () => {
                         <div className='w-full flex justify-between flex-wrap gap-8'>
                             <div className='flex gap-4 flex-col w-full lg:w-[40%]'>
                                 <label htmlFor="">Date (Month / Day / Year)</label>
-                                <input type="date" placeholder='Select your date' className="w-full p-4 rounded-lg border-2 border-black" />
+                                <input type="date" placeholder='Select your date' className="date text-black w-full p-4 rounded-lg border-2 border-black" />
                             </div>
 
                             <div className='flex gap-4 flex-col lg:w-auto w-full'>

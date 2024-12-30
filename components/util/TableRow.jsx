@@ -83,12 +83,42 @@ export default function TableRow({ index, data, api, detailSurvey }) {
             >
               ✕
             </button>
+            {api ===
+              "https://coding-fairy.com/api/mock-api-resources/1734491523/eventify" && (
+              <PatchForm
+                api={api}
+                id={data.id}
+                categoryName={data.name}
+                createdAt={data.createdAt}
+              />
+            )}
+
+            {api ===
+              "https://coding-fairy.com/api/mock-api-resources/1734491523/category" && (
+              <PatchForm
+                api={api}
+                id={data.id}
+                categoryName={data.name}
+                createdAt={data.createdAt}
+              />
+            )}
+
+            {api ===
+              "https://coding-fairy.com/api/mock-api-resources/1734491523/category" && (
+              <PatchForm
+                api={api}
+                id={data.id}
+                categoryName={data.name}
+                createdAt={data.createdAt}
+              />
+            )}
             <PatchForm
               api={api}
               id={data.id}
               categoryName={data.name}
               createdAt={data.createdAt}
             />
+
           </div>
         </div>
       )}

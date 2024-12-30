@@ -18,7 +18,6 @@ import SwiperBanner from '../../components/Swiper/SwiperBanner';
 export default function Home() {
 
   const { data: session } = useSession()
-  console.log(session)
 
   const [categoryDis, setCategoryDis] = useState("");
 

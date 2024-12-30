@@ -8,7 +8,6 @@ import Google from "next-auth/providers/google"
 import dotenv from 'dotenv'
 dotenv.config()
 
-//build music on telegram so you don't have to pay spotify or youtube
 
 export const authOptions = {
     providers : [
@@ -87,6 +86,7 @@ export const authOptions = {
                 session.user.id = token.sub
                 session.user.firstName = token.firstName || "Guess"
                 session.user.lastName = token.lastName || "User"
+                session.user.role = token.role 
             }
             return session
         },
@@ -94,6 +94,7 @@ export const authOptions = {
             if(user){
                 token.firstName = user.firstName
                 token.lastName = user.lastName
+                token.role = user.role
             }
             return token
         }

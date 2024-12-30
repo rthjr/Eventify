@@ -5,10 +5,10 @@ import { NextResponse } from 'next/server'
 
 export async function POST(req) {
     try {
-        const { email, firstName, lastName , password } = await req.json()
+        const { email, firstName, lastName , password, role } = await req.json()
         const hashedPassword = await bcrypt.hash(password, 10)
         await connectMongoDB()
-        await User.create({email, firstName, lastName, password: hashedPassword})
+        await User.create({email, firstName, lastName, role ,password: hashedPassword})
         return NextResponse.json({message: "User registered"}, {status: 201})
     } catch(error){
         return NextResponse.json({message: "an error occurred "}, {status: 500 })

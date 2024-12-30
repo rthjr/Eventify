@@ -1,6 +1,7 @@
+"use client"
+
 import Button from "@components/Button/Button";
 import { useState } from "react";
-
 const SurveyForm = () => {
   const [mode, setMode] = useState("default");
   const [questions, setQuestions] = useState([{ id: 1, text: "" }]);
@@ -76,25 +77,27 @@ const SurveyForm = () => {
   );
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 border-2 border-black p-4 rounded-lg w-full" >
       <h2>Survey Form</h2>
-      <label>
+      <label className="h-full flex items-center gap-2">
         <input
           type="radio"
           name="mode"
           value="default"
           checked={mode === "default"}
           onChange={handleModeChange}
+          className="radio border-1 border-black"
         />
         Default Survey
       </label>
-      <label>
+      <label className="h-full flex items-center gap-2">
         <input
           type="radio"
           name="mode"
           value="custom"
           checked={mode === "custom"}
           onChange={handleModeChange}
+          className="radio border-1 border-black"
         />
         Custom Survey
       </label>
@@ -146,7 +149,7 @@ const SurveyForm = () => {
       )}
 
       <div className="w-full h-auto flex justify-between">
-        <Button param="Cancel" />
+        {/* <Button param="Cancel" /> */}
         <Button param="Submit" />
       </div>
     </div>

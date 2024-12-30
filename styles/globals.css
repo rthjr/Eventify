@@ -26,6 +26,18 @@ textarea {
   background-color: transparent;
 }
 
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background-color: #000000; 
+  border-radius: 100%;
+  cursor: pointer;
+} 
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  background-color: #000000; 
+  border-radius: 100%;
+  cursor: pointer;
+} 
+
 select {
   background-color: transparent;
   border: none;

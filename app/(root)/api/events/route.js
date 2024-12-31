@@ -21,7 +21,8 @@ export async function GET() {
 
 export async function POST(req) {
   try {
-    const body = await req.json(); // Parse the request body
+    const body = await req.json();
+    console.log(body, "hjhfgjcgh")
     const response = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/eventify", {
       method: "POST",
       headers: {

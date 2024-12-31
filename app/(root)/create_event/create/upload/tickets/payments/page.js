@@ -3,7 +3,7 @@
 import React from 'react'
 import Header from '@components/layout/Header'
 import Footer from '@components/layout/Footer'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from '@node_modules/next/navigation'
 
 import { MdOutlineQrCodeScanner } from "react-icons/md";
@@ -15,23 +15,85 @@ const Payment = () => {
     const [isQR, setIsQR] = useState(false)
     const [isCash, setIsCash] = useState(false)
     const [imageSrc, setImageSrc] = useState(null)
+    const [id, setId] = useState(0)
+    const [imageFile, setImageFile] = useState(null)
+    const [selectedImage, setSelectedImage] = useState(null);
 
-    // update image
-    const handleImageChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                setImageSrc(e.target.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    }
+      useEffect(() => {
+        const eventId = localStorage.getItem('eventId')
+        setId(eventId)
+      }, [])
 
     const handleRender = (e) => {
         e.preventDefault()
         router.push("/create_event/finish")
     }
+    const handleNext = async (e) => {
+        e.preventDefault();
+    
+        if (!imageFile) {
+          alert("Please select an image first.");
+          return;
+        }
+        const formData = new FormData();
+        formData.append("file", imageFile);
+        formData.append("upload_preset", "ml_default");
+    
+        try {
+          const cloudinaryResponse = await fetch(
+            "https://api.cloudinary.com/v1_1/dlbbfck9n/image/upload",
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+    
+          if (!cloudinaryResponse.ok) {
+            throw new Error("Failed to upload image to Cloudinary");
+          }
+    
+          const cloudinaryData = await cloudinaryResponse.json();
+          const qrUrl = cloudinaryData.secure_url;
+    
+          const payload = {
+            qrUrl,
+          };
+    
+          const res = await fetch(`https://coding-fairy.com/api/mock-api-resources/1734491523/eventify/${id}`)
+          const existingData = await res.json()
+          const updateData = { ...existingData, qrUrl}
+    
+          const response = await fetch(
+            `https://coding-fairy.com/api/mock-api-resources/1734491523/eventify/${id}`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(updateData),
+            }
+          );
+    
+          if (!response.ok) {
+            throw new Error("Failed to save data to API");
+          }
+    
+          const responseData = await response.json();
+          console.log("Data saved successfully:", responseData);
+          router.push("/create_event/finish");
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      };
+
+      const handleImageChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+          setSelectedImage(URL.createObjectURL(file));
+          setImageFile(file);
+        }
+      };
+
 
     return (
         <>
@@ -111,9 +173,9 @@ const Payment = () => {
                                             className='w-48 h-48 border-dotted rounded-lg flex items-center justify-center bg-gray-100'
                                             style={{ overflow: 'hidden' }} // Optional: Ensures image doesn't overflow
                                         >
-                                            {imageSrc ? (
+                                            {selectedImage ? (
                                                 <img
-                                                    src={imageSrc}
+                                                    src={selectedImage}
                                                     alt="QR Code Preview"
                                                     className="w-full h-full object-cover border-2 border-black p-2 rounded-lg"
                                                 />
@@ -126,7 +188,7 @@ const Payment = () => {
                             )}
 
                             <div className='w-full h-auto flex flex-wrap justify-end items-end'>
-                                <button className='rounded-lg bg-customPurple-default hover:bg-customPurple-hover text-white p-2' onClick={handleRender}>
+                                <button className='rounded-lg bg-customPurple-default hover:bg-customPurple-hover text-white p-2' onClick={handleNext}>
                                     Publish Event
                                 </button>
                             </div>

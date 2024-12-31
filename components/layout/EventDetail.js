@@ -8,7 +8,7 @@ import BackButton from "@components/Button/BackButton";
 import Link from "@node_modules/next/link";
 import Button from "@components/Button/Button";
 
-const EventDetail = ({ ticket, imageEvent, eventName, date, creatorName, ticketEvent, typeEvent, location, bookOtp, pageEvent }) => {
+const EventDetail = ({ ticket, imageEvent, eventName, date, creatorName, ticketEvent, typeEvent, location, bookOtp, pageEvent, blockButton }) => {
     const { status } = useSession(); // Check session status
     const router = useRouter();
 
@@ -36,12 +36,14 @@ const EventDetail = ({ ticket, imageEvent, eventName, date, creatorName, ticketE
         <div className="w-full h-auto my-20 flex flex-col justify-center items-center">
             <div className="w-8/12 flex flex-col justify-center items-center">
 
-                <div className="flex w-full justify-start mb-8">
-                    <BackButton
-                        onClick={handleBack}
-                        param="Back"
-                    />
-                </div>
+                {blockButton !== "true" && (
+                    <div className="flex w-full justify-between mb-8">
+                        <BackButton
+                            onClick={handleBack}
+                            param="Back"
+                        />
+                    </div>
+                )}
 
                 <div className="w-full h-full flex flex-col">
                     <div className="w-auto h-[500px] overflow-hidden rounded-lg relative mb-8 z-20 shadow-gray shadow-2xl">

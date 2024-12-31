@@ -227,6 +227,7 @@ const My_Booking = () => {
               My Event
             </button>
           </div>
+          
 
           {/* Conditionally render content for my booking*/}
           <div className='w-full h-auto'>
@@ -253,6 +254,7 @@ const My_Booking = () => {
                   pageEvent="profile"
                   paramPage="profileMyEvent"
                   searchQuery={searchQuery}
+                  myevent = "myevent"
                 />
               </div>
             )}

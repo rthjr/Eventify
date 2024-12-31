@@ -5,8 +5,10 @@ import { IoCreateOutline } from "react-icons/io5";
 import { MdComputer } from "react-icons/md";
 import { CiMenuBurger } from "react-icons/ci";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { RiSurveyLine } from "react-icons/ri";
 
 const Menubar = ({ onMenuSelect }) => {
+  
   const [activeMenu, setActiveMenu] = useState("dashboard");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -100,6 +102,15 @@ const Menubar = ({ onMenuSelect }) => {
               >
                 <CiMenuBurger size={24} />
                 <li>Dashboard</li>
+              </button>
+
+              <button
+                onClick={() => handleMenuClick("survey")}
+                className={`flex gap-4 ${activeMenu === "survey" ? "text-customPurple-default" : ""
+                  } hover:text-customPurple-hover transition-all`}
+              >
+                <RiSurveyLine size={24} />
+                <li>Survey</li>
               </button>
             </div>
           </ul>

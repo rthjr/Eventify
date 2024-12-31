@@ -3,7 +3,7 @@ import { useState } from "react";
 import Td from "./Td";
 import PatchForm from "../FormCard/PatchForm";
 
-export default function TableRow({ index, data, api }) {
+export default function TableRow({ index, data, api, detailSurvey }) {
   const [isChecked, setIsChecked] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -46,24 +46,34 @@ export default function TableRow({ index, data, api }) {
       {Object.keys(data).map((key, index) => (
         <Td key={index} name={data[key]} />
       ))}
-      <td>
-        <button
-          onClick={handleRemove}
-          className="btn btn-danger py-1"
-          disabled={!isChecked}
-        >
-          Remove
-        </button>
-      </td>
-      <td>
-        <button
-          onClick={handleEdit}
-          className="btn btn-danger py-1 bg-blue-500 hover:bg-blue-400 text-white"
-          disabled={!isChecked}
-        >
-          Update
-        </button>
-      </td>
+      {detailSurvey === "yes" ? (
+        <>
+          <td colSpan="2">
+            <button className="btn btn-primary py-1">View</button>
+          </td>
+        </>
+      ) : (
+        <>
+          <td>
+            <button
+              onClick={handleRemove}
+              className="btn btn-danger py-1"
+              disabled={!isChecked}
+            >
+              Remove
+            </button>
+          </td>
+          <td>
+            <button
+              onClick={handleEdit}
+              className="btn btn-danger py-1 bg-blue-500 hover:bg-blue-400 text-white"
+              disabled={!isChecked}
+            >
+              Update
+            </button>
+          </td>
+        </>
+      )}
       {isEditMode && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-8 rounded-lg shadow-lg relative">
@@ -73,7 +83,6 @@ export default function TableRow({ index, data, api }) {
             >
               ✕
             </button>
-
             {api ===
               "https://coding-fairy.com/api/mock-api-resources/1734491523/eventify" && (
               <PatchForm
@@ -103,6 +112,13 @@ export default function TableRow({ index, data, api }) {
                 createdAt={data.createdAt}
               />
             )}
+            <PatchForm
+              api={api}
+              id={data.id}
+              categoryName={data.name}
+              createdAt={data.createdAt}
+            />
+
           </div>
         </div>
       )}

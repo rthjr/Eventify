@@ -6,7 +6,6 @@ import Button from "@components/Button/Button";
 import BackButton from "@components/Button/BackButton";
 import { useRouter } from "@node_modules/next/navigation";
 import Image from "@node_modules/next/image";
-// icon
 import { LuUpload } from "react-icons/lu";
 import { CiImageOn } from "react-icons/ci";
 

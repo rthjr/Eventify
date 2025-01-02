@@ -98,7 +98,7 @@ const Tickets = () => {
       <Header isMenu="create" />
 
       <div className="w-full h-full flex flex-wrap m-auto ">
-        <div className="w-5/12 h-auto my-20 m-auto  flex flex-col lg:flex-wrap gap-8 shadow-2xl rounded-lg">
+        <div className="w-full md:w-5/12 h-auto my-20 m-auto  flex flex-col lg:flex-wrap gap-8 shadow-2xl rounded-lg">
           <div
             action=""
             className="p-4 bg-gray-100  rounded-lg w-full h-auto flex flex-col gap-8"

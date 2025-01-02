@@ -1,3 +1,5 @@
+"use client"
+
 import TableHead from "./TableHead";
 import TableData from "./TableRow";
 import { useState } from "react";
@@ -17,7 +19,7 @@ export default function Table({ thName, tData, api, selectAll, detailSurvey }) {
           {selectedAll ? "Cancel All" : "Select All"}
         </button>
       )}
-      <table className="table-xs md:table-lg text-black border-1 border-black">
+      <table className="table-xs md:table-lg text-black ">
         <thead>
           <tr>
             {thName

@@ -8,7 +8,7 @@ import style from "@styles/cardevent.module.css"
 import React, { useRef } from 'react';
 import { useRouter } from '@node_modules/next/navigation';
 import Button from '@components/Button/Button';
-const CardEvent = ({ id, imageEvent, eventName, date, creatorName, ticketEvent, typeEvent, location, page }) => {
+const CardEvent = ({ id, name, date, startTime, endTime, imageUrl }) => {
 
     const router = useRouter()
 
@@ -62,8 +62,8 @@ const CardEvent = ({ id, imageEvent, eventName, date, creatorName, ticketEvent, 
             <div>
                 <div className='overflow-hidden w-full  h-48 relative rounded-lg'>
                     <Image
-                        src={imageEvent}
-                        alt={eventName}
+                        src={imageUrl}
+                        alt={name}
                         layout='fill'
                         objectFit='cover'
                     />
@@ -87,24 +87,19 @@ const CardEvent = ({ id, imageEvent, eventName, date, creatorName, ticketEvent, 
             </div>
 
             <div className='flex justify-between my-3 '>
-                <h2 className='text-black font-extrabold text-xl'>{eventName}</h2>
+                <h2 className='text-black font-extrabold text-xl'>{name}</h2>
             </div>
 
             <div className='mb-3 flex justify-between'>
                 <h2 className='text-black font-semibold text-lg'>{date}</h2>
-                <span className='text-black font-semibold text-lg'>{ticketEvent}</span>
             </div>
-
-            <dir className="mb-3">
-                <h2 className='text-black font-semibold text-lg'>{location}</h2>
-            </dir>
 
             <div className='mb-3 flex justify-between'>
-                <h2 className='text-black font-semibold text-lg'>{creatorName}</h2>
-                <h2 className='text-black font-semibold text-lg'>{typeEvent}</h2>
+                <h2 className='text-black font-semibold text-lg'>{startTime}</h2>
+                <h2 className='text-black font-semibold text-lg'>{endTime}</h2>
             </div>
             <Button
-                param="Book Now"
+                param="More Info"
                 onClick={handleRouter}
             />
         </div>

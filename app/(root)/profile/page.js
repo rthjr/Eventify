@@ -251,7 +251,7 @@ const My_Booking = () => {
                   EventCreator="yes"
                   widthE="w-full"
                   nameClass="justify-around"
-                  pageEvent="profile"
+                  pageEvent="create_event"
                   paramPage="profileMyEvent"
                   searchQuery={searchQuery}
                   myevent = "myevent"

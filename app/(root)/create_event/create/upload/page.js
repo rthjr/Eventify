@@ -94,7 +94,7 @@ const Uploadmage = () => {
       <Header isMenu="create" />
 
       <div className="w-full h-full flex flex-wrap m-auto ">
-        <div className="w-5/12 h-auto my-20 m-auto  flex flex-col lg:flex-wrap gap-8 border-2 border-black rounded-lg">
+        <div className="w-full md:w-5/12 h-auto my-20 m-auto  flex flex-col lg:flex-wrap gap-8 border-2 border-black rounded-lg">
           <form className="p-4 bg-gray-100 rounded-lg w-full h-auto flex flex-col gap-8">
             <h2 className="text-2xl font-bold text-black">Event Poster</h2>
             <ul className="flex justify-between">

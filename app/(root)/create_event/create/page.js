@@ -173,7 +173,7 @@ const handleSubmit = async (e) => {
       <Header isMenu="create" />
 
       <div className="w-full h-full flex flex-wrap m-auto ">
-        <div className="w-5/12 h-auto flex flex-wrap my-20 m-auto border-2 border-black rounded-lg ">
+        <div className="w-full md:w-5/12 h-auto flex flex-wrap my-20 m-auto border-2 border-black rounded-lg ">
           {/* //TODO this is form */}
           <form
             className="p-4 bg-gray-100 rounded-xl w-full h-auto flex flex-col gap-8"
@@ -217,9 +217,9 @@ const handleSubmit = async (e) => {
 
             <h2 className="text-2xl font-bold">Schedule</h2>
 
-            <div className="w-full flex justify-between flex-wrap gap-8">
-              <div className="flex gap-4 flex-col w-full lg:w-[40%]">
-                <label htmlFor="date">Date (Month / Day / Year)</label>
+            <div className="w-full flex justify-between flex-wrap lg:gap-0 gap-8">
+              <div className="flex gap-4 flex-col w-full lg:w-[35%]">
+                <label htmlFor="date" className="text-sm">Date (Month / Day / Year)</label>
                 <input
                   type="date"
                   id="date"
@@ -230,8 +230,8 @@ const handleSubmit = async (e) => {
                 />
               </div>
 
-              <div className="flex gap-4 flex-col lg:w-auto w-full">
-                <label htmlFor="startTime">Start Time (Hour / Min)</label>
+              <div className="flex gap-4 flex-col w-full lg:w-[30%]">
+                <label htmlFor="startTime" className="text-sm">Start Time (Hour / Min)</label>
                 <input
                   type="time"
                   id="startTime"
@@ -242,8 +242,8 @@ const handleSubmit = async (e) => {
                 />
               </div>
 
-              <div className="flex gap-4 flex-col lg:w-auto w-full">
-                <label htmlFor="endTime">End Time</label>
+              <div className="flex gap-4 flex-col w-full lg:w-[30%]">
+                <label htmlFor="endTime" className="text-sm">End Time (Hour / Min)</label>
                 <input
                   type="time"
                   id="endTime"
@@ -318,7 +318,7 @@ const handleSubmit = async (e) => {
             <div className="w-full flex justify-between items-end">
               <button
                 type="button"
-                onClick={() => console.log("Go Back")}
+                onClick={() => router.back()}
                 className="bg-gray-300 text-black py-2 px-4 rounded"
               >
                 Back

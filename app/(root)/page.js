@@ -17,8 +17,6 @@ import SwiperBanner from '../../components/Swiper/SwiperBanner';
 
 export default function Home() {
 
-  const { data: session } = useSession()
-
   const [categoryDis, setCategoryDis] = useState("");
 
   // search query

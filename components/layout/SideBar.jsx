@@ -2,17 +2,30 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { SideBarIConText } from "./SideBarIcon";
+import { useEffect } from "react";
 
 
 export default function SideBar() {
-  const [activePage, setActivePage] = useState("Dashboard");
+  const [activePage, setActivePage] = useState("");
   const router = useRouter();
 
+  // store in local browser
+  useEffect(() => {
+    const stored = localStorage.getItem("activePage")
+    if(stored){
+      setActivePage(stored)
+    }
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem("activePage", activePage)
+  }, [activePage])
+  
   return (
-    <div className="flex">
+    <div className="flex fixed w-2/12">
      
-      <div className="fixed top-0 md:left-0 h-screen w-64 m-0 md:flex hidden md:flex-col bg-white text-black">
-        <div className="mt-10 ml-10">
+      <div className="h-screen w-full hidden   md:flex md:flex-col bg-gray-200 shadow-2xl text-black items-center justify-center">
+        <div className=" bg-transparent">
           <h1 className="mb-10">Hello Admin</h1>
           <div>
             <SideBarIConText

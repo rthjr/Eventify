@@ -28,13 +28,10 @@ const EventCard = ({ page, searchQuery, categoryDis }) => {
         </div>
     }
 
-    // Number of visible cards
-
     const handleSeeMore = () => {
         setVisibleCount((prevCount) => prevCount + 4);
     };
-
-    // Filter events based on categoryDis and searchQuery
+    
     const filteredEvents = eventData.filter((event) => {
         const matchesCategory =
             !categoryDis || categoryDis === "All" || event.eventCategory === categoryDis;

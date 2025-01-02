@@ -91,13 +91,20 @@ const CardEvent = ({ id, name, date, startTime, endTime, imageUrl }) => {
             </div>
 
             <div className='mb-3 flex justify-between'>
+                <label htmlFor="">Date</label>
                 <h2 className='text-black font-semibold text-lg'>{date}</h2>
             </div>
 
             <div className='mb-3 flex justify-between'>
+                <label htmlFor="">Start</label>
                 <h2 className='text-black font-semibold text-lg'>{startTime}</h2>
+            </div>
+
+            <div className='mb-3 flex justify-between'>
+                <label htmlFor="">End</label>
                 <h2 className='text-black font-semibold text-lg'>{endTime}</h2>
             </div>
+
             <Button
                 param="More Info"
                 onClick={handleRouter}

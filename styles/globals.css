@@ -40,7 +40,6 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
 select {
   background-color: transparent;
-  border: none;
 }
 option {
   background-color: white;

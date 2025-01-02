@@ -75,7 +75,7 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
         const eventTypeCategory = getEventTypeCategory(event.typeEvent);
         const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(eventTypeCategory);
 
-        
+
         // Filters date matching
         const dateMatch = selectedDates.length === 0 || selectedDates.includes(event.date);
 
@@ -325,7 +325,7 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                                     <div>
                                         <h3 className="text-lg font-semibold text-black">Category</h3>
                                         <div className="space-y-2">
-                                            {Array.from(new Set(eventData.map(event => event.eventCategory))).map((category, index) => (
+                                            {Array.from(new Set(eventData.map(event => event.category))).map((category, index) => (
                                                 <label key={index} className="flex items-center gap-2">
                                                     <input
                                                         type="checkbox"
@@ -349,10 +349,10 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                                     <div className="grid grid-cols-1 gap-9">
                                         {filteredEvents.length > 0 ? (
                                             filteredEvents.slice(0, visibleCount).map(event => {
-                                                const { id, imageUrl, name, date, location, startTime, endTime, qr } = event;
+                                                const { id, imageUrl, name, date, location, startTime, endTime, qrUrl } = event;
                                                 return (
                                                     <div key={id} className='w-auto h-auto rounded-lg shadow-2xl bg-white flex justify-between gap-4 p-4 transition-transform transform hover:scale-105'>
-                                                        <div className='overflow-hidden w-52 lg:w-96 h-auto relative rounded-lg'>
+                                                        <div className='overflow-hidden w-52 lg:w-96 h-auto relative rounded-lg hidden sm:flex'>
                                                             <Image
                                                                 src={imageUrl}
                                                                 alt={name}
@@ -372,11 +372,17 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                                                             </div>
 
                                                             <div className='mb-3 flex justify-between'>
+                                                                <label htmlFor="">Date</label>
                                                                 <h2 className='text-black font-semibold text-lg'>{date}</h2>
                                                             </div>
 
                                                             <div className='mb-3 flex justify-between'>
+                                                                <label htmlFor="">Start</label>
                                                                 <h2 className='text-black font-semibold text-lg'>{startTime}</h2>
+                                                            </div>
+
+                                                            <div className='mb-3 flex justify-between'>
+                                                                <label htmlFor="">End</label>
                                                                 <h2 className='text-black font-semibold text-lg'>{endTime}</h2>
                                                             </div>
 
@@ -396,11 +402,11 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                                                         </div>
 
                                                         {paramPage === "MyBookingProfile" && (
-                                                            <div className='overflow-hidden h-auto rounded-lg p-4'>
+                                                            <div className='overflow-hidden rounded-lg p-4 max-w-60 max-h-56'>
                                                                 <Image
-                                                                    src={qr}
+                                                                    src={qrUrl}
                                                                     alt="QR"
-                                                                    layout="responsive"
+                                                                    layout="intrinsic"
                                                                     width={500}  // Set base width
                                                                     height={500} // Set base height to maintain aspect ratio
                                                                     objectFit='cover'

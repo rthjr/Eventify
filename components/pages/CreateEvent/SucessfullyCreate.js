@@ -20,6 +20,7 @@ const SucessfullyCreate = () => {
                 <div className='w-full h-auto flex flex-wrap justify-between gap-12'>
                     <Button
                         param="View Event"
+                        onClick={() => router.push("/profile")}
                     />
                     <Button
                         onClick={handleRouter}

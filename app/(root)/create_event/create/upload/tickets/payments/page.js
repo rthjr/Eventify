@@ -163,7 +163,7 @@ const Payment = () => {
                                 <div className='flex flex-col gap-8'>
                                     <h2 className='text-xl font-bold '>Upload QR</h2>
 
-                                    <form className='flex flex-col gap-8'>
+                                    <form action="" className='flex flex-col gap-8'>
                                         <input
                                             type="file"
                                             accept="image/*" // Limit to image files only

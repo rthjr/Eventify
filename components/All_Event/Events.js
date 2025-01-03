@@ -53,7 +53,7 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
     const filteredEvents = eventData.filter(event => {
         // Search matching
         const matchesSearchQuery =
-            !searchQuery || event.eventName.toLowerCase().includes(searchQuery.toLowerCase());
+            !searchQuery || event.name.toLowerCase().includes(searchQuery.toLowerCase());
 
         // Categorizing ticket status
         const getTicketStatusCategory = (ticketEvent) => {

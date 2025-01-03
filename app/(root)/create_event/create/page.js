@@ -302,7 +302,7 @@ const Create = () => {
               value={formData.location}
               onChange={handleFormChange}
               placeholder="Pass your URL location."
-              className="w-full p-4 rounded-lg border-2 border-black"
+              className="w-full p-4 rounded-lg border-2 border-black text-black"
             />
 
             {/* Rich Text Editor */}

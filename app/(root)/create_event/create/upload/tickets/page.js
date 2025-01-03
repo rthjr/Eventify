@@ -128,27 +128,24 @@ const Tickets = () => {
               <div className="flex justify-around w-full">
                 <button
                   type="button"
-                  className={`rounded-lg ${
-                    isPaid ? "bg-customPurple-hover" : "bg-customPurple-default"
-                  } hover:bg-customPurple-hover text-white p-2`}
+                  className={`rounded-lg ${isPaid ? "bg-customPurple-hover" : "bg-customPurple-default"
+                    } hover:bg-customPurple-hover text-white p-2`}
                   onClick={() => handleStateChange("paid")}
                 >
                   Paid
                 </button>
                 <button
                   type="button"
-                  className={`rounded-lg ${
-                    isFree ? "bg-customPurple-hover" : "bg-customPurple-default"
-                  } hover:bg-customPurple-hover text-white p-2`}
+                  className={`rounded-lg ${isFree ? "bg-customPurple-hover" : "bg-customPurple-default"
+                    } hover:bg-customPurple-hover text-white p-2`}
                   onClick={() => handleStateChange("free")}
                 >
                   Free
                 </button>
                 <button
                   type="button"
-                  className={`rounded-lg ${
-                    isOpen ? "bg-customPurple-hover" : "bg-customPurple-default"
-                  } hover:bg-customPurple-hover text-white p-2`}
+                  className={`rounded-lg ${isOpen ? "bg-customPurple-hover" : "bg-customPurple-default"
+                    } hover:bg-customPurple-hover text-white p-2`}
                   onClick={() => handleStateChange("open")}
                 >
                   Open
@@ -163,23 +160,29 @@ const Tickets = () => {
                   </h2>
                   <div className="flex flex-col gap-8">
                     <div className="flex flex-col gap-4">
-                      <label htmlFor="Event Tyoe">Event Type</label>
-                      <input
-                        type="text"
-                        placeholder="Event Type"
+                      <label htmlFor="eventType">Event Type</label>
+                      <select
                         id="eventType"
-                        className="p-2 border-black border-2 rounded-lg text-white"
+                        className="p-2 border-2 border-black rounded-lg text-black"
                         onChange={handleFormChange}
-                      />
+                      >
+                        <option value="" disabled defaultValue>
+                          Select Event Type
+                        </option>
+                        <option value="Early Bird">Early Bird</option>
+                        <option value="Regular">Regular</option>
+                        <option value="Last">Last</option>
+                      </select>
                     </div>
+
 
                     <div className="flex flex-col gap-4">
                       <label htmlFor="Amount of Attendee">
                         Amount of Attendee
                       </label>
                       <input
-                        className="p-2 border-black border-2 rounded-lg text-white"
-                        type="text"
+                        className="p-2 border-black border-2 rounded-lg text-black"
+                        type="number"
                         id="limitTicket"
                         placeholder="Amount of attendee"
                         onChange={handleFormChange}
@@ -189,8 +192,8 @@ const Tickets = () => {
                     <div className="flex flex-col gap-4">
                       <label htmlFor="Tickets price">Tickets Price</label>
                       <input
-                        className="p-2 border-black border-2 rounded-lg text-white"
-                        type="text"
+                        className="p-2 border-black border-2 rounded-lg text-black"
+                        type="number"
                         id="price"
                         placeholder="Ticket Price"
                         onChange={handleFormChange}
@@ -257,18 +260,18 @@ const Tickets = () => {
                   {noRefund && <span>Cannot be refunded.</span>}
 
                   <div className="w-full flex justify-between items-end">
-              <button
-                type="button"
-                onClick={() => console.log("Go Back")}
-                className="bg-gray-300 text-black py-2 px-4 rounded"
-              >
-                Back
-              </button>
+                    <button
+                      type="button"
+                      onClick={() => console.log("Go Back")}
+                      className="bg-gray-300 text-black py-2 px-4 rounded"
+                    >
+                      Back
+                    </button>
 
-              <button className="bg-blue-500 text-white py-2 px-4 rounded">
-                Save & Continue
-              </button>
-            </div>
+                    <button className="bg-blue-500 text-white py-2 px-4 rounded">
+                      Save & Continue
+                    </button>
+                  </div>
                 </form>
               )}
               {isFree && (
@@ -278,23 +281,29 @@ const Tickets = () => {
                   </h2>
                   <div className="flex flex-col gap-8">
                     <div className="flex flex-col gap-4">
-                      <label htmlFor="Event Tyoe">Event Type</label>
-                      <input
-                        type="text"
-                        placeholder="Event Type"
-                        className="p-2 border-2 border-black rounded-lg text-white"
+                      <label htmlFor="eventType">Event Type</label>
+                      <select
                         id="eventType"
+                        className="p-2 border-2 border-black rounded-lg text-black"
                         onChange={handleFormChange}
-                      />
+                      >
+                        <option value="" disabled defaultValue>
+                          Select Event Type
+                        </option>
+                        <option value="Early Bird">Early Bird</option>
+                        <option value="Regular">Regular</option>
+                        <option value="Last">Last</option>
+                      </select>
                     </div>
+
 
                     <div className="flex flex-col gap-4">
                       <label htmlFor="Amount of Attendee">
                         Amount of Attendee
                       </label>
                       <input
-                        className="p-2 border-2 border-black rounded-lg text-white"
-                        type="text"
+                        className="p-2 border-2 border-black rounded-lg text-black"
+                        type="number"
                         placeholder="Amount of attendee"
                         id="limitTicket"
                         onChange={handleFormChange}
@@ -312,14 +321,19 @@ const Tickets = () => {
                   </h2>
                   <div className="flex flex-col gap-8">
                     <div className="flex flex-col gap-4">
-                      <label htmlFor="Event Tyoe">Event Type</label>
-                      <input
-                        type="text"
-                        placeholder="Event Type"
-                        className="p-2 border-2 border-black rounded-lg text-white"
+                      <label htmlFor="eventType">Event Type</label>
+                      <select
                         id="eventType"
+                        className="p-2 border-2 border-black rounded-lg text-black"
                         onChange={handleFormChange}
-                      />
+                      >
+                        <option value="" disabled defaultValue>
+                          Select Event Type
+                        </option>
+                        <option value="Early Bird">Early Bird</option>
+                        <option value="Regular">Regular</option>
+                        <option value="Last">Last</option>
+                      </select>
                     </div>
 
                     <div className="flex flex-col gap-4">
@@ -327,8 +341,8 @@ const Tickets = () => {
                         Amount of Attendee
                       </label>
                       <input
-                        className="p-2 border-2 border-black rounded-lg text-white"
-                        type="text"
+                        className="p-2 border-2 border-black rounded-lg text-black"
+                        type="number"
                         placeholder="Amount of attendee"
                         id="limitTicket"
                         onChange={handleFormChange}

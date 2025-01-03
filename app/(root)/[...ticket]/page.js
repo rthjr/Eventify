@@ -7,6 +7,7 @@ import events from "@model/eventData";
 import Open from "@components/Tickets/Open";
 import Paid from "@components/Tickets/Paid";
 import Free from "@components/Tickets/Free";
+import Error404 from "../404";
 
 export default function TicketType({ params }) {
   // Unwrap params using React's `use()` hook
@@ -21,7 +22,7 @@ export default function TicketType({ params }) {
 
   // Check if the event was found
   if (!event) {
-    return <div>Event not found</div>; // Or some other fallback UI
+    return <Error404/>; // Or some other fallback UI
   }
 
   // Match the pageEvent to determine which component to render

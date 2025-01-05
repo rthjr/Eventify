@@ -5,14 +5,30 @@ import Header from "@components/layout/Header";
 import { useSearchParams } from "@node_modules/next/navigation";
 import Footer from "@components/layout/Footer";
 import EventDetail from "@components/layout/EventDetail";
-import events from "@model/eventData";
+import { useEffect, useState } from "react";
 
 const Page = ({ params }) => {
+
+  const [eventData, setEventData] = useState([])
   const searchParams = useSearchParams();
   const unwrappedParams = use(params); // Unwrap the params Promise
   const eventId = Number(unwrappedParams.id); // Convert unwrappedParams.id to a number
-  const event = events.find(event => event.id === eventId);
-  const pageEvent = searchParams.get("pageEvent") || "find_event"; 
+  const event = eventData.find(event => event.id === eventId);
+  const pageEvent = searchParams.get("pageEvent") || "find_event";
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch('https://coding-fairy.com/api/mock-api-resources/1734491523/eventify');
+        const result = await response.json();
+        setEventData(result);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    fetchData();
+  }, []);
 
   return (
     <div>
@@ -21,16 +37,19 @@ const Page = ({ params }) => {
         <EventDetail
           key={event.id}
           ticket={event.id}
-          imageEvent={event.imageEvent}
-          eventName={event.eventName}
+          imageUrl={event.imageUrl}
+          name={event.name}
           date={event.date}
-          creatorName={event.creatorName}
-          ticketEvent={event.ticketEvent}
-          typeEvent={event.typeEvent}
+          // missed
+          // creatorName={event.creatorName}
+          // missed
+          // ticketEvent={event.ticketEvent}
+          eventType={event.eventType}
           location={event.location}
-          eventQr = {event.qr}
+          refund={event.refund}
+          description = {event.description}
           bookOtp="true"
-          pageEvent = {pageEvent}
+          pageEvent={pageEvent}
 
         />
       ) : (

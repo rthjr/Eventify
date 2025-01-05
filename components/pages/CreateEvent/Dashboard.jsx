@@ -41,7 +41,7 @@ const Dashboard = () => {
 
         <div className="flex flex-col justify-center items-center p-4 w-52 h-52 bg-gray-100 rounded-lg shadow-lg">
           <h2 className="text-7xl">35</h2>
-          <span className="font-light">Total Purchase</span>
+          <span className="font-light">Total Booked</span>
         </div>
 
         <div className="flex flex-col justify-center items-center p-4 w-52 h-52 bg-gray-100 rounded-lg shadow-lg">

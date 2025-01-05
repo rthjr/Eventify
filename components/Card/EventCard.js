@@ -32,9 +32,10 @@ const EventCard = ({ page, searchQuery, categoryDis }) => {
         setVisibleCount((prevCount) => prevCount + 4);
     };
     
+    // Filter events based on categoryDis and searchQuery
     const filteredEvents = eventData.filter((event) => {
         const matchesCategory =
-            !categoryDis || categoryDis === "All" || event.eventCategory === categoryDis;
+            !categoryDis || categoryDis === "All" || event.category === categoryDis;
         const matchesSearchQuery =
             !searchQuery || event.name.toLowerCase().includes(searchQuery.toLowerCase());
         return matchesCategory && matchesSearchQuery;

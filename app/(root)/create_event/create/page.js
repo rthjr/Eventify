@@ -1,18 +1,16 @@
 "use client";
 import Footer from "@components/layout/Footer";
 import Header from "@components/layout/Header";
+import { useEffect } from "react";
 import React, { useCallback, useMemo, useState } from "react";
 import { useRouter } from "@node_modules/next/navigation";
 import { Editor, createEditor, Node } from "slate";
 import { withReact, Slate, Editable } from "slate-react";
 import { withHistory } from "slate-history";
 import { useSession } from "@node_modules/next-auth/react";
-const Create =  () => {
+const Create = () => {
   const { data: session } = useSession()
   const router = useRouter();
-  const handleRedirect = () => {
-    router.push("/create_event/create/upload");
-  };
 
   // Rich Text Editor
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
@@ -115,11 +113,13 @@ const Create =  () => {
     startTime: "",
     endTime: "",
     location: "",
+    category: "",
     description: "",
-    owner: session.user.email,
+    owner: session.user.id,
   });
-
  
+  "eve"
+
 
   const handleFormChange = (e) => {
     const { id, value } = e.target;
@@ -138,38 +138,63 @@ const Create =  () => {
       underline: marks.underline === true,
     });
   };
-const handleSubmit = async (e) => {
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.date || !formData.startTime || !formData.endTime || !formData.location) {
-            alert("Please fill in all required fields.");
-            return;
-        }
-    try {
-        console.log(formData)
-        const response = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/eventify", {
-            method: "POST",
-            headers: {
-          "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData)
-        });
-        const data = await response.json();
-        const eventId = data.id;
-        console.log(eventId);
-        console.log(response);
-        if (!response.ok) {
-            console.log("cannot create event");
-        } else {
-            localStorage.setItem('eventId', eventId)
-            router.push(`/create_event/create/upload`);
-        }
-    } catch (error) {
-        throw new Error(error);
+    if (!formData.name || !formData.date || !formData.startTime || !formData.endTime || !formData.location || !formData.category) {
+      alert("Please fill in all required fields.");
+      return;
     }
-};
+    try {
+      console.log(formData)
+      const response = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/eventify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData)
+      });
+      const data = await response.json();
+      
+      // id event   
+      const eventId = data.id;
+      console.log(eventId);
+      console.log(response);
+      if (!response.ok) {
+        console.log("cannot create event");
+      } else {
+        localStorage.setItem('eventId', eventId)
+        router.push(`/create_event/create/upload`);
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
   const serialize = (nodes) => {
     return nodes.map(n => Node.string(n)).join('\n');
   };
+
+
+
+  // hanlde select data form category put in selector
+  const [category, setCategory] = useState([]);
+
+  useEffect(() => {
+    async function fetchCategory() {
+      try {
+        const response = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/category");
+        const data = await response.json();
+        const filteredData = data.filter(item => item.name !== "All");
+        setCategory(filteredData);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    }
+  
+    fetchCategory();
+  }, []);
+  
 
   return (
     <>
@@ -217,6 +242,23 @@ const handleSubmit = async (e) => {
               placeholder="Enter Event Name"
               className="w-full p-4 rounded-lg border-2 border-black"
             />
+
+            {/* select all data from category */}
+            <select
+              id="category"
+              className="border-2 border-black rounded-lg p-4 w-full"
+              value={formData.category}
+              onChange={handleFormChange}
+            >
+              <option value="" disabled>
+                -- Choose a category --
+              </option>
+              {category.map((item) => (
+                <option key={item.id} value={item.name}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
 
             <h2 className="text-2xl font-bold">Schedule</h2>
 

@@ -28,8 +28,6 @@ const EventCard = ({ page, searchQuery, categoryDis }) => {
         </div>
     }
 
-    // Number of visible cards
-
     const handleSeeMore = () => {
         setVisibleCount((prevCount) => prevCount + 4);
     };

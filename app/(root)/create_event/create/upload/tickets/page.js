@@ -322,7 +322,17 @@ const Tickets = () => {
                     </div>
                   </div>
 
-                  {displayButton()}
+                  <button
+                type="button"
+                onClick={() => console.log("Go Back")}
+                className="bg-gray-300 text-black py-2 px-4 rounded"
+              >
+                Back
+              </button>
+
+              <button className="bg-blue-500 text-white py-2 px-4 rounded">
+                Save & Continue
+              </button>
                 </form>
               )}
               {isOpen && (
@@ -361,7 +371,17 @@ const Tickets = () => {
                     </div>
                   </div>
 
-                  {displayButton()}
+                  <button
+                type="button"
+                onClick={() => console.log("Go Back")}
+                className="bg-gray-300 text-black py-2 px-4 rounded"
+              >
+                Back
+              </button>
+
+              <button className="bg-blue-500 text-white py-2 px-4 rounded">
+                Save & Continue
+              </button>
                 </form>
               )}
             </div>

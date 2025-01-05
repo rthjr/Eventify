@@ -4,18 +4,13 @@ import Image from "@node_modules/next/image";
 import Button from "@components/Button/Button";
 import { useRouter } from "@node_modules/next/navigation";
 
-export default function Free({
-  imageEvent,
-  eventName,
-  date,
-  ticketEvent,
-  typeEvent,
-  location,
-}) {
+export default function Free(param) {
   const router = useRouter()
   const handleBackClick = () => {
     router.back(); // This will navigate to the previous page in the browser history
   };
+  const { name, imgUrl, location } = param
+  console.log
   return (
     <div className="w-full flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-screen-lg gap-4 flex flex-col lg:flex-row justify-center items-center min-h-screen">
@@ -24,8 +19,8 @@ export default function Free({
           <div className="border-2 border-black rounded-lg p-4">
             <div className="relative w-full h-72 sm:h-96 mb-6 rounded-lg overflow-hidden">
               <Image
-                src={imageEvent}
-                alt={eventName}
+                src={imgUrl}
+                alt={name}
                 layout="fill"
                 objectFit="cover"
               />

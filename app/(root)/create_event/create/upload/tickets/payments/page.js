@@ -59,18 +59,22 @@ const Payment = () => {
             qrUrl,
           };
     
-          const res = await fetch(`https://coding-fairy.com/api/mock-api-resources/1734491523/eventify/${id}`)
-          const existingData = await res.json()
-          const updateData = { ...existingData, qrUrl}
+
+
+          const existingData = JSON.parse(localStorage.getItem("eventData")) || {};
+          const updatedData = { ...existingData, qrUrl };
+
+        localStorage.setItem("eventData", JSON.stringify(updatedData));
+        console.log("Updated local storage data:", updatedData);
     
           const response = await fetch(
-            `https://coding-fairy.com/api/mock-api-resources/1734491523/eventify/${id}`,
+            `https://coding-fairy.com/api/mock-api-resources/1734491523/eventify`,
             {
-              method: "PUT",
+              method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify(updateData),
+              body: JSON.stringify(updatedData),
             }
           );
     

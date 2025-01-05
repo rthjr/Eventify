@@ -10,8 +10,10 @@ import { BsCashCoin } from "@node_modules/react-icons/bs";
 import { useRouter } from "next/navigation";
 
 import Image from "@node_modules/next/image";
+import { useSession } from "@node_modules/next-auth/react";
 
 export default function TicketType({ params }) {
+  const { data: session } = useSession()
   const router = useRouter()
   const { ticket } = params; // Extract ticket from params
   const [paymentMethod, setPaymentMethod] = useState('');
@@ -52,6 +54,63 @@ export default function TicketType({ params }) {
       fetchData();
     }
   }, [eventId, event]);
+
+  const HandleRegister = async () => {
+    console.log('click')
+    console.log(session.user.email)
+    console.log(eventId)
+    if (!session || !session.user || !session.user.email) {
+      console.error("User is not logged in or session is invalid.");
+      return;
+    }
+  
+    try {
+      // Fetch the existing event data
+      const response = await fetch(`https://coding-fairy.com/api/mock-api-resources/1734491523/eventify/${eventId}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch event data.");
+      }
+  
+      const existingData = await response.json();
+      console.log(existingData)
+      // Update the registerEmail array
+      const updatedEmails = existingData.registerEmail || []; // Use existing or initialize an array
+      if (!updatedEmails.includes(session.user.email)) {
+        updatedEmails.push(session.user.email); // Add the user's email if not already registered
+      } else {
+        console.log("User is already registered.");
+        return;
+      }
+      console.log(updatedEmails)
+  
+      // Create the updated event data
+      const updateData = { ...existingData, registerEmail: updatedEmails };
+  
+      console.log(updateData)
+      // Send the updated data back to the server
+      const updateResponse = await fetch(
+        `https://coding-fairy.com/api/mock-api-resources/1734491523/eventify/${eventId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updateData),
+        }
+      );
+
+  
+      if (!updateResponse.ok) {
+        throw new Error("Failed to update event data.");
+      }
+      console.log("successfully updated")
+  
+      console.log("Registration successful!");
+    } catch (error) {
+      console.error("Registration failed:", error.message);
+    }
+  };
+  
 
   // Handle case where event data is not yet available
   if (!event) {
@@ -190,6 +249,7 @@ export default function TicketType({ params }) {
 
                         <Button
                             param="Register"
+                            onClick={HandleRegister}
                         />
                     </div>
                 </div>

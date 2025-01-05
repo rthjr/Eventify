@@ -117,8 +117,7 @@ const Create = () => {
     description: "",
     owner: session.user.id,
   });
- 
-  "eve"
+
 
 
   const handleFormChange = (e) => {
@@ -148,25 +147,9 @@ const Create = () => {
     }
     try {
       console.log(formData)
-      const response = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/eventify", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData)
-      });
-      const data = await response.json();
-      
-      // id event   
-      const eventId = data.id;
-      console.log(eventId);
-      console.log(response);
-      if (!response.ok) {
-        console.log("cannot create event");
-      } else {
-        localStorage.setItem('eventId', eventId)
-        router.push(`/create_event/create/upload`);
-      }
+      localStorage.setItem("eventData", JSON.stringify(formData));
+      console.log("Updated local storage data:", formData);
+      router.push(`/create_event/create/upload`);
     } catch (error) {
       throw new Error(error);
     }

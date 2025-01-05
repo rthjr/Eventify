@@ -3,7 +3,13 @@ import { useState } from "react";
 import Td from "./Td";
 import PatchForm from "../FormCard/PatchForm";
 
-export default function TableRow({ index, data, api, detailSurvey }) {
+export default function TableRow({
+  index,
+  data,
+  api,
+  detailSurvey,
+  hideDescription,
+}) {
   const [isChecked, setIsChecked] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -43,9 +49,17 @@ export default function TableRow({ index, data, api, detailSurvey }) {
           />
         </label>
       </th>
-      {Object.keys(data).map((key, index) => (
-        <Td key={index} name={data[key]} />
-      ))}
+      {Object.keys(data).map((key, index) => {
+        if (hideDescription === "yes" && key === "description") {
+          return null;
+        }
+        // Explicitly render boolean values as true/false strings
+        const value = data[key];
+        const displayValue =
+          typeof value === "boolean" ? (value ? "true" : "false") : value;
+
+        return <Td key={index} name={displayValue} />;
+      })}
       {detailSurvey === "yes" ? (
         <>
           <td colSpan="2">
@@ -118,7 +132,6 @@ export default function TableRow({ index, data, api, detailSurvey }) {
               categoryName={data.name}
               createdAt={data.createdAt}
             />
-
           </div>
         </div>
       )}

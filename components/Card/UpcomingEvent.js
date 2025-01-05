@@ -39,7 +39,7 @@ const UpcomingEvent = ({ page, categoryDis, searchQuery }) => {
   const filteredEvents = eventData.filter((event) => {
     const isUpcoming = isUpcomingEvent(event.date);
     const matchesCategory =
-      categoryDis === "All" || !categoryDis || event.eventCategory === categoryDis;
+      categoryDis === "All" || !categoryDis || event.category === categoryDis;
     const matchesSearchQuery =
       !searchQuery || event.name.toLowerCase().includes(searchQuery.toLowerCase());
     return isUpcoming && matchesCategory && matchesSearchQuery;

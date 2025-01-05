@@ -12,9 +12,14 @@ export default function DashboardAdmin() {
     "Start Time",
     "End Time",
     "Location",
-    "s",
+    "category",
     "ID",
     "Image",
+    "eventType",
+    "limitTicket",
+    "price",
+    "refund",
+    "qrUrl",
     "Remove",
     "updated",
   ];
@@ -58,7 +63,7 @@ export default function DashboardAdmin() {
 
   if (filterOrder) {
     filterEventify.sort((a, b) => {
-      const dateA = new Date(a.date); 
+      const dateA = new Date(a.date);
       const dateB = new Date(b.date);
       return filterOrder === "ascending" ? dateA - dateB : dateB - dateA;
     });
@@ -89,6 +94,7 @@ export default function DashboardAdmin() {
               api={
                 "https://coding-fairy.com/api/mock-api-resources/1734491523/eventify"
               }
+              hideDescription="yes"
             />
           </div>
         </div>

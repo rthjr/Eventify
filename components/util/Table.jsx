@@ -1,9 +1,16 @@
-"use client"
+"use client";
 
 import TableHead from "./TableHead";
 import TableData from "./TableRow";
 import { useState } from "react";
-export default function Table({ thName, tData, api, selectAll, detailSurvey }) {
+export default function Table({
+  thName,
+  tData,
+  api,
+  selectAll,
+  detailSurvey,
+  hideDescription,
+}) {
   const [selectedAll, setSelectedAll] = useState(false);
 
   const handleSelectAll = () => {
@@ -31,7 +38,13 @@ export default function Table({ thName, tData, api, selectAll, detailSurvey }) {
         </thead>
         <tbody>
           {tData.map((data, index) => (
-            <TableData key={index} data={data} api={api} detailSurvey={detailSurvey}/>
+            <TableData
+              key={index}
+              data={data}
+              api={api}
+              detailSurvey={detailSurvey}
+              hideDescription={hideDescription}
+            />
           ))}
         </tbody>
       </table>

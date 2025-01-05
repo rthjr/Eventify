@@ -116,9 +116,8 @@ const Create = () => {
     category: "",
     description: "",
     owner: session.user.id,
+    createAt: "",
   });
- 
-  "eve"
 
 
   const handleFormChange = (e) => {
@@ -147,16 +146,20 @@ const Create = () => {
       return;
     }
     try {
-      console.log(formData)
+      const updatedFormData = {
+        ...formData,
+        createAt: new Date().toISOString(),
+      };
+      console.log(updatedFormData);
       const response = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/eventify", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(updatedFormData)
       });
       const data = await response.json();
-      
+
       // id event   
       const eventId = data.id;
       console.log(eventId);
@@ -171,6 +174,8 @@ const Create = () => {
       throw new Error(error);
     }
   };
+
+
   const serialize = (nodes) => {
     return nodes.map(n => Node.string(n)).join('\n');
   };
@@ -191,10 +196,10 @@ const Create = () => {
         console.error("Error fetching categories:", error);
       }
     }
-  
+
     fetchCategory();
   }, []);
-  
+
 
   return (
     <>
@@ -306,7 +311,7 @@ const Create = () => {
               value={formData.location}
               onChange={handleFormChange}
               placeholder="Pass your URL location."
-              className="w-full p-4 rounded-lg border-2 border-black"
+              className="w-full p-4 rounded-lg border-2 border-black text-black"
             />
 
             {/* Rich Text Editor */}

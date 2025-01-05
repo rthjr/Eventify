@@ -53,7 +53,7 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
     const filteredEvents = eventData.filter(event => {
         // Search matching
         const matchesSearchQuery =
-            !searchQuery || event.eventName.toLowerCase().includes(searchQuery.toLowerCase());
+            !searchQuery || event.name.toLowerCase().includes(searchQuery.toLowerCase());
 
         // Categorizing ticket status
         const getTicketStatusCategory = (ticketEvent) => {
@@ -161,6 +161,53 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
         })
     }
 
+    // handle delete event form creator list 
+    // condition able to delete if the date range in 24hours after create 
+    // Function to handle deleting an event
+    const handleDeleteCreatorEvent = async (eventId) => {
+        const event = eventData.find(event => event.id === eventId);
+        if (!event) {
+            alert("Event not found.");
+            return;
+        }
+
+        // Use the 'createAt' field for the timestamp
+        const createAtTime = new Date(event.createAt).getTime();
+        const currentTime = new Date().getTime();
+        const timeDiffInHours = (currentTime - createAtTime) / (1000 * 3600);
+
+        if (timeDiffInHours <= 24) {
+            try {
+                const response = await fetch(`https://coding-fairy.com/api/mock-api-resources/1734491523/eventify/${eventId}`, {
+                    method: 'DELETE',
+                });
+
+                if (response.ok) {
+                    alert("Event successfully deleted.");
+                    await fetchData();
+                } else {
+                    alert("Failed to delete the event. Please try again.");
+                }
+            } catch (error) {
+                console.error("Error deleting event:", error);
+                alert("An error occurred while trying to delete the event.");
+            }
+        } else {
+            alert("You can only delete an event within 24 hours of its creation.");
+        }
+    };
+
+
+    // Refetch data function
+    async function fetchData() {
+        try {
+            const response = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/eventify");
+            const result = await response.json();
+            setEventData(result);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    }
 
 
     // Three dot menu rendering
@@ -215,7 +262,7 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                                     <div>
                                         {/* this delete logic only available in 24 hours if it exceeded pop up warning ui */}
                                         <button
-                                            onClick={() => handleDeleteFavorite(eventId)}
+                                            onClick={() => handleDeleteCreatorEvent(eventId)}
                                             className="hover:border-b-2 border-b-2 border-b-transparent  hover:border-b-black font-light text-sm"
                                         >
                                             Delete

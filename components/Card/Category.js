@@ -31,7 +31,7 @@ const EventPage = ({onClick}) => {
   return (
     <div>
       {/* Desktop View */}
-      <div className="hidden lg:flex flex-wrap gap-7 justify-between items-center">
+      <div className="hidden lg:flex gap-7 justify-between items-center overflow-x-auto whitespace-nowrap">
         {eventData.map((event, index) => (
           <div key={index}>
             <EventCard

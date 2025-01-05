@@ -6,7 +6,9 @@ import { useRouter } from "@node_modules/next/navigation";
 import { Editor, createEditor, Node } from "slate";
 import { withReact, Slate, Editable } from "slate-react";
 import { withHistory } from "slate-history";
+import { useSession } from "@node_modules/next-auth/react";
 const Create =  () => {
+  const { data: session } = useSession()
   const router = useRouter();
   const handleRedirect = () => {
     router.push("/create_event/create/upload");
@@ -114,6 +116,7 @@ const Create =  () => {
     endTime: "",
     location: "",
     description: "",
+    owner: session.user.email,
   });
 
  

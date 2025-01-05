@@ -22,7 +22,7 @@ export default function TicketType({ params }) {
 
   // Check if the event was found
   if (!event) {
-    return <Error404/>; // Or some other fallback UI
+    return <Error404 />; // Or some other fallback UI
   }
 
   // Match the pageEvent to determine which component to render

@@ -50,9 +50,13 @@ export default function TableRow({
         </label>
       </th>
       {Object.keys(data).map((key, index) => {
-        if (hideDescription === "yes" && key === "description") {
+        if (
+          (hideDescription === "yes" && key === "description") ||
+          key === "createAt"
+        ) {
           return null;
         }
+
         // Explicitly render boolean values as true/false strings
         const value = data[key];
         const displayValue =
@@ -60,6 +64,7 @@ export default function TableRow({
 
         return <Td key={index} name={displayValue} />;
       })}
+
       {detailSurvey === "yes" ? (
         <>
           <td colSpan="2">

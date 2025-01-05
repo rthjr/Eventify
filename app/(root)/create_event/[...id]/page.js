@@ -190,9 +190,8 @@ const DynamicRoutePage = ({ params }) => {
 
                                 <Table thName={thName} tData={tData} selectAll = "yes"/>
 
-                                <span className="text-start font-bold text-2xl text-black">Create Your Survey Form</span>
-
-                                <SurveyForm />
+                                <SurveyForm viewOnly = "yes"/>
+                                
                             </div>
                         </div>
                     )}

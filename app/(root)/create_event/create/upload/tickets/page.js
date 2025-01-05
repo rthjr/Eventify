@@ -15,10 +15,12 @@ const Tickets = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isRefund, setIsRefund] = useState(false);
   const [noRefund, setNoRefund] = useState(false);
+  const [payment, setPayment] = useState("paid");
   const [formData, setFormData] = useState({
     eventType: "",
     limitTicket: "",
     price: "",
+    ticketType: payment,
     refund: null,
   });
 
@@ -43,7 +45,7 @@ const Tickets = () => {
 
   const handleRouter = (e) => {
     e.preventDefault();
-    router.push("/create_event/create/upload/tickets/payments");
+    router.push(`/create_event/create/upload/tickets/${payment}`);
   };
 
   // button
@@ -86,7 +88,7 @@ const Tickets = () => {
       if (!response.ok) {
         console.log("cannot create event");
       } else {
-        router.push(`/create_event/create/upload/tickets/payments`);
+        router.push(`/create_event/create/upload/tickets/${payment}`);
       }
     } catch (error) {
       throw new Error(error);
@@ -130,7 +132,10 @@ const Tickets = () => {
                   type="button"
                   className={`rounded-lg ${isPaid ? "bg-customPurple-hover" : "bg-customPurple-default"
                     } hover:bg-customPurple-hover text-white p-2`}
-                  onClick={() => handleStateChange("paid")}
+                  onClick={() => {
+                    handleStateChange("paid"),
+                      setPayment("paid")
+                  }}
                 >
                   Paid
                 </button>
@@ -138,7 +143,10 @@ const Tickets = () => {
                   type="button"
                   className={`rounded-lg ${isFree ? "bg-customPurple-hover" : "bg-customPurple-default"
                     } hover:bg-customPurple-hover text-white p-2`}
-                  onClick={() => handleStateChange("free")}
+                  onClick={() => {
+                    handleStateChange("free"),
+                      setPayment("free")
+                  }}
                 >
                   Free
                 </button>
@@ -146,7 +154,10 @@ const Tickets = () => {
                   type="button"
                   className={`rounded-lg ${isOpen ? "bg-customPurple-hover" : "bg-customPurple-default"
                     } hover:bg-customPurple-hover text-white p-2`}
-                  onClick={() => handleStateChange("open")}
+                  onClick={() => {
+                    handleStateChange("open"),
+                      setPayment("open")
+                  }}
                 >
                   Open
                 </button>
@@ -166,7 +177,7 @@ const Tickets = () => {
                         className="p-2 border-2 border-black rounded-lg text-black"
                         onChange={handleFormChange}
                       >
-                        <option value="" disabled defaultValue>
+                        <option value="" disabled>
                           Select Event Type
                         </option>
                         <option value="Early Bird">Early Bird</option>

@@ -100,6 +100,7 @@ const My_Booking = () => {
   }
 
   // search query
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [searchQuery, setSearchQuery] = useState("");
 
 
@@ -226,6 +227,7 @@ const My_Booking = () => {
               My Event
             </button>
           </div>
+          
 
           {/* Conditionally render content for my booking*/}
           <div className='w-full h-auto'>
@@ -249,9 +251,10 @@ const My_Booking = () => {
                   EventCreator="yes"
                   widthE="w-full"
                   nameClass="justify-around"
-                  pageEvent="profile"
+                  pageEvent="create_event"
                   paramPage="profileMyEvent"
                   searchQuery={searchQuery}
+                  myevent = "myevent"
                 />
               </div>
             )}

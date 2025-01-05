@@ -12,14 +12,10 @@ import { useState } from "react";
 // react icon
 import { FaSearch } from "react-icons/fa";
 import { IoCreateOutline } from "react-icons/io5";
-
 //  swiper
 import SwiperBanner from '../../components/Swiper/SwiperBanner';
 
 export default function Home() {
-
-  const { data: session } = useSession()
-  console.log(session)
 
   const [categoryDis, setCategoryDis] = useState("");
 

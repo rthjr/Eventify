@@ -1,155 +1,183 @@
-import Button from "@components/Button/Button";
+"use client";
+
+"use client"; // Enable client-side rendering
 import { useState } from "react";
 
-const SurveyForm = () => {
-  const [mode, setMode] = useState("default");
-  const [questions, setQuestions] = useState([{ id: 1, text: "" }]);
+const SurveyForm = ({viewOnly}) => {
+  const [formData, setFormData] = useState({
+    experienceRating: "",
+    favoritePart: "",
+    venueFeedback: "",
+    topicsRelevant: "",
+    favoriteSpeaker: "",
+    organizationRating: "",
+    registrationFeedback: "",
+    networkingOpportunities: "",
+    futureSuggestions: "",
+    additionalComments: "",
+  });
 
-  const handleModeChange = (e) => {
-    setMode(e.target.value);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
-  const addQuestionAtIndex = (index) => {
-    const newId = questions.length > 0 ? questions[questions.length - 1].id + 1 : 1;
-    const newQuestion = { id: newId, text: "" };
-    const updatedQuestions = [
-      ...questions.slice(0, index + 1),
-      newQuestion,
-      ...questions.slice(index + 1),
-    ];
-    setQuestions(updatedQuestions);
-  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("/api/submit-survey", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-  const removeQuestionAtIndex = (index) => {
-    console.log("Removing question at index:", index); // Debugging line
-    if (questions.length === 1) {
-      alert("You must have at least one question.");
-      return;
+      if (response.ok) {
+        setSubmitted(true);
+      } else {
+        console.error("Failed to submit survey.");
+      }
+    } catch (error) {
+      console.error("Error submitting survey:", error);
     }
-    const updatedQuestions = questions.filter((_, i) => i !== index);
-    setQuestions(updatedQuestions);
   };
 
-  const updateQuestion = (id, value) => {
-    const updatedQuestions = questions.map((q) =>
-      q.id === id ? { ...q, text: value } : q
-    );
-    setQuestions(updatedQuestions);
-  };
-
-  const defaultQuestions = () => (
-    <div className="flex flex-col gap-8 justify-center items-center">
-      <span className="text-lg font-semibold">Help Us Improve</span>
-      <p className="text-base font-light text-start">
-        How satisfied were you with the event overall?
-      </p>
-
-      <div className="w-full flex gap-8 justify-center items-center">
-        <div className="flex flex-col gap-4">
-          <label htmlFor="">Very Good</label>
-          <input type="radio" />
-        </div>
-
-        <div className="flex flex-col gap-4">
-          <label htmlFor="">Good</label>
-          <input type="radio" />
-        </div>
-
-        <div className="flex flex-col gap-4">
-          <label htmlFor="">Bad</label>
-          <input type="radio" />
-        </div>
-
-        <div className="flex flex-col gap-4">
-          <label htmlFor="">Very Bad</label>
-          <input type="radio" />
-        </div>
-      </div>
-      <p>
-        Is there anything else you would like to share about your experience?
-      </p>
-      <textarea
-        placeholder="Description"
-        className="w-full border-2 border-black rounded-lg p-4"
-      ></textarea>
-    </div>
-  );
+  if (submitted) {
+    return <p className="text-green-500">Thank you for your feedback!</p>;
+  }
 
   return (
-    <div className="flex flex-col gap-8">
-      <h2>Survey Form</h2>
-      <label>
+    <form onSubmit={handleSubmit} className="border-2 border-black p-4 w-full rounded-md">
+      <h2 className="text-2xl font-bold mb-4">Event Feedback Survey</h2>
+
+      <label className="block mb-4">
+        Rate your overall experience:
         <input
-          type="radio"
-          name="mode"
-          value="default"
-          checked={mode === "default"}
-          onChange={handleModeChange}
+          type="number"
+          name="experienceRating"
+          min="1"
+          max="10"
+          value={formData.experienceRating}
+          onChange={handleChange}
+          required
+          className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
         />
-        Default Survey
-      </label>
-      <label>
-        <input
-          type="radio"
-          name="mode"
-          value="custom"
-          checked={mode === "custom"}
-          onChange={handleModeChange}
-        />
-        Custom Survey
       </label>
 
-      {mode === "default" && (
-        <form>
-          <h3>Default Questions</h3>
-          {defaultQuestions()}
-        </form>
-      )}
+      <label className="block mb-4">
+        What did you enjoy most about the event?
+        <textarea
+          name="favoritePart"
+          value={formData.favoritePart}
+          onChange={handleChange}
+          required
+          className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+        />
+      </label>
 
-      {mode === "custom" && (
-        <div className="flex flex-col gap-8">
-          <h3 className="text-center font-bold">Custom Questions</h3>
-          {questions.map((q, index) => (
-            <div key={q.id} className="flex flex-col gap-4">
-              <input
-                type="text"
-                placeholder="Enter Question text"
-                value={q.text}
-                onChange={(e) => updateQuestion(q.id, e.target.value)}
-                className="p-2 w-full "
-              />
-              <input
-                type="text"
-                placeholder="Answer"
-                className="border-2 w-full border-black rounded-md p-2"
-                disabled
-              />
-              <div className="flex gap-4">
-                <button
-                  type="button"
-                  className="text-blue-500 underline"
-                  onClick={() => addQuestionAtIndex(index)}
-                >
-                  Add Below
-                </button>
-                <button
-                  type="button"
-                  className="text-red-500 underline"
-                  onClick={() => removeQuestionAtIndex(index)}
-                >
-                  Remove
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+      <label className="block mb-4">
+        Was the venue comfortable and convenient?
+        <select
+          name="venueFeedback"
+          value={formData.venueFeedback}
+          onChange={handleChange}
+          required
+          className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+        >
+          <option value="">Select an option</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </label>
 
-      <div className="w-full h-auto flex justify-between">
-        <Button param="Cancel" />
-        <Button param="Submit" />
-      </div>
-    </div>
+      <label className="block mb-4">
+        Were the topics covered relevant to your interests?
+        <select
+          name="topicsRelevant"
+          value={formData.topicsRelevant}
+          onChange={handleChange}
+          required
+          className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+        >
+          <option value="">Select an option</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </label>
+
+      <label className="block mb-4">
+        Who was your favorite speaker/session and why?
+        <textarea
+          name="favoriteSpeaker"
+          value={formData.favoriteSpeaker}
+          onChange={handleChange}
+          className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+        />
+      </label>
+
+      <label className="block mb-4">
+        Rate the event organization:
+        <input
+          type="number"
+          name="organizationRating"
+          min="1"
+          max="10"
+          value={formData.organizationRating}
+          onChange={handleChange}
+          required
+          className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+        />
+      </label>
+
+      <label className="block mb-4">
+        Feedback on the registration process:
+        <textarea
+          name="registrationFeedback"
+          value={formData.registrationFeedback}
+          onChange={handleChange}
+          className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+        />
+      </label>
+
+      <label className="block mb-4">
+        Did you find networking opportunities useful?
+        <select
+          name="networkingOpportunities"
+          value={formData.networkingOpportunities}
+          onChange={handleChange}
+          className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+        >
+          <option value="">Select an option</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </label>
+
+      <label className="block mb-4">
+        What topics or themes would you like to see in the future?
+        <textarea
+          name="futureSuggestions"
+          value={formData.futureSuggestions}
+          onChange={handleChange}
+          className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+        />
+      </label>
+
+      <label className="block mb-4">
+        Additional comments:
+        <textarea
+          name="additionalComments"
+          value={formData.additionalComments}
+          onChange={handleChange}
+          className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+        />
+      </label>
+
+      <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">
+        Submit Feedback
+      </button>
+    </form>
   );
 };
 

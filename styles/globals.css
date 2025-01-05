@@ -26,20 +26,55 @@ textarea {
   background-color: transparent;
 }
 
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background-color: #000000; 
+  border-radius: 100%;
+  cursor: pointer;
+} 
 
-select{
+input[type="time"]::-webkit-calendar-picker-indicator {
+  background-color: #000000; 
+  border-radius: 100%;
+  cursor: pointer;
+} 
+
+select {
   background-color: transparent;
-  border: none;
 }
-option{
+option {
   background-color: white;
 }
 
 /* table */
-tr th{
+tr th {
   white-space: nowrap;
 }
 
-tr td{
+tr td {
   white-space: nowrap;
 }
+
+/* globals.css */
+
+/* Global Table Styling */
+.table-bordered {
+  border: 1px solid black; /* Outer border */
+  border-collapse: collapse; /* Combine cell borders */
+}
+
+.th,
+.td {
+  border: 1px solid black; /* Inner borders for cells */
+  padding: 0.5rem; /* Add spacing inside cells */
+}
+
+/* Add border around each table cell */
+table tr {
+  border: 2px solid black; 
+}
+
+table td {
+  border: 2px solid black; 
+}
+
+

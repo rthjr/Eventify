@@ -8,11 +8,25 @@ import { useState, useEffect } from "react";
 // icon
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 import Button from "@components/Button/Button";
-import events from "@model/eventData";
 import defaultFavorites from "@model/favoritePageData";
-import UpdateEventDetail from "@components/FormCard/UpdateEventDetail";
 
 const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, removeLike, paramPage, searchQuery }) => {
+
+    const [eventData, setEventData] = useState([]);
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/eventify");
+                const result = await response.json();
+                setEventData(result);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
+
+        fetchData();
+    }, []);
 
     // Filter states
     const [selectedDates, setSelectedDates] = useState([]);
@@ -36,33 +50,55 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
     }, [pageFavorite]);
 
     // Filter events based on selected filters
-    const filteredEvents = events.filter(event => {
+    const filteredEvents = eventData.filter(event => {
         // Search matching
         const matchesSearchQuery =
-            !searchQuery || event.eventName.toLowerCase().includes(searchQuery.toLowerCase());
-    
-        // Filters matching
+            !searchQuery || event.name.toLowerCase().includes(searchQuery.toLowerCase());
+
+        // Categorizing ticket status
+        const getTicketStatusCategory = (ticketEvent) => {
+            if (ticketEvent === "open") return "Open";
+            if (ticketEvent === "free") return "Free";
+            return "Paid";
+        };
+
+        const ticketCategory = getTicketStatusCategory(event.ticketEvent);
+        const priceMatch = selectedPrices.length === 0 || selectedPrices.includes(ticketCategory);
+
+        // Categorizing event type
+        const getEventTypeCategory = (eventType) => {
+            if (eventType === "early_bird") return "Early Bird";
+            if (eventType === "regular") return "Regular";
+            return "Latest";
+        };
+
+        const eventTypeCategory = getEventTypeCategory(event.typeEvent);
+        const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(eventTypeCategory);
+
+
+        // Filters date matching
         const dateMatch = selectedDates.length === 0 || selectedDates.includes(event.date);
-        const priceMatch = selectedPrices.length === 0 || selectedPrices.includes(event.ticketEvent);
-        const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(event.typeEvent);
+
+        // filter category
         const groupEventMatch = selectedGroupEvent.length === 0 || selectedGroupEvent.includes(event.category);
-    
+
         // to allow favorite page only
         let isFavorite = true;
         if (pageEvent === "favorite") {
             isFavorite = pageFavorite[event.id];
         }
-    
+
         // the event only if it matches search query and all the filters
         return matchesSearchQuery && dateMatch && priceMatch && categoryMatch && groupEventMatch && isFavorite;
     });
+
 
     const handleCheckboxChange = (filterType, value) => {
         if (filterType === "date") {
             setSelectedDates(prev =>
                 prev.includes(value) ? prev.filter(item => item !== value) : [...prev, value]
             );
-        } else if (filterType === "price") {
+        } else if (filterType === "ticketStatus") {
             setSelectedPrices(prev =>
                 prev.includes(value) ? prev.filter(item => item !== value) : [...prev, value]
             );
@@ -76,6 +112,7 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
             );
         }
     };
+
 
     const handleSeeMore = () => {
         setVisibleCount(prevCount => prevCount + 4);
@@ -124,6 +161,53 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
         })
     }
 
+    // handle delete event form creator list 
+    // condition able to delete if the date range in 24hours after create 
+    // Function to handle deleting an event
+    const handleDeleteCreatorEvent = async (eventId) => {
+        const event = eventData.find(event => event.id === eventId);
+        if (!event) {
+            alert("Event not found.");
+            return;
+        }
+
+        // Use the 'createAt' field for the timestamp
+        const createAtTime = new Date(event.createAt).getTime();
+        const currentTime = new Date().getTime();
+        const timeDiffInHours = (currentTime - createAtTime) / (1000 * 3600);
+
+        if (timeDiffInHours <= 24) {
+            try {
+                const response = await fetch(`https://coding-fairy.com/api/mock-api-resources/1734491523/eventify/${eventId}`, {
+                    method: 'DELETE',
+                });
+
+                if (response.ok) {
+                    alert("Event successfully deleted.");
+                    await fetchData();
+                } else {
+                    alert("Failed to delete the event. Please try again.");
+                }
+            } catch (error) {
+                console.error("Error deleting event:", error);
+                alert("An error occurred while trying to delete the event.");
+            }
+        } else {
+            alert("You can only delete an event within 24 hours of its creation.");
+        }
+    };
+
+
+    // Refetch data function
+    async function fetchData() {
+        try {
+            const response = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/eventify");
+            const result = await response.json();
+            setEventData(result);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    }
 
 
     // Three dot menu rendering
@@ -178,7 +262,7 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                                     <div>
                                         {/* this delete logic only available in 24 hours if it exceeded pop up warning ui */}
                                         <button
-                                            onClick={() => handleDeleteFavorite(eventId)}
+                                            onClick={() => handleDeleteCreatorEvent(eventId)}
                                             className="hover:border-b-2 border-b-2 border-b-transparent  hover:border-b-black font-light text-sm"
                                         >
                                             Delete
@@ -194,7 +278,7 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                                     </div>
                                 )}
                             </div>
-                        </div>  
+                        </div>
                     </span>
                 </>
             );
@@ -233,7 +317,7 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                                     <div>
                                         <h3 className="text-lg font-semibold text-black">Date</h3>
                                         <div className="space-y-2">
-                                            {Array.from(new Set(events.map(event => event.date))).map((date, index) => (
+                                            {Array.from(new Set(eventData.map(event => event.date))).map((date, index) => (
                                                 <label key={index} className="flex items-center gap-2">
                                                     <input
                                                         type="checkbox"
@@ -247,37 +331,38 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                                         </div>
                                     </div>
 
-                                    {/* Price Filter */}
+                                    {/* ticket status Filter */}
                                     <div>
                                         <h3 className="text-lg font-semibold text-black">Ticket Status</h3>
                                         <div className="space-y-2">
-                                            {Array.from(new Set(events.map(event => event.ticketEvent))).map((price, index) => (
+                                            {["Open", "Free", "Paid"].map((ticketStatus, index) => (
                                                 <label key={index} className="flex items-center gap-2">
                                                     <input
                                                         type="checkbox"
                                                         className="form-checkbox h-4 w-4 text-blue-600"
-                                                        checked={selectedPrices.includes(price)}
-                                                        onChange={() => handleCheckboxChange("price", price)}
+                                                        checked={selectedPrices.includes(ticketStatus)}
+                                                        onChange={() => handleCheckboxChange("ticketStatus", ticketStatus)}
                                                     />
-                                                    <span className="text-gray-700">{price}</span>
+                                                    <span className="text-gray-700">{ticketStatus}</span>
                                                 </label>
                                             ))}
                                         </div>
                                     </div>
 
+
                                     {/* Event Type Filter */}
                                     <div>
                                         <h3 className="text-lg font-semibold text-black">Event Type</h3>
                                         <div className="space-y-2">
-                                            {Array.from(new Set(events.map(event => event.typeEvent))).map((type, index) => (
+                                            {["Early Bird", "Regular", "Latest"].map((eventType, index) => (
                                                 <label key={index} className="flex items-center gap-2">
                                                     <input
                                                         type="checkbox"
                                                         className="form-checkbox h-4 w-4 text-blue-600"
-                                                        checked={selectedCategories.includes(type)}
-                                                        onChange={() => handleCheckboxChange("category", type)}
+                                                        checked={selectedCategories.includes(eventType)}
+                                                        onChange={() => handleCheckboxChange("category", eventType)}
                                                     />
-                                                    <span className="text-gray-700">{type}</span>
+                                                    <span className="text-gray-700">{eventType}</span>
                                                 </label>
                                             ))}
                                         </div>
@@ -287,7 +372,7 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                                     <div>
                                         <h3 className="text-lg font-semibold text-black">Category</h3>
                                         <div className="space-y-2">
-                                            {Array.from(new Set(events.map(event => event.category))).map((category, index) => (
+                                            {Array.from(new Set(eventData.map(event => event.category))).map((category, index) => (
                                                 <label key={index} className="flex items-center gap-2">
                                                     <input
                                                         type="checkbox"
@@ -311,13 +396,13 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                                     <div className="grid grid-cols-1 gap-9">
                                         {filteredEvents.length > 0 ? (
                                             filteredEvents.slice(0, visibleCount).map(event => {
-                                                const { id, imageEvent, eventName, date, ticketEvent, location, creatorName, typeEvent, qr } = event;
+                                                const { id, imageUrl, name, date, location, startTime, endTime, qrUrl } = event;
                                                 return (
                                                     <div key={id} className='w-auto h-auto rounded-lg shadow-2xl bg-white flex justify-between gap-4 p-4 transition-transform transform hover:scale-105'>
-                                                        <div className='overflow-hidden w-52 lg:w-96 h-auto relative rounded-lg'>
+                                                        <div className='overflow-hidden w-52 lg:w-96 h-auto relative rounded-lg hidden sm:flex'>
                                                             <Image
-                                                                src={imageEvent}
-                                                                alt={eventName}
+                                                                src={imageUrl}
+                                                                alt={name}
                                                                 layout='fill'
                                                                 objectFit='cover'
                                                             />
@@ -329,22 +414,23 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
 
                                                         <div className='w-64'>
                                                             <div className='flex justify-between my-3 w-full'>
-                                                                <h2 className='text-black font-extrabold text-xl'>{eventName}</h2>
+                                                                <h2 className='text-black font-extrabold text-xl'>{name}</h2>
                                                                 {threeDot(id)}
                                                             </div>
 
                                                             <div className='mb-3 flex justify-between'>
+                                                                <label htmlFor="">Date</label>
                                                                 <h2 className='text-black font-semibold text-lg'>{date}</h2>
-                                                                <span className='text-black font-semibold text-lg'>{ticketEvent}</span>
-                                                            </div>
-
-                                                            <div className="mb-3">
-                                                                <h2 className='text-black font-semibold text-lg'>{location}</h2>
                                                             </div>
 
                                                             <div className='mb-3 flex justify-between'>
-                                                                <h2 className='text-black font-semibold text-lg'>{creatorName}</h2>
-                                                                <h2 className='text-black font-semibold text-lg'>{typeEvent}</h2>
+                                                                <label htmlFor="">Start</label>
+                                                                <h2 className='text-black font-semibold text-lg'>{startTime}</h2>
+                                                            </div>
+
+                                                            <div className='mb-3 flex justify-between'>
+                                                                <label htmlFor="">End</label>
+                                                                <h2 className='text-black font-semibold text-lg'>{endTime}</h2>
                                                             </div>
 
                                                             {EventCreator === "yes" ? (
@@ -363,11 +449,11 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                                                         </div>
 
                                                         {paramPage === "MyBookingProfile" && (
-                                                            <div className='overflow-hidden h-auto rounded-lg p-4'>
+                                                            <div className='overflow-hidden rounded-lg p-4 max-w-60 max-h-56'>
                                                                 <Image
-                                                                    src={qr}
+                                                                    src={qrUrl}
                                                                     alt="QR"
-                                                                    layout="responsive"
+                                                                    layout="intrinsic"
                                                                     width={500}  // Set base width
                                                                     height={500} // Set base height to maintain aspect ratio
                                                                     objectFit='cover'

@@ -6,7 +6,6 @@ import Footer from "@components/layout/Footer"
 import Events from "@components/All_Event/Events"
 // hook
 import { useState } from "react"
-import SurveyForm from "@components/FormCard/SurveyForm"
 
 export default function Favorite() {
 
@@ -24,8 +23,6 @@ export default function Favorite() {
                 removeLike="false"
                 searchQuery={searchQuery}
             />
-
-            <SurveyForm/>
 
             <Footer />
         </>

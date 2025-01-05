@@ -1,20 +1,42 @@
 "use client";
 
 import EventCard from '../FormCard/DisplayCategory';
-import category from '@model/categoryData';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 const EventPage = ({onClick}) => {
  
+  const [eventData, setEventData] = useState([])
+  
+      useEffect(() => {
+          async function fetchData() {
+              try {
+                  const response = await fetch('https://coding-fairy.com/api/mock-api-resources/1734491523/category');
+                  const result = await response.json();
+                  setEventData(result);
+              } catch (error) {
+                  console.error('Error fetching data:', error);
+              }
+          }
+  
+          fetchData();
+      }, []);
+  
+      if (!eventData) {
+          return <div>
+              loading...
+          </div>
+      }
 
   return (
     <div>
       {/* Desktop View */}
-      <div className="hidden lg:flex flex-wrap gap-7 justify-between items-center">
-        {category.map((event, index) => (
+      <div className="hidden lg:flex gap-7 justify-between items-center overflow-x-auto whitespace-nowrap">
+        {eventData.map((event, index) => (
           <div key={index}>
             <EventCard
               imageSrc={event.imageSrc}
-              eventType={event.eventType}
+              eventType={event.name}
               onClick = {onClick}
             />
           </div>
@@ -23,11 +45,11 @@ const EventPage = ({onClick}) => {
 
       {/* Mobile View */}
       <div className="flex lg:hidden overflow-x-auto space-x-4 p-4">
-        {category.map((event, index) => (
+        {eventData.map((event, index) => (
           <div key={index}>
             <EventCard
               imageSrc={event.imageSrc}
-              eventType={event.eventType}
+              eventType={event.name}
               className="min-w-[70%] sm:min-w-[50%] md:min-w-[40%]"
               
               onClick = {onClick}

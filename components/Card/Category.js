@@ -4,29 +4,29 @@ import EventCard from '../FormCard/DisplayCategory';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
-const EventPage = ({onClick}) => {
- 
+const EventPage = ({ onClick }) => {
+
   const [eventData, setEventData] = useState([])
-  
-      useEffect(() => {
-          async function fetchData() {
-              try {
-                  const response = await fetch('https://coding-fairy.com/api/mock-api-resources/1734491523/category');
-                  const result = await response.json();
-                  setEventData(result);
-              } catch (error) {
-                  console.error('Error fetching data:', error);
-              }
-          }
-  
-          fetchData();
-      }, []);
-  
-      if (!eventData) {
-          return <div>
-              loading...
-          </div>
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch('https://coding-fairy.com/api/mock-api-resources/1734491523/category');
+        const result = await response.json();
+        setEventData(result);
+      } catch (error) {
+        console.error('Error fetching data:', error);
       }
+    }
+
+    fetchData();
+  }, []);
+
+  if (!eventData) {
+    return <div>
+      loading...
+    </div>
+  }
 
   return (
     <div>
@@ -37,7 +37,7 @@ const EventPage = ({onClick}) => {
             <EventCard
               imageSrc={event.imageSrc}
               eventType={event.name}
-              onClick = {onClick}
+              onClick={onClick}
             />
           </div>
         ))}
@@ -51,8 +51,8 @@ const EventPage = ({onClick}) => {
               imageSrc={event.imageSrc}
               eventType={event.name}
               className="min-w-[70%] sm:min-w-[50%] md:min-w-[40%]"
-              
-              onClick = {onClick}
+
+              onClick={onClick}
             />
           </div>
         ))}

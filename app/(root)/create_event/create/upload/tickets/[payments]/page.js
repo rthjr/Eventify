@@ -58,7 +58,7 @@ const Payment = ({ params }) => {
 
                 const responseData = await response.json();
                 console.log("Data updated successfully:", responseData);
-                router.push("/create_event/finish");
+                router.push("/finish");
             } catch (error) {
                 console.error("Error:", error);
             }
@@ -119,7 +119,7 @@ const Payment = ({ params }) => {
 
             const responseData = await response.json();
             console.log("Data saved successfully:", responseData);
-            router.push("/create_event/finish");
+            router.push("/finish");
         } catch (error) {
             console.error("Error:", error);
         }
@@ -157,8 +157,6 @@ const Payment = ({ params }) => {
 
                         {/* ticket system */}
                         <div className='w-full p-4 border-2 border-black rounded-lg flex flex-col gap-8'>
-                            <h2 className='text-xl font-bold text-start'>Please select your payment methods to be linked with this Event. Can be Both</h2>
-
                             {payments === "paid" ? (
                                 <div className='flex justify-center items-center'>
                                     <div className='flex flex-col gap-8 w-1/2 border-2 border-black p-2 rounded-lg'>

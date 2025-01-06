@@ -115,9 +115,8 @@ const Create = () => {
     location: "",
     category: "",
     description: "",
-    owner: session.user.id,
+    owner: session.user.email,
   });
-
 
 
   const handleFormChange = (e) => {
@@ -154,6 +153,8 @@ const Create = () => {
       throw new Error(error);
     }
   };
+
+
   const serialize = (nodes) => {
     return nodes.map(n => Node.string(n)).join('\n');
   };
@@ -174,10 +175,10 @@ const Create = () => {
         console.error("Error fetching categories:", error);
       }
     }
-  
+
     fetchCategory();
   }, []);
-  
+
 
   return (
     <>
@@ -289,7 +290,7 @@ const Create = () => {
               value={formData.location}
               onChange={handleFormChange}
               placeholder="Pass your URL location."
-              className="w-full p-4 rounded-lg border-2 border-black"
+              className="w-full p-4 rounded-lg border-2 border-black text-black"
             />
 
             {/* Rich Text Editor */}

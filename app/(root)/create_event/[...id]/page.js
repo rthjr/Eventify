@@ -15,6 +15,8 @@ const DynamicRoutePage = ({ params }) => {
     const [eventData, setEventData] = useState(null);
     const [selectedEmails, setSelectedEmails] = useState([]);
     const router = useRouter();
+    const [isSurveyFormVisible, setIsSurveyFormVisible] = useState(false);
+
 
     const unwrappedParams = use(params);
     const { id } = unwrappedParams || {};
@@ -51,6 +53,11 @@ const DynamicRoutePage = ({ params }) => {
                     : [...eventData.registerEmail]
             );
         }
+    };
+
+
+    const toggleSurveyForm = () => {
+        setIsSurveyFormVisible(!isSurveyFormVisible);
     };
 
     const handleBack = () => {
@@ -95,7 +102,7 @@ const DynamicRoutePage = ({ params }) => {
                 )}
 
                 {activeView === "createSurvey" && (
-                    <div className="m-auto">
+                    <div className="m-auto  w-5/12">
                         <div className="flex flex-col gap-8 w-full">
                             <span className="text-start font-bold text-2xl text-black">
                                 Select your registration!
@@ -133,7 +140,14 @@ const DynamicRoutePage = ({ params }) => {
                                 </tbody>
                             </table>
 
-                            <SurveyForm viewOnly="yes" />
+                            <button
+                                onClick={toggleSurveyForm}
+                                className="w-fit border-b-customPurple-default text-black p-2  hover:border-b-customPurple-hover border-b-2"
+                            >
+                                {isSurveyFormVisible ? "Hide Survey Form" : "View Survey Form"}
+                            </button>
+
+                            {isSurveyFormVisible && <SurveyForm viewOnly="yes" />}
 
                             <button
                                 type="submit"
@@ -146,10 +160,12 @@ const DynamicRoutePage = ({ params }) => {
                 )}
 
                 {activeView === "resultSurvey" && (
-                    <ResultSurveyForm
-                        detailSurvey="yes"
-                        eventIdNumber = {eventIdNumber}
-                    />
+                    <div className="m-auto w-5/12">
+                        <ResultSurveyForm
+                            detailSurvey="yes"
+                            eventIdNumber={eventIdNumber}
+                        />
+                    </div>
                 )}
 
                 <Footer />

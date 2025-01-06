@@ -4,17 +4,29 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import Image from "@node_modules/next/image";
 import { BsCashCoin } from "react-icons/bs";
 import { MdOutlineQrCodeScanner } from "react-icons/md";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "@node_modules/next/navigation";
 import Button from "@components/Button/Button";
 
-export default function Paid({ imageEvent, eventName, date, ticketEvent, typeEvent, location, eventQr }) {
+export default function Paid({id}) {
+    
     const [paymentMethod, setPaymentMethod] = useState('');
-
+    const [event, setEvent] = useState({})
     const handleRadioChange = (event) => {
         setPaymentMethod(event.target.value);
     };
-
+    
+    useEffect(() => {
+        async function fetchData() {
+            const response = await fetch(`https://coding-fairy.com/api/mock-api-resources/1734491523/eventify/${id}`)
+            if(!response.ok){
+              console.log('cannot fetch data')
+            }
+            const data = await response.json()
+            setEvent(data)
+        }
+        fetchData()
+    })
     const router = useRouter()
     const handleBackClick = () => {
         router.back(); // This will navigate to the previous page in the browser history
@@ -29,29 +41,28 @@ export default function Paid({ imageEvent, eventName, date, ticketEvent, typeEve
                         <div className="w-full flex flex-col">
                             <div className="overflow-hidden w-full h-64 mb-8 relative rounded-lg">
                                 <Image
-                                    src={imageEvent}
-                                    alt={eventName}
+                                    src={event.imageUrl}
+                                    alt={event.name}
                                     layout="fill"
                                     objectFit="cover"
                                 />
                             </div>
-                            <span className="text-black mb-8">{typeEvent}</span>
-                            <h2 className="text-xl font-bold text-black mb-8">{eventName}</h2>
+                            <h2 className="text-xl font-bold text-black mb-8">{event.name}</h2>
                             <div className="mb-8">
                                 <span>Date: </span>
-                                <span>{date}</span>
+                                <span>{event.date}</span>
                             </div>
                             <div>
                                 <p className="text-black font-bold text-lg">Location</p>
-                                <span>{location}</span>
+                                <span>{event.location}</span>
                             </div>
                             <div className="mb-8 flex justify-between">
                                 <p>Ticket</p>
-                                <span>{ticketEvent}</span>
+                                <span>{event.ticketType}</span>
                             </div>
                             <div className="flex justify-between">
                                 <p>Total</p>
-                                <span>$0.00</span>
+                                <span>${event.price}</span>
                             </div>
                         </div>
                     </div>
@@ -71,7 +82,7 @@ export default function Paid({ imageEvent, eventName, date, ticketEvent, typeEve
                             </div>
 
                             <p className="mb-8 text-sm sm:text-base">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam rerum autem porro quae inventore laboriosam totam et nisi. Repellendus ea aperiam dignissimos doloribus eos accusantium at, non ad minima aliquid!
+                               {event.description}
                             </p>
 
                             <form className="mb-8">
@@ -131,8 +142,8 @@ export default function Paid({ imageEvent, eventName, date, ticketEvent, typeEve
                                         <h3 className="text-black font-bold text-lg mb-4">Scan QR Code to Pay</h3>
                                         <div className="overflow-hidden relative w-36 h-36 mx-auto rounded-lg">
                                             <Image
-                                                src={eventQr}
-                                                alt={eventName}
+                                                src={qrUrl}
+                                                alt={event.name}
                                                 layout="fill"
                                                 objectFit="cover"
                                             />

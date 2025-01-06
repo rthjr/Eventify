@@ -7,7 +7,9 @@ import { useRouter } from "@node_modules/next/navigation";
 import { Editor, createEditor, Node } from "slate";
 import { withReact, Slate, Editable } from "slate-react";
 import { withHistory } from "slate-history";
+import { useSession } from "@node_modules/next-auth/react";
 const Create = () => {
+  const { data: session } = useSession()
   const router = useRouter();
 
   // Rich Text Editor
@@ -113,9 +115,9 @@ const Create = () => {
     location: "",
     category: "",
     description: "",
+    owner: session.user.id,
     createAt: "",
   });
-
 
 
   const handleFormChange = (e) => {

@@ -12,17 +12,16 @@ import Table from "@components/util/Table";
 import { ResultSurveyForm } from "@components/FormCard/ResultSurveyForm";
 
 const DynamicRoutePage = ({ params }) => {
-    // Unwrap params using React.use()
+    const [activeView, setActiveView] = useState("viewDetail");
     const unwrappedParams = use(params);
     const router = useRouter()
-
+    const { id } = router.query()
     // Ensure params are available before destructuring
     if (!unwrappedParams) {
         return <div>Loading...</div>;
     }
 
     // Check if `id` is a string or an array
-    const { id } = unwrappedParams;
 
     let eventId, eventDate;
     if (typeof id === "string") {
@@ -48,7 +47,6 @@ const DynamicRoutePage = ({ params }) => {
 
     const upcomingEvent = dayDiff >= 0; // Check if the event is upcoming
 
-    const [activeView, setActiveView] = useState("viewDetail");
     const handleBack = () => {
         router.back()
     }

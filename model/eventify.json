@@ -21,7 +21,8 @@
         "typeEvent": "Regular",
         "location": "New York",
         "eventCategory": "sports",
-        "qr": "/assets/banner/fakeQR.png"
+        "qr": "/assets/banner/fakeQR.png",
+        "registers": {}
       },
       {
         "id": 3,
@@ -105,6 +106,9 @@
         "typeEvent": "Regular",
         "location": "London",
         "eventCategory": "finance",
-        "qr": "/assets/banner/fakeQR.png"
+        "qr": "/assets/banner/fakeQR.png",
+        "registerEmail": [
+          
+        ]
       }
 ]

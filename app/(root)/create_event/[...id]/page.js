@@ -111,7 +111,7 @@ const DynamicRoutePage = ({ params }) => {
                                 />
                             </svg>
 
-                            Create Survey
+                            Select Registration
                         </button>
 
                         <button
@@ -191,7 +191,7 @@ const DynamicRoutePage = ({ params }) => {
                                 <Table thName={thName} tData={tData} selectAll = "yes"/>
 
                                 <SurveyForm viewOnly = "yes"/>
-                                
+
                             </div>
                         </div>
                     )}

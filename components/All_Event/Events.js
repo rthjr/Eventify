@@ -57,22 +57,22 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
 
         // Categorizing ticket status
         const getTicketStatusCategory = (ticketEvent) => {
-            if (ticketEvent === "open") return "Open";
-            if (ticketEvent === "free") return "Free";
+            if (ticketEvent === "Open") return "Open";
+            if (ticketEvent === "Free") return "Free";
             return "Paid";
         };
 
-        const ticketCategory = getTicketStatusCategory(event.ticketEvent);
+        const ticketCategory = getTicketStatusCategory(event.ticketType);
         const priceMatch = selectedPrices.length === 0 || selectedPrices.includes(ticketCategory);
 
         // Categorizing event type
         const getEventTypeCategory = (eventType) => {
-            if (eventType === "early_bird") return "Early Bird";
-            if (eventType === "regular") return "Regular";
+            if (eventType === "Early Bird") return "Early Bird";
+            if (eventType === "Regular") return "Regular";
             return "Latest";
         };
 
-        const eventTypeCategory = getEventTypeCategory(event.typeEvent);
+        const eventTypeCategory = getEventTypeCategory(event.eventType);
         const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(eventTypeCategory);
 
 
@@ -398,7 +398,7 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                                             filteredEvents.slice(0, visibleCount).map(event => {
                                                 const { id, imageUrl, name, date, location, startTime, endTime, qrUrl } = event;
                                                 return (
-                                                    <div key={id} className='w-auto h-auto rounded-lg shadow-2xl bg-white flex justify-between gap-4 p-4 transition-transform transform hover:scale-105'>
+                                                    <div key={id} className='w-auto h-auto rounded-lg shadow-2xl bg-white flex justify-start gap-4 p-4 transition-transform transform hover:scale-105'>
                                                         <div className='overflow-hidden w-52 lg:w-96 h-auto relative rounded-lg hidden sm:flex'>
                                                             <Image
                                                                 src={imageUrl}
@@ -449,17 +449,21 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                                                         </div>
 
                                                         {paramPage === "MyBookingProfile" && (
-                                                            <div className='overflow-hidden rounded-lg p-4 max-w-60 max-h-56'>
-                                                                <Image
-                                                                    src={qrUrl}
-                                                                    alt="QR"
-                                                                    layout="intrinsic"
-                                                                    width={500}  // Set base width
-                                                                    height={500} // Set base height to maintain aspect ratio
-                                                                    objectFit='cover'
-                                                                    className='border-2 border-black'
-                                                                />
-                                                            </div>
+                                                            <>
+                                                                {qrUrl && (
+                                                                    <div className='overflow-hidden rounded-lg p-4 max-w-60 max-h-56'>
+                                                                        <Image
+                                                                            src={qrUrl}
+                                                                            alt="QR"
+                                                                            layout="intrinsic"
+                                                                            width={500}  // Set base width
+                                                                            height={500} // Set base height to maintain aspect ratio
+                                                                            objectFit='cover'
+                                                                            className='border-2 border-black'
+                                                                        />
+                                                                    </div>
+                                                                )}
+                                                            </>
                                                         )}
                                                     </div>
                                                 );

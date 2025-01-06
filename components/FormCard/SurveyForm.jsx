@@ -1,9 +1,7 @@
-"use client";
-
 "use client"; // Enable client-side rendering
 import { useState } from "react";
 
-const SurveyForm = ({viewOnly}) => {
+const SurveyForm = ({ viewOnly }) => {
   const [formData, setFormData] = useState({
     experienceRating: "",
     favoritePart: "",
@@ -47,8 +45,13 @@ const SurveyForm = ({viewOnly}) => {
     return <p className="text-green-500">Thank you for your feedback!</p>;
   }
 
+  const isViewOnly = viewOnly === "yes";
+
   return (
-    <form onSubmit={handleSubmit} className="border-2 border-black p-4 w-full rounded-md">
+    <form
+      onSubmit={handleSubmit}
+      className="border-2 border-black p-4 w-full rounded-md"
+    >
       <h2 className="text-2xl font-bold mb-4">Event Feedback Survey</h2>
 
       <label className="block mb-4">
@@ -60,18 +63,8 @@ const SurveyForm = ({viewOnly}) => {
           max="10"
           value={formData.experienceRating}
           onChange={handleChange}
-          required
-          className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-        />
-      </label>
-
-      <label className="block mb-4">
-        What did you enjoy most about the event?
-        <textarea
-          name="favoritePart"
-          value={formData.favoritePart}
-          onChange={handleChange}
-          required
+          required={!isViewOnly}
+          disabled={isViewOnly}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
         />
       </label>
@@ -82,38 +75,14 @@ const SurveyForm = ({viewOnly}) => {
           name="venueFeedback"
           value={formData.venueFeedback}
           onChange={handleChange}
-          required
+          required={!isViewOnly}
+          disabled={isViewOnly}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
         >
           <option value="">Select an option</option>
           <option value="Yes">Yes</option>
           <option value="No">No</option>
         </select>
-      </label>
-
-      <label className="block mb-4">
-        Were the topics covered relevant to your interests?
-        <select
-          name="topicsRelevant"
-          value={formData.topicsRelevant}
-          onChange={handleChange}
-          required
-          className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-        >
-          <option value="">Select an option</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-        </select>
-      </label>
-
-      <label className="block mb-4">
-        Who was your favorite speaker/session and why?
-        <textarea
-          name="favoriteSpeaker"
-          value={formData.favoriteSpeaker}
-          onChange={handleChange}
-          className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-        />
       </label>
 
       <label className="block mb-4">
@@ -125,7 +94,8 @@ const SurveyForm = ({viewOnly}) => {
           max="10"
           value={formData.organizationRating}
           onChange={handleChange}
-          required
+          required={!isViewOnly}
+          disabled={isViewOnly}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
         />
       </label>
@@ -136,6 +106,8 @@ const SurveyForm = ({viewOnly}) => {
           name="registrationFeedback"
           value={formData.registrationFeedback}
           onChange={handleChange}
+          required={!isViewOnly}
+          disabled={isViewOnly}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
         />
       </label>
@@ -146,6 +118,8 @@ const SurveyForm = ({viewOnly}) => {
           name="networkingOpportunities"
           value={formData.networkingOpportunities}
           onChange={handleChange}
+          required={!isViewOnly}
+          disabled={isViewOnly}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
         >
           <option value="">Select an option</option>
@@ -160,6 +134,8 @@ const SurveyForm = ({viewOnly}) => {
           name="futureSuggestions"
           value={formData.futureSuggestions}
           onChange={handleChange}
+          required={!isViewOnly}
+          disabled={isViewOnly}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
         />
       </label>
@@ -170,13 +146,20 @@ const SurveyForm = ({viewOnly}) => {
           name="additionalComments"
           value={formData.additionalComments}
           onChange={handleChange}
+          required={!isViewOnly}
+          disabled={isViewOnly}
           className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
         />
       </label>
 
-      <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">
-        Submit Feedback
-      </button>
+      {!isViewOnly && (
+        <button
+          type="submit"
+          className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
+        >
+          Submit Feedback
+        </button>
+      )}
     </form>
   );
 };

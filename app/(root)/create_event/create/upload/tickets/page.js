@@ -17,7 +17,7 @@ const Tickets = () => {
   const [noRefund, setNoRefund] = useState(false);
   const [payment, setPayment] = useState("paid");
   const [formData, setFormData] = useState({
-    eventType: "",
+    eventType: "Early Bird",
     limitTicket: "",
     price: "",
     ticketType: payment,
@@ -86,7 +86,6 @@ const Tickets = () => {
       <div className="w-full h-full flex flex-wrap m-auto ">
         <div className="w-full md:w-5/12 h-auto my-20 m-auto  flex flex-col lg:flex-wrap gap-8 shadow-2xl rounded-lg">
           <div
-            action=""
             className="p-4 bg-gray-100  rounded-lg w-full h-auto flex flex-col gap-8"
           >
             <h2 className="text-2xl font-bold text-black">Event Poster</h2>
@@ -160,6 +159,7 @@ const Tickets = () => {
                         id="eventType"
                         className="p-2 border-2 border-black rounded-lg text-black"
                         onChange={handleFormChange}
+                        defaultValue="Early Bird"
                       >
                         <option value="" disabled>
                           Select Event Type
@@ -282,7 +282,7 @@ const Tickets = () => {
                         className="p-2 border-2 border-black rounded-lg text-black"
                         onChange={handleFormChange}
                       >
-                        <option value="" disabled defaultValue>
+                        <option value="" disabled>
                           Select Event Type
                         </option>
                         <option value="Early Bird">Early Bird</option>
@@ -320,7 +320,7 @@ const Tickets = () => {
                 </form>
               )}
               {isOpen && (
-                <form action="" className="flex flex-col gap-8" onSubmit={handleSubmit}>
+                <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
                   <h2 className="text-xl font-bold text-start">
                     Type of event Regular, Early Bird, Last Event
                   </h2>

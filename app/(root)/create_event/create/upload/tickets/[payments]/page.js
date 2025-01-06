@@ -58,7 +58,7 @@ const Payment = ({ params }) => {
 
                 const responseData = await response.json();
                 console.log("Data updated successfully:", responseData);
-                router.push("/create_event/finish");
+                router.push("/finish");
             } catch (error) {
                 console.error("Error:", error);
             }
@@ -119,7 +119,7 @@ const Payment = ({ params }) => {
 
             const responseData = await response.json();
             console.log("Data saved successfully:", responseData);
-            router.push("/create_event/finish");
+            router.push("/finish");
         } catch (error) {
             console.error("Error:", error);
         }
@@ -146,7 +146,7 @@ const Payment = ({ params }) => {
                 className='w-full h-full flex flex-wrap m-auto '
             >
                 <div className='w-full md:w-5/12 h-auto my-20 m-auto backdrop-blur-2xl  flex flex-col lg:flex-wrap gap-8'>
-                    <div action="" className='p-4 bg-gray-100 shadow-2xl rounded-lg w-full h-auto flex flex-col gap-8'>
+                    <div className='p-4 bg-gray-100 shadow-2xl rounded-lg w-full h-auto flex flex-col gap-8'>
                         <h2 className='text-2xl font-bold text-black'>Event Poster</h2>
                         <ul className='flex justify-between'>
                             <li className='text-sm md:text-base lg:text-lg xl:text-xl'>Basic Info</li>
@@ -157,8 +157,6 @@ const Payment = ({ params }) => {
 
                         {/* ticket system */}
                         <div className='w-full p-4 border-2 border-black rounded-lg flex flex-col gap-8'>
-                            <h2 className='text-xl font-bold text-start'>Please select your payment methods to be linked with this Event. Can be Both</h2>
-
                             {payments === "paid" ? (
                                 <div className='flex justify-center items-center'>
                                     <div className='flex flex-col gap-8 w-1/2 border-2 border-black p-2 rounded-lg'>
@@ -210,7 +208,7 @@ const Payment = ({ params }) => {
                                 <div className='flex flex-col gap-8'>
                                     <h2 className='text-xl font-bold '>Upload QR</h2>
 
-                                    <form action="" className='flex flex-col gap-8'>
+                                    <form className='flex flex-col gap-8'>
                                         <input
                                             type="file"
                                             accept="image/*" // Limit to image files only

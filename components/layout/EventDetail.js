@@ -8,7 +8,7 @@ import BackButton from "@components/Button/BackButton";
 import Link from "@node_modules/next/link";
 import Button from "@components/Button/Button";
 
-const EventDetail = ({ ticket, bookOtp, pageEvent, blockButton, imageUrl, name, date, eventType, location, description, refund}) => {
+const EventDetail = ({ ticket, bookOtp, pageEvent, blockButton, imageUrl, name, date, eventType, location, description, refund, ticketType }) => {
     const { status } = useSession(); // Check session status
     const router = useRouter();
 
@@ -22,7 +22,6 @@ const EventDetail = ({ ticket, bookOtp, pageEvent, blockButton, imageUrl, name, 
                 <Link href={`/${ticket}?pageEvent=${pageEvent}`}>
                     <Button param="Book" />
                 </Link>
-
             )
         }
     };
@@ -60,7 +59,7 @@ const EventDetail = ({ ticket, bookOtp, pageEvent, blockButton, imageUrl, name, 
 
                         {bookOtp === "true" ? (
                             <div className="flex flex-col gap-2">
-                                <p className="font-semibold text-green-500">{eventType}</p>
+                                <p className="font-semibold text-green-500">{ticketType}</p>
 
                                 {/* Book button with authentication check */}
                                 {handleBookNow()}
@@ -72,7 +71,7 @@ const EventDetail = ({ ticket, bookOtp, pageEvent, blockButton, imageUrl, name, 
 
                     <div className="flex flex-col gap-2 mb-12">
                         <p className="font-bold text-xl">Type of Event</p>
-                        <span className="font-semibold text-green-500">type event</span>
+                        <span className="font-semibold text-green-500">{eventType}</span>
                     </div>
 
                     <div className="flex flex-col gap-2 mb-12">
@@ -96,7 +95,26 @@ const EventDetail = ({ ticket, bookOtp, pageEvent, blockButton, imageUrl, name, 
 
                     <div className="flex flex-col gap-2 mb-12">
                         <p className="font-bold text-xl">Refund</p>
-                        <p>{refund}</p>
+                        <div>
+                            {ticketType === "paid" && refund === null
+                                ? (
+                                    <>
+                                        <div className="flex flex-col gap-4">
+                                            <span>Status : Cannot Refund</span>
+                                            <span>"After booking this event, you cannot refund money."</span>
+                                        </div>
+                                    </>
+                                )
+                                : refund !== null
+                                    ? (
+                                        <>
+                                            <div>
+                                                <span>"You have 24 hours after the event to request a refund. The refund amount will be 80%."</span>
+                                            </div>
+                                        </>
+                                    )
+                                    : ""}
+                        </div>
                     </div>
 
                     <div className="flex flex-col gap-2 mb-12">

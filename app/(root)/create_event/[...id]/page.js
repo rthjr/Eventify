@@ -1,205 +1,157 @@
-"use client"
+"use client";
 
 import EventDetail from "@components/layout/EventDetail";
-import { use, useState } from "react"; // Import `use` from React
-import events from "@model/eventData";
+import { useState, useEffect } from "react";
 import Header from "@components/layout/Header";
 import Footer from "@components/layout/Footer";
 import SurveyForm from "@components/FormCard/SurveyForm";
 import Button from "@components/Button/Button";
+import ResultSurveyForm from "@components/FormCard/ResultSurveyForm";
 import { useRouter } from "@node_modules/next/navigation";
-import Table from "@components/util/Table";
-import { ResultSurveyForm } from "@components/FormCard/ResultSurveyForm";
+import { use } from "react";
 
 const DynamicRoutePage = ({ params }) => {
     const [activeView, setActiveView] = useState("viewDetail");
+    const [eventData, setEventData] = useState(null);
+    const [selectedEmails, setSelectedEmails] = useState([]);
+    const router = useRouter();
+
     const unwrappedParams = use(params);
-    const router = useRouter()
-    const { id } = router.query()
-    // Ensure params are available before destructuring
-    if (!unwrappedParams) {
-        return <div>Loading...</div>;
-    }
+    const { id } = unwrappedParams || {};
+    const eventIdNumber = Number(id);
 
-    // Check if `id` is a string or an array
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await fetch('https://coding-fairy.com/api/mock-api-resources/1734491523/eventify');
+                const result = await response.json();
+                const event = result.find((event) => event.id === eventIdNumber);
+                setEventData(event);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
 
-    let eventId, eventDate;
-    if (typeof id === "string") {
-        // Split if id is a string
-        [eventId, eventDate] = id.split(",");
-    } else if (Array.isArray(id)) {
-        // If id is an array, use the first item as the event ID and the second as the date
-        [eventId, eventDate] = id;
-    }
+        fetchData();
+    }, [eventIdNumber]);
 
-    const eventIdNumber = Number(eventId);
+    const handleSelectEmail = (email) => {
+        setSelectedEmails((prev) =>
+            prev.includes(email)
+                ? prev.filter((e) => e !== email)
+                : [...prev, email]
+        );
+    };
 
-    // Find event by eventId
-    const event = events.find((event) => event.id === eventIdNumber);
-
-    // Get today's date
-    const today = new Date();
-    const eventDateObj = new Date(event.date);
-
-    // Calculate the difference in days
-    const timeDiff = eventDateObj - today;
-    const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24)); // Convert ms to days
-
-    const upcomingEvent = dayDiff >= 0; // Check if the event is upcoming
+    const handleSelectAll = () => {
+        if (eventData?.registerEmail) {
+            setSelectedEmails(
+                selectedEmails.length === eventData.registerEmail.length
+                    ? []
+                    : [...eventData.registerEmail]
+            );
+        }
+    };
 
     const handleBack = () => {
-        router.back()
+        router.back();
+    };
+
+    if (!eventData) {
+        return <div>Loading...</div>;
     }
-
-
-    // table for survey form 
-    const thName = ["select", "name", "owner", "created", "updated", "Action"];
-    const tData = [
-        {
-            id: 1,
-            name: "jjjjjjjjjjjj",
-            owner: "Zemlak, Daniel and Leannon",
-            created: "Purple",
-            updated: "12:30",
-        },
-        {
-            id: 1,
-            name: "jjjjjjjjjjjj",
-            owner: "Zemlak, Daniel and Leannon",
-            created: "Purple",
-            updated: "12:30",
-        },
-        {
-            id: 1,
-            name: "jjjjjjjjjjjj",
-            owner: "Zemlak, Daniel and Leannon",
-            created: "Purple",
-            updated: "12:30",
-        },
-    ];
 
     return (
         <div className="w-full">
             <div className="w-full flex flex-col justify-center items-center gap-8">
                 <Header />
-                <>
-
-                    <div className="inline-flex rounded-lg border border-gray-100 bg-gray-100 p-1 shadow-2xl gap-8">
-                        <Button
-                            param="Back"
-                            onClick={handleBack}
-                        />
-                        <button
-                            className={`inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm text-gray-500 hover:text-gray-700 focus:relative 
+                <div className="inline-flex rounded-lg border border-gray-100 bg-gray-100 p-1 shadow-2xl gap-8">
+                    <Button param="Back" onClick={handleBack} />
+                    <button
+                        className={`inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm 
                         ${activeView === "createSurvey" ? "bg-blue-500 text-white" : "text-gray-500 hover:text-gray-700"}`}
-                            onClick={() => setActiveView("createSurvey")}
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth="1.5"
-                                stroke="currentColor"
-                                className="size-4"
+                        onClick={() => setActiveView("createSurvey")}
+                    >
+                        Create Survey
+                    </button>
+                    <button
+                        className={`inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm 
+                        ${activeView === "resultSurvey" ? "bg-blue-500 text-white" : "text-gray-500 hover:text-gray-700"}`}
+                        onClick={() => setActiveView("resultSurvey")}
+                    >
+                        Result Survey
+                    </button>
+                    <button
+                        className={`inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm 
+                        ${activeView === "viewDetail" ? "bg-blue-500 text-white" : "text-gray-500 hover:text-gray-700"}`}
+                        onClick={() => setActiveView("viewDetail")}
+                    >
+                        View Detail
+                    </button>
+                </div>
+
+                {activeView === "viewDetail" && (
+                    <EventDetail {...eventData} blockButton="true" />
+                )}
+
+                {activeView === "createSurvey" && (
+                    <div className="m-auto">
+                        <div className="flex flex-col gap-8 w-full">
+                            <span className="text-start font-bold text-2xl text-black">
+                                Select your registration!
+                            </span>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <input
+                                                type="checkbox"
+                                                checked={
+                                                    selectedEmails.length === eventData.registerEmail.length
+                                                }
+                                                onChange={handleSelectAll}
+                                            />
+                                        </th>
+                                        <th>ID</th>
+                                        <th>Email</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {eventData.registerEmail.map((email, index) => (
+                                        <tr key={index}>
+                                            <td>
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectedEmails.includes(email)}
+                                                    onChange={() => handleSelectEmail(email)}
+                                                />
+                                            </td>
+                                            <td>{index + 1}</td> {/* Display the ID as a sequential number */}
+                                            <td>{email}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+
+                            <SurveyForm viewOnly="yes" />
+
+                            <button
+                                type="submit"
+                                className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
                             >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-                                />
-                            </svg>
-
-                            Create Survey
-                        </button>
-
-                        <button
-                            className={`inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm text-gray-500 hover:text-gray-700 focus:relative ${activeView === "resultSurvey"
-                                ? "bg-blue-500 text-white"
-                                : "text-gray-500 hover:text-gray-700"}`}
-                            onClick={() => setActiveView("resultSurvey")}
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth="1.5"
-                                stroke="currentColor"
-                                className="size-4"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
-                                />
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-
-                            Result Survey
-                        </button>
-
-                        <button
-                            className={`inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm text-gray-500 hover:text-gray-700 focus:relative ${activeView === "viewDetail"
-                                ? "bg-blue-500 text-white"
-                                : "text-gray-500 hover:text-gray-700"
-                                }`}
-                            onClick={() => setActiveView("viewDetail")}
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth="1.5"
-                                stroke="currentColor"
-                                className="size-4"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M6 9h12M6 12h8m-8 3h6M9 6h6m-8 0h2a2 2 0 012 2v12a2 2 0 01-2 2H7a2 2 0 01-2-2V8a2 2 0 012-2z"
-                                />
-                            </svg>
-
-
-                            View Detail
-                        </button>
-                    </div>
-
-                    {/* Render content based on active view */}
-                    {activeView === "viewDetail" && (
-                        <EventDetail
-                            key={event.id}
-                            ticket={event.id}
-                            imageEvent={event.imageEvent}
-                            eventName={event.eventName}
-                            date={event.date}
-                            creatorName={event.creatorName}
-                            ticketEvent={event.ticketEvent}
-                            typeEvent={event.typeEvent}
-                            location={event.location}
-                            eventQr={event.eventQr}
-                            blockButton="true"
-                        />
-                    )}
-
-                    {activeView === "createSurvey" && (
-                        <div className="m-auto">
-                            <div className="flex flex-col gap-8 w-full">
-                                <span className="text-start font-bold text-2xl text-black">Select your registration!</span>
-
-                                <Table thName={thName} tData={tData} selectAll = "yes"/>
-
-                                <SurveyForm viewOnly = "yes"/>
-                                
-                            </div>
+                                Submit Feedback
+                            </button>
                         </div>
-                    )}
+                    </div>
+                )}
 
-                    {activeView === "resultSurvey" && (
-                        <>
-                            <ResultSurveyForm detailSurvey = "yes"/>
-                        </>
-                    )}
-                </>
+                {activeView === "resultSurvey" && (
+                    <ResultSurveyForm
+                        detailSurvey="yes"
+                        eventIdNumber = {eventIdNumber}
+                    />
+                )}
+
                 <Footer />
             </div>
         </div>

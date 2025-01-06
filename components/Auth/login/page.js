@@ -145,27 +145,27 @@ export default function Login() {
                 <FaPhone size={24} className="mr-2" />
                 <span>Phone Number</span>
               </button>
-              <span>Other login method</span>
+              <span className = "text-center">Other login method</span>
               {/* add other method with facebook and google */}
-              <div className="flex gap-4 mt-4">
-                {providers && providers.facebook && (
-                  <div>
+              <div className="w-full flex  justify-center items-center">
+                <div className="flex gap-4 mt-4">
+                  {providers && providers.facebook && (
+                    <div>
 
-                    <button onClick={handleSignInFacebook} >
-                      <FaFacebookSquare className="text-4xl" />
-                    </button>
+                      <button onClick={handleSignInFacebook} >
+                        <FaFacebookSquare className="text-4xl" />
+                      </button>
 
-                  </div>
-                )}
-                {providers && providers.google && (
-                  <div>
-                    <button onClick={handleSignInGoogle}>
-                      <FaGoogle className="text-4xl" />
-                    </button>
-                  </div>
-                )}
-
-
+                    </div>
+                  )}
+                  {providers && providers.google && (
+                    <div>
+                      <button onClick={handleSignInGoogle}>
+                        <FaGoogle className="text-4xl" />
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>

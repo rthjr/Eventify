@@ -10,7 +10,7 @@ import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 import Button from "@components/Button/Button";
 import defaultFavorites from "@model/favoritePageData";
 
-const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, removeLike, paramPage, searchQuery }) => {
+const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, removeLike, paramPage, searchQuery, email }) => {
 
     const [eventData, setEventData] = useState([]);
 
@@ -19,14 +19,35 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
             try {
                 const response = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/eventify");
                 const result = await response.json();
-                setEventData(result);
+
+                if (paramPage === "MyBookingProfile") {
+                    // Filter rows that have registerEmail and include emailAuth
+                    const filtered = result.filter(
+                        (row) => row.registerEmail && row.registerEmail.includes(email)
+                    );
+                    setEventData(filtered); // Set filtered data for MyBookingProfile or history page
+                } else if (paramPage === "history") {
+                    // Filter rows that have registerEmail and include emailAuth
+                    // also validate date store only the the date in api less than cureent date
+                    // Get current date in YYYY-MM-DD format
+                    const currentDate = new Date().toISOString().split('T')[0]; 
+                    const filtered = result.filter(
+                        (row) =>
+                            row.registerEmail &&
+                            row.registerEmail.includes(email) &&
+                            row.date < currentDate  
+                    );
+                    setEventData(filtered);
+                } else {
+                    setEventData(result); // Set all data for other pages
+                }
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         }
 
         fetchData();
-    }, []);
+    }, [email, paramPage]); // Add paramPage to dependency array
 
     // Filter states
     const [selectedDates, setSelectedDates] = useState([]);
@@ -57,22 +78,22 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
 
         // Categorizing ticket status
         const getTicketStatusCategory = (ticketEvent) => {
-            if (ticketEvent === "open") return "Open";
-            if (ticketEvent === "free") return "Free";
+            if (ticketEvent === "Open") return "Open";
+            if (ticketEvent === "Free") return "Free";
             return "Paid";
         };
 
-        const ticketCategory = getTicketStatusCategory(event.ticketEvent);
+        const ticketCategory = getTicketStatusCategory(event.ticketType);
         const priceMatch = selectedPrices.length === 0 || selectedPrices.includes(ticketCategory);
 
         // Categorizing event type
         const getEventTypeCategory = (eventType) => {
-            if (eventType === "early_bird") return "Early Bird";
-            if (eventType === "regular") return "Regular";
+            if (eventType === "Early Bird") return "Early Bird";
+            if (eventType === "Regular") return "Regular";
             return "Latest";
         };
 
-        const eventTypeCategory = getEventTypeCategory(event.typeEvent);
+        const eventTypeCategory = getEventTypeCategory(event.eventType);
         const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(eventTypeCategory);
 
 
@@ -398,7 +419,7 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                                             filteredEvents.slice(0, visibleCount).map(event => {
                                                 const { id, imageUrl, name, date, location, startTime, endTime, qrUrl } = event;
                                                 return (
-                                                    <div key={id} className='w-auto h-auto rounded-lg shadow-2xl bg-white flex justify-between gap-4 p-4 transition-transform transform hover:scale-105'>
+                                                    <div key={id} className='w-auto h-auto rounded-lg shadow-2xl bg-white flex justify-start gap-4 p-4 transition-transform transform hover:scale-105'>
                                                         <div className='overflow-hidden w-52 lg:w-96 h-auto relative rounded-lg hidden sm:flex'>
                                                             <Image
                                                                 src={imageUrl}
@@ -449,17 +470,21 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                                                         </div>
 
                                                         {paramPage === "MyBookingProfile" && (
-                                                            <div className='overflow-hidden rounded-lg p-4 max-w-60 max-h-56'>
-                                                                <Image
-                                                                    src={qrUrl}
-                                                                    alt="QR"
-                                                                    layout="intrinsic"
-                                                                    width={500}  // Set base width
-                                                                    height={500} // Set base height to maintain aspect ratio
-                                                                    objectFit='cover'
-                                                                    className='border-2 border-black'
-                                                                />
-                                                            </div>
+                                                            <>
+                                                                {qrUrl && (
+                                                                    <div className='overflow-hidden rounded-lg p-4 max-w-60 max-h-56'>
+                                                                        <Image
+                                                                            src={qrUrl}
+                                                                            alt="QR"
+                                                                            layout="intrinsic"
+                                                                            width={500}  // Set base width
+                                                                            height={500} // Set base height to maintain aspect ratio
+                                                                            objectFit='cover'
+                                                                            className='border-2 border-black'
+                                                                        />
+                                                                    </div>
+                                                                )}
+                                                            </>
                                                         )}
                                                     </div>
                                                 );

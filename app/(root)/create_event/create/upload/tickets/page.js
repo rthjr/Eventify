@@ -69,27 +69,11 @@ const Tickets = () => {
     e.preventDefault();
     console.log(formData)
     try {
-      const res = await fetch(
-        `https://coding-fairy.com/api/mock-api-resources/1734491523/eventify/${id}`
-      );
-      const existData = await res.json();
-      const updateData = { ...existData, ...formData };
-      console.log(updateData);
-      const response = await fetch(
-        `https://coding-fairy.com/api/mock-api-resources/1734491523/eventify/${id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updateData),
-        }
-      );
-      if (!response.ok) {
-        console.log("cannot create event");
-      } else {
-        router.push(`/create_event/create/upload/tickets/${payment}`);
-      }
+      const existingData = JSON.parse(localStorage.getItem("eventData")) || {};
+      const updatedData = { ...existingData, ...formData };
+      localStorage.setItem("eventData", JSON.stringify(updatedData));
+      console.log("Updated local storage data:", updatedData);
+      router.push(`/create_event/create/upload/tickets/payments`);
     } catch (error) {
       throw new Error(error);
     }

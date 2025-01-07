@@ -17,7 +17,7 @@ const Header = ({ searchQuery, setSearchQuery, isMenu }) => {
   const router = useRouter();
 
   const handleSignOut = async () => {
-    await signOut({ redirect: false });  // Sign out the user
+    await signOut();  // Sign out the user
     router.push('/');  // Redirect to the home page
   };
 

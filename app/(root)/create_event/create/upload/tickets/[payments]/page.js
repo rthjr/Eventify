@@ -40,7 +40,6 @@ const Payment = ({ params }) => {
                 const res = await fetch(`https://coding-fairy.com/api/mock-api-resources/1734491523/eventify/${id}`);
                 const existingData = await res.json();
                 const updateData = { ...existingData, qrUrl: null, byCash: isCash ? "yes" : "no", byQR: isQR ? "yes" : "no" };
-
                 const response = await fetch(
                     `https://coding-fairy.com/api/mock-api-resources/1734491523/eventify/${id}`,
                     {

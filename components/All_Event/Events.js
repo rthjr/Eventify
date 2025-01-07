@@ -9,17 +9,18 @@ import { useState, useEffect } from "react";
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 import Button from "@components/Button/Button";
 import defaultFavorites from "@model/favoritePageData";
+import { useSession } from "@node_modules/next-auth/react";
 
 const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, removeLike, paramPage, searchQuery, email }) => {
-
     const [eventData, setEventData] = useState([]);
-
+    console.log(email)
+    console.log(paramPage)
     useEffect(() => {
         async function fetchData() {
             try {
                 const response = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/eventify");
                 const result = await response.json();
-
+            
                 if (paramPage === "MyBookingProfile") {
                     // Filter rows that have registerEmail and include emailAuth
                     const filtered = result.filter(
@@ -38,8 +39,10 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                             row.date < currentDate  
                     );
                     setEventData(filtered);
-                } else {
-                    setEventData(result); // Set all data for other pages
+                } else if (paramPage==='profileMyEvent'){
+                    const filteredEvents = result.filter(event => event.owner === email);
+                    console.log('filter events', filteredEvents)
+                    setEventData(filteredEvents); // Set all data for other pages
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -219,17 +222,22 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
     };
 
 
+    
     // Refetch data function
     async function fetchData() {
         try {
             const response = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/eventify");
             const result = await response.json();
-            setEventData(result);
+            const filteredEvents = result.filter(event => event.owner !== email);
+    
+            console.log(filteredEvents)
+            setEventData(filteredEvents);
         } catch (error) {
             console.error("Error fetching data:", error);
         }
     }
 
+    console.log(eventData)
 
     // Three dot menu rendering
     const threeDot = (eventId) => {

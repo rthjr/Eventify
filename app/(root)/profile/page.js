@@ -12,8 +12,10 @@ import Loading from '@components/Loading/Loading';
 
 
 // lib to check  login and sign up after login
-import { useSession } from '@node_modules/next-auth/react';
+import { SessionProvider, useSession } from '@node_modules/next-auth/react';
 import Button from '@components/Button/Button';
+import MyEvent from '@components/pages/CreateEvent/MyEvent';
+import MyEvents from '@components/All_Event/MyEvent';
 
 const My_Booking = () => {
 
@@ -49,8 +51,7 @@ const My_Booking = () => {
     }
 
     fetchData();
-  }, []);
-
+  });
   // Ensure loading state persists for at least 3000ms
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -259,7 +260,7 @@ const My_Booking = () => {
               </div>
             )}
             {/* for my event session */}
-            {/* for my event sesstion */}
+            {/* for my event session */}
             {activeSection === 'myEvents' && (
               <div className="w-full">
                 <Events
@@ -270,6 +271,7 @@ const My_Booking = () => {
                   paramPage="profileMyEvent"
                   searchQuery={searchQuery}
                   myevent="myevent"
+                  email={email}
                 />
               </div>
             )}

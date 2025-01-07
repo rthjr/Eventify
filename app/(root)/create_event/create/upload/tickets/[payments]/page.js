@@ -30,6 +30,34 @@ const Payment = ({ params }) => {
         e.preventDefault();
         const formData = new FormData();
 
+
+        // Check payment type before proceeding
+        if (payments !== "paid") {
+            try {
+                // Set QR URL to null in the API if payment type is not "paid"
+                const res = await fetch(`https://coding-fairy.com/api/mock-api-resources/1734491523/eventify/${id}`);
+                const existingData = await res.json();
+                const updateData = { ...existingData, qrUrl: null, byCash: isCash ? "yes" : "no", byQR: isQR ? "yes" : "no" };
+                const response = await fetch(
+                    `https://coding-fairy.com/api/mock-api-resources/1734491523/eventify/${id}`,
+                    {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(updateData),
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error("Failed to update data to API");
+                }
+
+                const responseData = await response.json();
+                console.log("Data updated successfully:", responseData);
+                router.push("/finish");
+            } catch (error) {
+                console.error("Error:", error);
         if (payments === "paid") {
             if (!isCash && !isQR) {
                 alert("Please select a payment method.");

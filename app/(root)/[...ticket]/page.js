@@ -1,5 +1,5 @@
 "use client";
-
+import React from "react";
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -13,7 +13,6 @@ import { BsCashCoin } from "react-icons/bs";
 export default function TicketType({ params }) {
   const { data: session } = useSession();
   const router = useRouter();
-  const { ticket } = params; // Extract ticket from params
   const [paymentMethod, setPaymentMethod] = useState("");
   const [event, setEvent] = useState(() => {
     const storedEvent = localStorage.getItem("currentEvent");
@@ -22,6 +21,10 @@ export default function TicketType({ params }) {
 
   const searchParams = useSearchParams();
   const pageEvent = searchParams.get("pageEvent"); // Extract pageEvent
+
+  // Unwrap params using React.use()
+  const unwrappedParams = React.use(params);
+  const { ticket } = unwrappedParams; // Extract ticket from unwrapped params
   const eventId = Number(ticket); // Convert ticket to a number
 
   const handleRadioChange = (event) => {
@@ -93,6 +96,7 @@ export default function TicketType({ params }) {
       }
 
       console.log("Registration successful!");
+      router.push("/finish")
     } catch (error) {
       console.error("Registration failed:", error.message);
     }
@@ -115,7 +119,7 @@ export default function TicketType({ params }) {
       <div className="w-full max-w-5xl flex justify-center items-center h-auto">
         <div className="flex flex-col lg:flex-row w-full rounded-lg overflow-hidden gap-4">
           <div className="w-full lg:w-1/2 h-fit flex justify-center p-4 border-2 rounded-lg border-black">
-            <div className="w-full flex flex-col">
+            <div className="w-full flex flex-col gap-8">
               <div className="overflow-hidden w-full h-64 mb-8 relative rounded-lg">
                 <Image
                   src={event.imageUrl}
@@ -124,10 +128,10 @@ export default function TicketType({ params }) {
                   objectFit="cover"
                 />
               </div>
-              <h2 className="text-xl font-bold text-black mb-8">
+              <h2 className="text-xl font-bold text-black">
                 {event.name}
               </h2>
-              <div className="mb-8">
+              <div className="">
                 <span>Date: </span>
                 <span>{event.date}</span>
               </div>
@@ -135,14 +139,21 @@ export default function TicketType({ params }) {
                 <p className="text-black font-bold text-lg">Location</p>
                 <span>{event.location}</span>
               </div>
-              <div className="mb-8 flex justify-between">
-                <p>Ticket</p>
+              <div className=" flex justify-between">
+                <p  className="text-black font-bold text-lg">Ticket</p>
                 <span>{event.ticketType}</span>
               </div>
-              <div className="flex justify-between">
-                <p>Total</p>
-                <span>${event.price}</span>
+
+              {event.ticketType === "paid" && (
+                <div className="flex justify-between">
+                <p  className="text-black font-bold text-lg">Total</p>
+                <div>
+                  {event.ticketType === null ? (
+                    <span>0</span>
+                  ) : (<span>${event.price}</span>)}
+                </div>
               </div>
+              )}
             </div>
           </div>
 
@@ -158,8 +169,11 @@ export default function TicketType({ params }) {
                 <h2 className="text-center font-bold text-lg">Checkout</h2>
               </div>
 
-              <p className="mb-8 text-sm sm:text-base">{event.description}</p>
+              <div className="flex flex-col gap-4">
+                <span>Description</span>
+                <p className="mb-8 text-sm sm:text-base">{event.description}</p>
 
+              </div>
               <form className="mb-8">
                 <div className="flex flex-wrap gap-4 mb-8">
                   <div className="flex flex-col w-full sm:w-1/2">
@@ -198,24 +212,36 @@ export default function TicketType({ params }) {
                   />
                 </div>
 
-                <div>
+                {(!event.qrUrl) ? (
+                  <span>You Ready to Register!</span>
+                ) : (<div>
                   <h2 className="mb-4 text-black font-bold text-lg">Pay With</h2>
+
                   <div className="flex flex-col border-2 border-black rounded-lg p-4 mb-4">
-                    <div className="mb-4 flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <input
-                          type="radio"
-                          name="paymentMethod"
-                          id="cash"
-                          value="cash"
-                          checked={paymentMethod === "cash"}
-                          onChange={handleRadioChange}
-                        />
-                        <label htmlFor="cash">By Cash</label>
+
+                    {event.isCash === true && (
+                      <div className="mb-4 flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <input
+                            type="radio"
+                            name="paymentMethod"
+                            id="cash"
+                            value="cash"
+                            checked={paymentMethod === "cash"}
+                            onChange={handleRadioChange}
+                          />
+                          <label htmlFor="cash">By Cash</label>
+                        </div>
+                        <BsCashCoin size={24} />
                       </div>
-                      <BsCashCoin size={24} />
-                    </div>
-                    <div className="w-full border-t border-black mb-4"></div>
+                    )}
+
+                   <div>
+                    {event.isCash !== false && event.qrUrl && (
+                       <div className="w-full border-t border-black mb-4"></div>
+                    )}
+                   </div>
+
                     {event.qrUrl && (
                       <div>
                         <div className="flex items-center justify-between">
@@ -235,7 +261,7 @@ export default function TicketType({ params }) {
                       </div>
                     )}
                   </div>
-                </div>
+                </div>)}
 
                 {paymentMethod === "qr" && (
                   <div className="mt-4">

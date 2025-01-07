@@ -1,12 +1,38 @@
 "use client"
-
-import Table from "@components/util/Table";
-import React from "react";
 import { useState } from "react";
+import { useEffect } from "react";
+import React from "react";
 
 const Dashboard = () => {
-  const thNames = ["Event Name", "Date", "Location", "Ticket Price", "Action"];
-  const [filter, setFilter] = useState("month"); // State to store the filter type
+  const [eventsData, setEventsData] = useState({
+    totalEvent: 0,
+    totalBooked: 0,
+    totalUpComing: 0,
+  });
+
+  const [filter, setFilter] = useState("month"); 
+
+  // fetch api
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/eventify")
+
+        const result = await response.json()
+
+        // display all event validate by email of that creator
+        const totalEvent = result 
+
+        // search every event that have that email and find the register, avoid dubplicate
+        
+
+        // search every event that have that email and also validate 
+        
+      } catch (error) {
+        console.log("Error fetchin data", error);
+      }
+    }
+  })
 
   // Handle filter change
   const handleFilterChange = () => {

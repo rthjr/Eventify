@@ -10,28 +10,26 @@ import { use } from 'react'
 import { MdOutlineQrCodeScanner } from "react-icons/md";
 import { BsCashCoin } from "react-icons/bs";
 
-
 const Payment = ({ params }) => {
     const router = useRouter()
     const [isQR, setIsQR] = useState(false)
     const [isCash, setIsCash] = useState(false)
-    const [imageSrc, setImageSrc] = useState(null)
     const [id, setId] = useState(0)
     const [imageFile, setImageFile] = useState(null)
     const [selectedImage, setSelectedImage] = useState(null);
+    // url param
+    const unwrappedParams = use(params);
+    const { payments } = unwrappedParams;
 
     useEffect(() => {
-        const eventId = localStorage.getItem('eventId')
-        setId(eventId)
-    }, [])
-
-    const handleRender = (e) => {
-        e.preventDefault()
-        router.push("/create_event/finish")
-    }
-
+        const eventId = localStorage.getItem("eventId");
+        setId(eventId);
+    }, []);
+    
     const handleNext = async (e) => {
         e.preventDefault();
+        const formData = new FormData();
+
 
         // Check payment type before proceeding
         if (payments !== "paid") {
@@ -60,22 +58,24 @@ const Payment = ({ params }) => {
                 router.push("/finish");
             } catch (error) {
                 console.error("Error:", error);
+        if (payments === "paid") {
+            if (!isCash && !isQR) {
+                alert("Please select a payment method.");
+                return;
+            } else if (isQR && !imageFile) {
+                alert("Please upload your QR code.");
+                return;
             }
-            return;
         }
 
-        if (isQR && !imageFile) {
-            alert("Please select an image first.");
-            return;
-        }
+        try {
+            const existingData = JSON.parse(localStorage.getItem("eventData")) || {};
+            const updatedData = { ...existingData, isCash: isCash };
 
-        let qrUrl = null;
-        if (isQR) {
-            const formData = new FormData();
-            formData.append("file", imageFile);
-            formData.append("upload_preset", "ml_default");
+            if (isQR && imageFile) {
+                formData.append("file", imageFile);
+                formData.append("upload_preset", "ml_default");
 
-            try {
                 const cloudinaryResponse = await fetch(
                     "https://api.cloudinary.com/v1_1/dlbbfck9n/image/upload",
                     {
@@ -89,26 +89,20 @@ const Payment = ({ params }) => {
                 }
 
                 const cloudinaryData = await cloudinaryResponse.json();
-                qrUrl = cloudinaryData.secure_url;
-            } catch (error) {
-                console.error("Error:", error);
-                return;
+                updatedData.qrUrl = cloudinaryData.secure_url;
             }
-        }
 
-        try {
-            const res = await fetch(`https://coding-fairy.com/api/mock-api-resources/1734491523/eventify/${id}`);
-            const existingData = await res.json();
-            const updateData = { ...existingData, qrUrl, byCash: isCash ? "yes" : "no", byQR: isQR ? "yes" : "no" };
+            localStorage.setItem("eventData", JSON.stringify(updatedData));
+            console.log("Updated local storage data:", updatedData);
 
             const response = await fetch(
-                `https://coding-fairy.com/api/mock-api-resources/1734491523/eventify/${id}`,
+                `https://coding-fairy.com/api/mock-api-resources/1734491523/eventify`,
                 {
-                    method: "PUT",
+                    method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify(updateData),
+                    body: JSON.stringify(updatedData),
                 }
             );
 
@@ -124,7 +118,6 @@ const Payment = ({ params }) => {
         }
     };
 
-
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -133,18 +126,11 @@ const Payment = ({ params }) => {
         }
     };
 
-
-    // url param
-    const unwrappedParams = use(params);
-    const { payments } = unwrappedParams;
-
     return (
         <>
             <Header isMenu="create" />
-            <div
-                className='w-full h-full flex flex-wrap m-auto '
-            >
-                <div className='w-full md:w-5/12 h-auto my-20 m-auto backdrop-blur-2xl  flex flex-col lg:flex-wrap gap-8'>
+            <div className='w-full h-full flex flex-wrap m-auto'>
+                <div className='w-full md:w-5/12 h-auto my-20 m-auto backdrop-blur-2xl flex flex-col lg:flex-wrap gap-8'>
                     <div className='p-4 bg-gray-100 shadow-2xl rounded-lg w-full h-auto flex flex-col gap-8'>
                         <h2 className='text-2xl font-bold text-black'>Event Poster</h2>
                         <ul className='flex justify-between'>
@@ -154,69 +140,53 @@ const Payment = ({ params }) => {
                             <li className='border-b-2 border-customPurple-default text-customPurple-default text-sm md:text-base lg:text-lg xl:text-xl font-bold'>Payment Info</li>
                         </ul>
 
-                        {/* ticket system */}
                         <div className='w-full p-4 border-2 border-black rounded-lg flex flex-col gap-8'>
                             {payments === "paid" ? (
                                 <div className='flex justify-center items-center'>
                                     <div className='flex flex-col gap-8 w-1/2 border-2 border-black p-2 rounded-lg'>
                                         <div className='flex flex-wrap justify-between'>
-                                            <div className='flex flex-wrap gap-4' >
-                                                <input type="checkbox"
+                                            <div className='flex flex-wrap gap-4'>
+                                                <input
+                                                    type="checkbox"
                                                     id='qr'
                                                     name='qr'
                                                     checked={isQR}
-                                                    onChange={() => {
-                                                        setIsQR(!isQR);
-                                                    }}
+                                                    onChange={() => setIsQR(!isQR)}
                                                 />
                                                 <label htmlFor="qr">By QR</label>
                                             </div>
-
-                                            <MdOutlineQrCodeScanner
-                                                size={24}
-                                            />
+                                            <MdOutlineQrCodeScanner size={24} />
                                         </div>
 
                                         <div className='flex flex-wrap justify-between'>
-                                            <div className='flex flex-wrap gap-4' >
-                                                <input type="checkbox"
+                                            <div className='flex flex-wrap gap-4'>
+                                                <input
+                                                    type="checkbox"
                                                     id='cash'
                                                     name='cash'
                                                     checked={isCash}
-                                                    onChange={() => {
-                                                        setIsCash(!isCash);
-                                                    }}
+                                                    onChange={() => setIsCash(!isCash)}
                                                 />
                                                 <label htmlFor="Cash">By Cash</label>
                                             </div>
-
-                                            <BsCashCoin
-                                                size={24}
-                                            />
+                                            <BsCashCoin size={24} />
                                         </div>
                                     </div>
-
                                 </div>
                             ) : (
-                                <div>You Ready to public</div>
+                                <div>You are ready to publish the event.</div>
                             )}
 
-                            {/* condition for QR */}
-
-                            {isQR && (
+                            {isQR && payments === "paid" && (
                                 <div className='flex flex-col gap-8'>
-                                    <h2 className='text-xl font-bold '>Upload QR</h2>
-
+                                    <h2 className='text-xl font-bold'>Upload QR</h2>
                                     <form className='flex flex-col gap-8'>
                                         <input
                                             type="file"
-                                            accept="image/*" // Limit to image files only
-                                            onChange={handleImageChange} // Call handler on file select
+                                            accept="image/*"
+                                            onChange={handleImageChange}
                                         />
-                                        <div
-                                            className='w-48 h-48 border-dotted rounded-lg flex items-center justify-center bg-gray-100'
-                                            style={{ overflow: 'hidden' }} // Optional: Ensures image doesn't overflow
-                                        >
+                                        <div className='w-48 h-48 border-dotted rounded-lg flex items-center justify-center bg-gray-100' style={{ overflow: 'hidden' }}>
                                             {selectedImage ? (
                                                 <img
                                                     src={selectedImage}

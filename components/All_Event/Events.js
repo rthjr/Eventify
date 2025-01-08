@@ -23,9 +23,9 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
             
                 if (paramPage === "MyBookingProfile") {
                     // Filter rows that have registerEmail and include emailAuth
-                    const filtered = result.filter(
-                        (row) => row.registerEmail && row.registerEmail.includes(email)
-                    );
+                const filtered = result.filter(
+                    (row) => row.registerEmail && row.registerEmail.includes(email)
+                );
                     setEventData(filtered); // Set filtered data for MyBookingProfile or history page
                 } else if (paramPage === "history") {
                     // Filter rows that have registerEmail and include emailAuth

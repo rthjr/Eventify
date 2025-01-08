@@ -8,14 +8,12 @@ import { useState } from 'react';
 import Events from '@components/All_Event/Events';
 import { useEffect } from 'react';
 import { useRouter } from '@node_modules/next/navigation';
-import Loading from '@components/Loading/Loading';
+
 
 
 // lib to check  login and sign up after login
-import { SessionProvider, useSession } from '@node_modules/next-auth/react';
+import {  useSession } from '@node_modules/next-auth/react';
 import Button from '@components/Button/Button';
-import MyEvent from '@components/pages/CreateEvent/MyEvent';
-import MyEvents from '@components/All_Event/MyEvent';
 
 const My_Booking = () => {
 

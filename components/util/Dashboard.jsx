@@ -11,15 +11,14 @@ export default function DashboardAdmin() {
     "Date",
     "Start Time",
     "End Time",
-    "Location",
-    "category",
+    "Category",
+    "Creator",
+    "Event Type",
+    "Limit Ticket",
+    "Price",
+    "Ticket Type",
+    "Refund",
     "ID",
-    "Image",
-    "eventType",
-    "limitTicket",
-    "price",
-    "refund",
-    "qrUrl",
     "Remove",
     "updated",
   ];
@@ -38,6 +37,7 @@ export default function DashboardAdmin() {
           throw new Error("Failed to fetch data");
         }
         const jsonData = await response.json();
+        
         setTData(jsonData);
         setIsLoading(false);
       } catch (error) {

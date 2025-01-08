@@ -7,7 +7,9 @@ import { useRouter } from "@node_modules/next/navigation";
 import { Editor, createEditor, Node } from "slate";
 import { withReact, Slate, Editable } from "slate-react";
 import { withHistory } from "slate-history";
+import { useSession } from "@node_modules/next-auth/react";
 const Create = () => {
+  const { data: session } = useSession()
   const router = useRouter();
 
   // Rich Text Editor
@@ -113,9 +115,8 @@ const Create = () => {
     location: "",
     category: "",
     description: "",
-    createAt: "",
+    owner: session.user.email,
   });
-
 
 
   const handleFormChange = (e) => {
@@ -144,30 +145,10 @@ const Create = () => {
       return;
     }
     try {
-      const updatedFormData = {
-        ...formData,
-        createAt: new Date().toISOString(),
-      };
-      console.log(updatedFormData);
-      const response = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/eventify", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedFormData)
-      });
-      const data = await response.json();
-
-      // id event   
-      const eventId = data.id;
-      console.log(eventId);
-      console.log(response);
-      if (!response.ok) {
-        console.log("cannot create event");
-      } else {
-        localStorage.setItem('eventId', eventId)
-        router.push(`/create_event/create/upload`);
-      }
+      console.log(formData)
+      localStorage.setItem("eventData", JSON.stringify(formData));
+      console.log("Updated local storage data:", formData);
+      router.push(`/create_event/create/upload`);
     } catch (error) {
       throw new Error(error);
     }

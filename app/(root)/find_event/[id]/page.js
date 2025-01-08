@@ -40,10 +40,7 @@ const Page = ({ params }) => {
           imageUrl={event.imageUrl}
           name={event.name}
           date={event.date}
-          // missed
-          // creatorName={event.creatorName}
-          // missed
-          // ticketEvent={event.ticketEvent}
+          ticketType={event.ticketType}
           eventType={event.eventType}
           location={event.location}
           refund={event.refund}
@@ -53,7 +50,7 @@ const Page = ({ params }) => {
 
         />
       ) : (
-        <p>No event found with ID {unwrappedParams.id}</p>
+        <></>
       )}
       <Footer />
     </div>

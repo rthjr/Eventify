@@ -4,8 +4,6 @@ import Footer from "@components/layout/Footer";
 import Header from "@components/layout/Header";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "@node_modules/next/navigation";
-import Button from "@components/Button/Button";
-import BackButton from "@components/Button/BackButton";
 
 const Tickets = () => {
   const router = useRouter();
@@ -23,6 +21,10 @@ const Tickets = () => {
     ticketType: payment,
     refund: null,
   });
+
+  useEffect(() => {
+    setFormData((prev) => ({ ...prev, ticketType: payment }));
+  }, [payment]);
 
   //fetch id from local storage
   useEffect(() => {
@@ -48,17 +50,6 @@ const Tickets = () => {
     router.push(`/create_event/create/upload/tickets/${payment}`);
   };
 
-  // button
-  const displayButton = () => {
-    return (
-      <div className="w-full h-auto flex flex-wrap justify-between">
-        <BackButton onClick={handleBack} param="Back" />
-
-        <Button onClick={handleRouter} param="Save & Continue" />
-      </div>
-    );
-  };
-
   const handleFormChange = (e) => {
     const { id, value } = e.target;
     console.log(value);
@@ -69,27 +60,11 @@ const Tickets = () => {
     e.preventDefault();
     console.log(formData)
     try {
-      const res = await fetch(
-        `https://coding-fairy.com/api/mock-api-resources/1734491523/eventify/${id}`
-      );
-      const existData = await res.json();
-      const updateData = { ...existData, ...formData };
-      console.log(updateData);
-      const response = await fetch(
-        `https://coding-fairy.com/api/mock-api-resources/1734491523/eventify/${id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updateData),
-        }
-      );
-      if (!response.ok) {
-        console.log("cannot create event");
-      } else {
-        router.push(`/create_event/create/upload/tickets/${payment}`);
-      }
+      const existingData = JSON.parse(localStorage.getItem("eventData")) || {};
+      const updatedData = { ...existingData, ...formData };
+      localStorage.setItem("eventData", JSON.stringify(updatedData));
+      console.log("Updated local storage data:", updatedData);
+      router.push(`/create_event/create/upload/tickets/${payment}`);
     } catch (error) {
       throw new Error(error);
     }
@@ -322,7 +297,17 @@ const Tickets = () => {
                     </div>
                   </div>
 
-                  {displayButton()}
+                  <button
+                type="button"
+                onClick={() => console.log("Go Back")}
+                className="bg-gray-300 text-black py-2 px-4 rounded"
+              >
+                Back
+              </button>
+
+              <button className="bg-blue-500 text-white py-2 px-4 rounded">
+                Save & Continue
+              </button>
                 </form>
               )}
               {isOpen && (
@@ -361,7 +346,17 @@ const Tickets = () => {
                     </div>
                   </div>
 
-                  {displayButton()}
+                  <button
+                type="button"
+                onClick={() => console.log("Go Back")}
+                className="bg-gray-300 text-black py-2 px-4 rounded"
+              >
+                Back
+              </button>
+
+              <button className="bg-blue-500 text-white py-2 px-4 rounded">
+                Save & Continue
+              </button>
                 </form>
               )}
             </div>

@@ -8,35 +8,48 @@ import { useState } from 'react';
 import Events from '@components/All_Event/Events';
 import { useEffect } from 'react';
 import { useRouter } from '@node_modules/next/navigation';
-import Loading from '@components/Loading/Loading';
+
 
 
 // lib to check  login and sign up after login
-import { useSession } from '@node_modules/next-auth/react';
+import {  useSession } from '@node_modules/next-auth/react';
 import Button from '@components/Button/Button';
 
 const My_Booking = () => {
 
-  // State to manage which section is currently displayed
+  // State declarations
+  const [emailAuth, setEmailAuth] = useState('');
   const [activeSection, setActiveSection] = useState('myBooking');
+  const [showLoading, setShowLoading] = useState(true);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState('11/12/2024');
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [profileImage, setProfileImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
-  // Function to handle "My Booking" button click
-  const handleBooking = () => {
-    setActiveSection('myBooking');
-  };
-
-  // Function to handle "My Event" button click
-  const handleEvents = () => {
-    setActiveSection('myEvents');
-  };
-
-
-  // reload
-
+  // Session and router hooks
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [showLoading, setShowLoading] = useState(true);
 
+  // api
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch('https://coding-fairy.com/api/mock-api-resources/1734491523/eventify');
+        const data = await response.json();
+        // Check if the API response contains registerEmail
+        if (data.registerEmail && data.registerEmail === emailAuth) {
+          setEmailAuth(data.registerEmail); // Store registerEmail in state
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    fetchData();
+  });
   // Ensure loading state persists for at least 3000ms
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -53,19 +66,48 @@ const My_Booking = () => {
     }
   }, [status, router]);
 
+  // Set emailAuth based on session
+  useEffect(() => {
+    if (session?.user?.emailAuth) {
+      setEmailAuth(session.user.emailAuth);
+    } else {
+      setEmailAuth('');
+    }
+  }, [session]);
 
-  // handle update user profile
-  const [name, setName] = useState(session?.user?.lastName || "Default")
-  const [email, setEmail] = useState(session?.user?.email || "default@gmail.com")
-  const [dateOfBirth, setDateOfBirth] = useState("11/12/2024")
-  const [isPopupOpen, setIsPopupOpen] = useState(false)
-  const [profileImage, setProfileImage] = useState(null)
-  const [previewImage, setPreviewImage] = useState(null)
+  // Set name and email from session
+  useEffect(() => {
+    if (session?.user) {
+      setName(session.user.lastName || 'Default');
+      setEmail(session.user.email || 'default@gmail.com');
+    }
+  }, [session]);
 
+  // Prevent scrolling when popup is open
+  useEffect(() => {
+    if (isPopupOpen) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, [isPopupOpen]);
+
+  // Event handlers
+  const handleBooking = () => {
+    setActiveSection('myBooking');
+  };
+
+  const handleEvents = () => {
+    setActiveSection('myEvents');
+  };
 
   const handleUpdateUserProfile = () => {
-    setIsPopupOpen(true)
-  }
+    setIsPopupOpen(true);
+  };
 
   const handleConfirmUpdate = () => {
     setIsPopupOpen(false);
@@ -75,38 +117,9 @@ const My_Booking = () => {
     setIsPopupOpen(false);
   };
 
-  // prevent scrolling when model popup
-  useEffect(() => {
-    // Disable scrolling when the popup is open
-    if (isPopupOpen) {
-      document.body.classList.add('overflow-hidden');
-    } else {
-      document.body.classList.remove('overflow-hidden');
-    }
-
-    // Cleanup on component unmount
-    return () => {
-      document.body.classList.remove('overflow-hidden');
-    };
-  }, [isPopupOpen]);
-
-  if (showLoading && status === 'unauthenticated') {
-    return <Loading />;
-  }
-
-  // If unauthenticated, avoid rendering until redirection
-  if (status === 'unauthenticated') {
-    return null;
-  }
-
-  // search query
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [searchQuery, setSearchQuery] = useState("");
-
-
   return (
     <div>
-      <Header  searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
+      <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       <div className='w-full h-full my-20 flex flex-col justify-center items-center'>
         <div className='w-9/12 h-auto flex flex-col '>
 
@@ -175,7 +188,7 @@ const My_Booking = () => {
                       Email:
                       <input
                         type='email'
-                        value={email}
+                        value={emailAuth}
                         onChange={(e) => setEmail(e.target.value)}
                         className='border p-2 rounded w-full'
                       />
@@ -227,7 +240,7 @@ const My_Booking = () => {
               My Event
             </button>
           </div>
-          
+
 
           {/* Conditionally render content for my booking*/}
           <div className='w-full h-auto'>
@@ -240,11 +253,12 @@ const My_Booking = () => {
                   nameClass="justify-between"
                   EventCreator="yes"
                   searchQuery={searchQuery}
+                  email = {email}
                 />
               </div>
             )}
-
-            {/* for my event sesstion */}
+            {/* for my event session */}
+            {/* for my event session */}
             {activeSection === 'myEvents' && (
               <div className="w-full">
                 <Events
@@ -254,7 +268,8 @@ const My_Booking = () => {
                   pageEvent="create_event"
                   paramPage="profileMyEvent"
                   searchQuery={searchQuery}
-                  myevent = "myevent"
+                  myevent="myevent"
+                  email={email}
                 />
               </div>
             )}

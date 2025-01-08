@@ -9,24 +9,48 @@ import { useState, useEffect } from "react";
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 import Button from "@components/Button/Button";
 import defaultFavorites from "@model/favoritePageData";
+import { useSession } from "@node_modules/next-auth/react";
 
-const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, removeLike, paramPage, searchQuery }) => {
-
+const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, removeLike, paramPage, searchQuery, email }) => {
     const [eventData, setEventData] = useState([]);
-
+    console.log(email)
+    console.log(paramPage)
     useEffect(() => {
         async function fetchData() {
             try {
                 const response = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/eventify");
                 const result = await response.json();
-                setEventData(result);
+            
+                if (paramPage === "MyBookingProfile") {
+                    // Filter rows that have registerEmail and include emailAuth
+                const filtered = result.filter(
+                    (row) => row.registerEmail && row.registerEmail.includes(email)
+                );
+                    setEventData(filtered); // Set filtered data for MyBookingProfile or history page
+                } else if (paramPage === "history") {
+                    // Filter rows that have registerEmail and include emailAuth
+                    // also validate date store only the the date in api less than cureent date
+                    // Get current date in YYYY-MM-DD format
+                    const currentDate = new Date().toISOString().split('T')[0]; 
+                    const filtered = result.filter(
+                        (row) =>
+                            row.registerEmail &&
+                            row.registerEmail.includes(email) &&
+                            row.date < currentDate  
+                    );
+                    setEventData(filtered);
+                } else if (paramPage==='profileMyEvent'){
+                    const filteredEvents = result.filter(event => event.owner === email);
+                    console.log('filter events', filteredEvents)
+                    setEventData(filteredEvents); // Set all data for other pages
+                }
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         }
 
         fetchData();
-    }, []);
+    }, [email, paramPage]); // Add paramPage to dependency array
 
     // Filter states
     const [selectedDates, setSelectedDates] = useState([]);
@@ -198,17 +222,22 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
     };
 
 
+    
     // Refetch data function
     async function fetchData() {
         try {
             const response = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/eventify");
             const result = await response.json();
-            setEventData(result);
+            const filteredEvents = result.filter(event => event.owner !== email);
+    
+            console.log(filteredEvents)
+            setEventData(filteredEvents);
         } catch (error) {
             console.error("Error fetching data:", error);
         }
     }
 
+    console.log(eventData)
 
     // Three dot menu rendering
     const threeDot = (eventId) => {

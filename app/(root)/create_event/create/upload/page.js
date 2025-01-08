@@ -6,19 +6,20 @@ import Button from "@components/Button/Button";
 import BackButton from "@components/Button/BackButton";
 import { useRouter } from "@node_modules/next/navigation";
 import Image from "@node_modules/next/image";
-// icon
 import { LuUpload } from "react-icons/lu";
 import { CiImageOn } from "react-icons/ci";
 
-const Uploadmage = () => {
+const UploadImage = () => {
   const router = useRouter();
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageFile, setImageFile] = useState(null);
-  const [id, setId] = useState(0)
+  const [id, setId] = useState(0);
+
   useEffect(() => {
-    const eventId = localStorage.getItem('eventId')
-    setId(eventId)
-  }, [])
+    const eventId = localStorage.getItem("eventId");
+    setId(eventId);
+  }, []);
+
   const handleNext = async (e) => {
     e.preventDefault();
 
@@ -26,6 +27,7 @@ const Uploadmage = () => {
       alert("Please select an image first.");
       return;
     }
+
     const formData = new FormData();
     formData.append("file", imageFile);
     formData.append("upload_preset", "ml_default");
@@ -46,31 +48,13 @@ const Uploadmage = () => {
       const cloudinaryData = await cloudinaryResponse.json();
       const imageUrl = cloudinaryData.secure_url;
 
-      const payload = {
-        imageUrl,
-      };
+      // Fetch and update local storage
+      const existingData = JSON.parse(localStorage.getItem("eventData")) || {};
+      const updatedData = { ...existingData, imageUrl };
 
-      const res = await fetch(`https://coding-fairy.com/api/mock-api-resources/1734491523/eventify/${id}`)
-      const existingData = await res.json()
-      const updateData = { ...existingData, imageUrl}
+      localStorage.setItem("eventData", JSON.stringify(updatedData));
+      console.log("Updated local storage data:", updatedData);
 
-      const response = await fetch(
-        `https://coding-fairy.com/api/mock-api-resources/1734491523/eventify/${id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updateData),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to save data to API");
-      }
-
-      const responseData = await response.json();
-      console.log("Data saved successfully:", responseData);
       router.push("/create_event/create/upload/tickets");
     } catch (error) {
       console.error("Error:", error);
@@ -94,8 +78,8 @@ const Uploadmage = () => {
     <>
       <Header isMenu="create" />
 
-      <div className="w-full h-full flex flex-wrap m-auto ">
-        <div className="w-full md:w-5/12 h-auto my-20 m-auto  flex flex-col lg:flex-wrap gap-8 border-2 border-black rounded-lg">
+      <div className="w-full h-full flex flex-wrap m-auto">
+        <div className="w-full md:w-5/12 h-auto my-20 m-auto flex flex-col lg:flex-wrap gap-8 border-2 border-black rounded-lg">
           <form className="p-4 bg-gray-100 rounded-lg w-full h-auto flex flex-col gap-8">
             <h2 className="text-2xl font-bold text-black">Event Poster</h2>
             <ul className="flex justify-between">
@@ -158,4 +142,4 @@ const Uploadmage = () => {
   );
 };
 
-export default Uploadmage;
+export default UploadImage;

@@ -52,7 +52,13 @@ export default function TableRow({
       {Object.keys(data).map((key, index) => {
         if (
           (hideDescription === "yes" && key === "description") ||
-          key === "createAt"
+          (key === "createAt") ||
+          (key === "location") ||
+          (key === "imageUrl") ||
+          (key === "qrUrl") ||
+          (key === "isCash") ||
+          (key === "registerEmail") ||
+          (key === "isEditing")
         ) {
           return null;
         }

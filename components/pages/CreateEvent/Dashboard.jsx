@@ -15,18 +15,29 @@ const Dashboard = ({ email }) => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/eventify");
+        const response = await fetch(
+          "https://coding-fairy.com/api/mock-api-resources/1734491523/eventify"
+        );
         const result = await response.json();
 
         // Filter data
-        const filteredBook = result.filter((row) => row.registerEmail && row.registerEmail.includes(email));
+        const filteredBook = result.filter(
+          (row) => row.registerEmail && row.registerEmail.includes(email)
+        );
         const filteredEvents = result.filter((event) => event.owner === email);
 
         const totalEvents = filteredEvents.length;
         const totalBooked = filteredBook.length;
-        const totalUpComing = filteredBook.filter((event) => new Date(event.date) > new Date()).length; // Example logic
 
-        setEventsData({
+
+        // filtered up coming event
+        const currentDate = new Date();
+        const totalUpComing = filteredEvents.filter((event) => {
+          const eventDate = new Date(event.date);
+          return eventDate > currentDate;
+        }).length;
+
+        setEventsData({ 
           totalEvent: totalEvents,
           totalBooked: totalBooked,
           totalUpComing: totalUpComing,

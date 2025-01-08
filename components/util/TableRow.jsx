@@ -57,7 +57,8 @@ export default function TableRow({
           (key === "imageUrl") ||
           (key === "qrUrl") ||
           (key === "isCash") ||
-          (key === "registerEmail")
+          (key === "registerEmail") ||
+          (key === "isEditing")
         ) {
           return null;
         }

@@ -1,16 +1,19 @@
 "use client";
 import Image from "@node_modules/next/image";
 import { IoLocation } from "react-icons/io5";
-import { RxAvatar } from "react-icons/rx";
+import { useState } from "react";
 import { useRouter } from "@node_modules/next/navigation";
 import { useSession } from "@node_modules/next-auth/react";
 import BackButton from "@components/Button/BackButton";
 import Link from "@node_modules/next/link";
 import Button from "@components/Button/Button";
+import { useEffect } from "react";
 
 const EventDetail = ({ ticket, bookOtp, pageEvent, blockButton, imageUrl, name, date, eventType, location, description, refund, ticketType }) => {
     const { status } = useSession(); // Check session status
     const router = useRouter();
+    const { data: session } = useSession();
+    const [email, setEmail] = useState("");
 
     const handleBookNow = () => {
         if (status === "unauthenticated") {
@@ -25,6 +28,13 @@ const EventDetail = ({ ticket, bookOtp, pageEvent, blockButton, imageUrl, name, 
             )
         }
     };
+
+    // Set email from session
+    useEffect(() => {
+        if (session?.user?.email) {
+            setEmail(session.user.email);
+        }
+    }, [session]);
 
     const handleBack = (e) => {
         e.preventDefault()
@@ -120,16 +130,9 @@ const EventDetail = ({ ticket, bookOtp, pageEvent, blockButton, imageUrl, name, 
                     <div className="flex flex-col gap-2 mb-12">
                         <p className="font-bold text-xl">Organized by</p>
                         <div className="p-4 flex flex-col gap-8 bg-slate-200 rounded-lg">
-                            <div className="flex gap-4 items-center mb-4">
-                                <RxAvatar size={50} />
-                                <span>creator name</span>
-                            </div>
-                            <div className="mb-4">
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus deserunt non commodi pariatur ipsam!</p>
-                            </div>
                             <div>
                                 <p className="font-bold text-xl">Contact</p>
-                                <span>email: organizer@example.com</span>
+                                <span>{email}</span>
                             </div>
                         </div>
                     </div>

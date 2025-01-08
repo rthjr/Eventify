@@ -25,7 +25,7 @@ const Payment = ({ params }) => {
         const eventId = localStorage.getItem("eventId");
         setId(eventId);
     }, []);
-    
+
     const handleNext = async (e) => {
         e.preventDefault();
         const formData = new FormData();
@@ -34,6 +34,10 @@ const Payment = ({ params }) => {
         // Check payment type before proceeding
         if (payments !== "paid") {
             try {
+
+                if (!id) {
+                    throw new Error("Event ID is missing or invalid.");
+                }
                 // Set QR URL to null in the API if payment type is not "paid"
                 const res = await fetch(`https://coding-fairy.com/api/mock-api-resources/1734491523/eventify/${id}`);
                 const existingData = await res.json();
@@ -49,15 +53,14 @@ const Payment = ({ params }) => {
                     }
                 );
 
-                if (!response.ok) {
-                    throw new Error("Failed to update data to API");
-                }
-
                 const responseData = await response.json();
                 console.log("Data updated successfully:", responseData);
+
                 router.push("/finish");
             } catch (error) {
                 console.error("Error:", error);
+            }
+        }
         if (payments === "paid") {
             if (!isCash && !isQR) {
                 alert("Please select a payment method.");

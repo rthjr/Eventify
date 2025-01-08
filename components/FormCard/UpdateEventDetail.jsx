@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { IoPencil } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 import Button from "@components/Button/Button";
-import { useRouter } from "@node_modules/next/router";
 
 const UpdateEventDetail = ({ eventID }) => {
   const [editableEvent, setEditableEvent] = useState(null);
@@ -71,9 +70,10 @@ const UpdateEventDetail = ({ eventID }) => {
         );
         const data = await response.json();
         if (data.secure_url) {
+          // Update the imageUrl field directly
           setEditableEvent((prevState) => ({
             ...prevState,
-            newImage: data.secure_url,
+            imageUrl: data.secure_url, // Update the existing imageUrl field
           }));
         }
       } catch (error) {
@@ -111,9 +111,8 @@ const UpdateEventDetail = ({ eventID }) => {
         // Update originalEvent with the latest saved state
         setOriginalEvent(updatedEvent);
         // Reset the editableEvent to reflect the new changes
-        setEditableEvent(updatedEvent); 
+        setEditableEvent(updatedEvent);
         // Navigate to the /finish page after a successful update
-        const router = useRouter();
         router.push("/finish");
       } else {
         const errorData = await response.json();
@@ -136,7 +135,7 @@ const UpdateEventDetail = ({ eventID }) => {
         <div className="w-full h-full flex flex-col">
           <div className="w-auto h-[500px] overflow-hidden rounded-lg relative mb-8 z-20 shadow-gray shadow-2xl">
             <img
-              src={editableEvent.imageUrl || editableEvent.imageUrl}
+              src={editableEvent.imageUrl} // Use the updated imageUrl
               alt={editableEvent.name}
               className="w-full h-full object-cover"
             />

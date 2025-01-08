@@ -57,7 +57,7 @@ const CreateEvent = () => {
         </div>
         <div className='lg:w-8/12'>
           {isMenu === 'dashboard' ? (
-            <Dashboard />
+            <Dashboard email={session.user?.email} />
           ) : isMenu === 'create' ? (
             <Create />
           ) : isMenu === "myevent" && (

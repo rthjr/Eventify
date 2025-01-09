@@ -20,29 +20,33 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
             try {
                 const response = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/eventify");
                 const result = await response.json();
-            
-                if (paramPage === "MyBookingProfile") {
-                    // Filter rows that have registerEmail and include emailAuth
-                const filtered = result.filter(
-                    (row) => row.registerEmail && row.registerEmail.includes(email)
-                );
-                    setEventData(filtered); // Set filtered data for MyBookingProfile or history page
-                } else if (paramPage === "history") {
-                    // Filter rows that have registerEmail and include emailAuth
-                    // also validate date store only the the date in api less than cureent date
-                    // Get current date in YYYY-MM-DD format
-                    const currentDate = new Date().toISOString().split('T')[0]; 
-                    const filtered = result.filter(
-                        (row) =>
-                            row.registerEmail &&
-                            row.registerEmail.includes(email) &&
-                            row.date < currentDate  
-                    );
-                    setEventData(filtered);
-                } else if (paramPage==='profileMyEvent'){
-                    const filteredEvents = result.filter(event => event.owner === email);
-                    console.log('filter events', filteredEvents)
-                    setEventData(filteredEvents); // Set all data for other pages
+
+                if (email) {
+                    if (paramPage === "MyBookingProfile") {
+                        // Filter rows that have registerEmail and include emailAuth
+                        const filtered = result.filter(
+                            (row) => row.registerEmail && row.registerEmail.includes(email)
+                        );
+                        setEventData(filtered); // Set filtered data for MyBookingProfile or history page
+                    } else if (paramPage === "history") {
+                        // Filter rows that have registerEmail and include emailAuth
+                        // also validate date store only the the date in api less than cureent date
+                        // Get current date in YYYY-MM-DD format
+                        const currentDate = new Date().toISOString().split('T')[0];
+                        const filtered = result.filter(
+                            (row) =>
+                                row.registerEmail &&
+                                row.registerEmail.includes(email) &&
+                                row.date < currentDate
+                        );
+                        setEventData(filtered);
+                    } else if (paramPage === 'profileMyEvent') {
+                        const filteredEvents = result.filter(event => event.owner === email);
+                        console.log('filter events', filteredEvents)
+                        setEventData(filteredEvents); // Set all data for other pages
+                    }
+                }else{
+                    setEventData(result)
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -222,14 +226,14 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
     };
 
 
-    
+
     // Refetch data function
     async function fetchData() {
         try {
             const response = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/eventify");
             const result = await response.json();
             const filteredEvents = result.filter(event => event.owner !== email);
-    
+
             console.log(filteredEvents)
             setEventData(filteredEvents);
         } catch (error) {

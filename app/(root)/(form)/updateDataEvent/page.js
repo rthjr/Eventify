@@ -2,7 +2,7 @@
 import { useRouter, useSearchParams } from '@node_modules/next/navigation';
 import UpdateEventDetail from '@components/FormCard/UpdateEventDetail';
 
-const updateDataEvent = () => {
+const UpdateDataEvent = () => {
     const router = useRouter();
 
     // get param from path
@@ -28,4 +28,4 @@ const updateDataEvent = () => {
     );
 };
 
-export default updateDataEvent;
+export default UpdateDataEvent;

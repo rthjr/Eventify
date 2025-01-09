@@ -17,7 +17,7 @@ const ReportForm = ({onClick, pageEvent}) => {
 
       <p className="text-lg font-light">
         Please help Eventify investigate this event by providing information
-        about why you're reporting it.
+        about why you&apos;re reporting it.
       </p>
 
       <span className="text-xl font-bold text-start">Reason For Report</span>

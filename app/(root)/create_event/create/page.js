@@ -10,6 +10,13 @@ import { withHistory } from "slate-history";
 import { useSession } from "@node_modules/next-auth/react";
 const Create = () => {
   const { data: session } = useSession()
+  let emailOwner = ''
+  if(session.user.phoneAuthenticated){
+    emailOwner = session.user.phone 
+  } else {
+    emailOwner = session.user.email
+  }
+
   const router = useRouter();
 
   // Rich Text Editor
@@ -115,7 +122,7 @@ const Create = () => {
     location: "",
     category: "",
     description: "",
-    owner: session.user.email,
+    owner: emailOwner,
   });
 
 

@@ -63,7 +63,7 @@ export const authOptions = {
                 
                 if(phone === fixedPhone && otp === fixedOtp){
                     console.log("OTP and phone match, returning user object.");
-                    return { id: 2, firstName: "User", lastName: "PhoneNumber"}
+                    return { id: 2, firstName: "User", lastName: "PhoneNumber", phoneAuthenticated: true, phone: fixedPhone ,role: 'user'}
                 }
 
                 throw new Error("Invalid phone number or OTP ")
@@ -86,7 +86,9 @@ export const authOptions = {
                 session.user.id = token.sub
                 session.user.firstName = token.firstName || "Guess"
                 session.user.lastName = token.lastName || "User"
-                session.user.role = token.role 
+                session.user.role = token.role
+                session.user.phoneAuthenticated = token.phoneAuthenticated || false;
+                session.user.phone = token.phone
             }
             return session
         },
@@ -95,6 +97,8 @@ export const authOptions = {
                 token.firstName = user.firstName
                 token.lastName = user.lastName
                 token.role = user.role
+                token.phoneAuthenticated = user.phoneAuthenticated || false
+                token.phone = user.phone
             }
             return token
         }

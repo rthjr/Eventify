@@ -111,7 +111,7 @@ const EventDetail = ({ ticket, bookOtp, pageEvent, blockButton, imageUrl, name, 
                                     <>
                                         <div className="flex flex-col gap-4">
                                             <span>Status : Cannot Refund</span>
-                                            <span>"After booking this event, you cannot refund money."</span>
+                                            <span>&quot;After booking this event, you cannot refund money.&quot;</span>
                                         </div>
                                     </>
                                 )
@@ -119,7 +119,7 @@ const EventDetail = ({ ticket, bookOtp, pageEvent, blockButton, imageUrl, name, 
                                     ? (
                                         <>
                                             <div>
-                                                <span>"You have 24 hours after the event to request a refund. The refund amount will be 80%."</span>
+                                                <span>&quot;You have 24 hours after the event to request a refund. The refund amount will be 80%.&quot;</span>
                                             </div>
                                         </>
                                     )

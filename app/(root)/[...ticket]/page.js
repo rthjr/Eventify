@@ -74,7 +74,7 @@ export default function TicketType({ params }) {
       if (!updatedEmails.includes(session.user.email)) {
         updatedEmails.push(session.user.email);
       } else {
-        console.log("User is already registered.");
+        alert("User is already registered.");
         return;
       }
 
@@ -97,6 +97,7 @@ export default function TicketType({ params }) {
 
       console.log("Registration successful!");
       router.push("/finish")
+
     } catch (error) {
       console.error("Registration failed:", error.message);
     }

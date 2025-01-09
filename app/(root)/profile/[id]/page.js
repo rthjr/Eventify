@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { use } from "react"; // Import the use hook
+import { useEffect } from "react";
 
 // compornent
 import Header from "@components/layout/Header";
@@ -8,17 +9,23 @@ import Footer from "@components/layout/Footer";
 import EventDetail from "@components/layout/EventDetail";
 
 const Page = ({ params }) => {
-    const [events] = useState([
-        { id: 1, imageEvent: "/assets/banner/conference.jpg", eventName: "Tech Summit", date: "Today", creatorName: "Giga", ticketEvent: "open", typeEvent: "Early Bird", location: "San Francisco" },
-        { id: 2, imageEvent: "/assets/banner/sportEvent.jpg", eventName: "Marathon 2025", date: "Tomorrow", creatorName: "RunClub", ticketEvent: "open", typeEvent: "Regular", location: "New York" },
-        { id: 3, imageEvent: "/assets/banner/techEvent.jpg", eventName: "Innovation Expo", date: "Today", creatorName: "TechWorld", ticketEvent: "open", typeEvent: "Regular", location: "Los Angeles" },
-        { id: 4, imageEvent: "/assets/banner/conference2.jpg", eventName: "AI Conference", date: "Month", creatorName: "Giga AI", ticketEvent: "Free", typeEvent: "Late", location: "Boston" },
-        { id: 5, imageEvent: "/assets/banner/conference.jpg", eventName: "Business Workshop", date: "Today", creatorName: "BizPro", ticketEvent: "open", typeEvent: "Early Bird", location: "Chicago" },
-        { id: 6, imageEvent: "/assets/banner/sportEvent.jpg", eventName: "Soccer Finals", date: "Tomorrow", creatorName: "SportsMania", ticketEvent: "open", typeEvent: "Regular", location: "Dallas" },
-        { id: 7, imageEvent: "/assets/banner/techEvent.jpg", eventName: "StartUp Launchpad", date: "Month", creatorName: "LaunchZone", ticketEvent: "open", typeEvent: "Regular", location: "Seattle" },
-        { id: 8, imageEvent: "/assets/banner/conference2.jpg", eventName: "Healthcare Symposium", date: "Tomorrow", creatorName: "MedPlus", ticketEvent: "paid", typeEvent: "Early Bird", location: "Miami" },
-        { id: 9, imageEvent: "/assets/banner/conference2.jpg", eventName: "Global Finance Meet", date: "Month", creatorName: "FinCon", ticketEvent: "open", typeEvent: "Regular", location: "London" },
-    ]);
+
+    const [events, setEvents] = useState([]);
+
+    // fetch api
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await fetch('https://coding-fairy.com/api/mock-api-resources/1734491523/eventify')
+                const result = await response.json();
+                setEvents(result);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
+
+        fetchData();
+    }, [])
 
     const unwrappedParams = use(params); // Unwrap the params Promise
     const eventId = Number(unwrappedParams.id); // Convert unwrappedParams.id to a number
@@ -31,13 +38,15 @@ const Page = ({ params }) => {
             {event ? (
                 <EventDetail
                     key={event.id}
-                    imageEvent={event.imageEvent}
-                    eventName={event.eventName}
+                    imageUrl={event.imageUrl}
+                    name={event.name}
                     date={event.date}
-                    creatorName={event.creatorName}
-                    ticketEvent={event.ticketEvent}
-                    typeEvent={event.typeEvent}
+                    creatorName={event.owner}
+                    ticketType={event.ticketType}
+                    eventType={event.eventType}
                     location={event.location}
+                    description={event.description}
+                    refund={event.refund}
                     bookOtp="false"
                     pageEvent="profile"
                 />

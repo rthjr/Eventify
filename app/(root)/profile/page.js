@@ -32,7 +32,7 @@ const My_Booking = () => {
   // Session and router hooks
   const { data: session, status } = useSession();
   const router = useRouter();
-
+  console.log(session.user?.phoneAuthenticated)
   // api
   useEffect(() => {
     async function fetchData() {

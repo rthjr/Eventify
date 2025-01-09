@@ -14,11 +14,8 @@ import { signOut, useSession } from '@node_modules/next-auth/react';
 const Header = ({ searchQuery, setSearchQuery, isMenu }) => {
 
   // when signout redirect to home page
-  const router = useRouter();
-
   const handleSignOut = async () => {
-    await signOut();  // Sign out the user
-    router.push('/');  // Redirect to the home page
+    await signOut({redirect: false, callbackUrl: "/"});  // Sign out the user
   };
 
   const { data: session } = useSession();

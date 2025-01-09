@@ -11,7 +11,7 @@ import { useState } from 'react'
 import { useSession } from '@node_modules/next-auth/react';
 import { useRouter } from '@node_modules/next/navigation'
 
-const page = () => {
+const Page = () => {
 
   const [searchQuery, setSearchQuery] = useState("")
   const router = useRouter()
@@ -73,4 +73,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

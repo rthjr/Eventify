@@ -1,7 +1,6 @@
 
 "use client"
 import Link from "@node_modules/next/link";
-import { signOut, useSession } from "next-auth/react";
 import Header from "../../components/layout/Header"
 import Footer from "../../components/layout/Footer"
 import Category from "@components/Card/Category";
@@ -14,13 +13,14 @@ import { FaSearch } from "react-icons/fa";
 import { IoCreateOutline } from "react-icons/io5";
 //  swiper
 import SwiperBanner from '../../components/Swiper/SwiperBanner';
+import { useSearch } from "./(form)/context/SearchContext";
 
 export default function Home() {
 
   const [categoryDis, setCategoryDis] = useState("");
 
   // search query
-  const [searchQuery, setSearchQuery] = useState("");
+  const {searchQuery, setSearchQuery} = useSearch()
 
 
   return (

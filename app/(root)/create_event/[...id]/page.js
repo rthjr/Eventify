@@ -114,7 +114,7 @@ const DynamicRoutePage = ({ params }) => {
                                             <input
                                                 type="checkbox"
                                                 checked={
-                                                    selectedEmails.length === eventData.registerEmail.length
+                                                    eventData?.registerEmail && selectedEmails.length === eventData.registerEmail.length
                                                 }
                                                 onChange={handleSelectAll}
                                             />
@@ -124,19 +124,27 @@ const DynamicRoutePage = ({ params }) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {eventData.registerEmail.map((email, index) => (
-                                        <tr key={index}>
-                                            <td>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={selectedEmails.includes(email)}
-                                                    onChange={() => handleSelectEmail(email)}
-                                                />
+                                    {eventData?.registerEmail ? (
+                                        eventData.registerEmail.map((email, index) => (
+                                            <tr key={index}>
+                                                <td>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={selectedEmails.includes(email)}
+                                                        onChange={() => handleSelectEmail(email)}
+                                                    />
+                                                </td>
+                                                <td>{index + 1}</td> {/* Display the ID as a sequential number */}
+                                                <td>{email}</td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="3" style={{ textAlign: 'center' }}>
+                                                <span> No registered emails available.</span>
                                             </td>
-                                            <td>{index + 1}</td> {/* Display the ID as a sequential number */}
-                                            <td>{email}</td>
                                         </tr>
-                                    ))}
+                                    )}
                                 </tbody>
                             </table>
 

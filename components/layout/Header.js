@@ -6,12 +6,14 @@ import Link from 'next/link';
 import { IoSearch } from 'react-icons/io5';
 import { IoEllipsisVertical } from 'react-icons/io5';
 import { CgProfile } from "react-icons/cg";
-import { useRouter } from '@node_modules/next/navigation';
+import { useSearch } from '@app/(root)/(form)/context/SearchContext';
 
 // lib to check  login and sign up after login
 import { signOut, useSession } from '@node_modules/next-auth/react';
 
-const Header = ({ searchQuery, setSearchQuery, isMenu }) => {
+const Header = ({ isMenu }) => {
+
+  const {searchQuery, setSearchQuery} = useSearch()
 
   // when signout redirect to home page
   const handleSignOut = async () => {

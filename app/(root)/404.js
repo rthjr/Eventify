@@ -98,7 +98,7 @@ export default function Error404() {
                             <span>4  0  4</span>
                         </span>
                         <span className="text-gray-500 text-xl">
-                            Sorry, We couldn't find what you are looking for!
+                            Sorry, We couldn&apos;t find what you are looking for!
                         </span>
                     </div>
 

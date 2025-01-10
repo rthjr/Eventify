@@ -10,25 +10,22 @@ import { useRouter } from 'next/navigation';
 import Create from '@components/pages/CreateEvent/Create';
 import MyEvent from '@components/pages/CreateEvent/MyEvent';
 import Dashboard from '@components/pages/CreateEvent/Dashboard';
+import { useSearch } from '../(form)/context/SearchContext';
 
 const CreateEvent = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+  const {searchQuery, setSearchQuery} = useSearch()
   const { data: session, status } = useSession();
   const router = useRouter();
   const [showLoading, setShowLoading] = useState(true);
   const [isMenu, setIsMenu] = useState('dashboard'); // Initialize with a default value
 
   useEffect(() => {
-    if (status === 'loading' || status === 'unauthenticated') {
-      setShowLoading(true);
+    if (status === 'loading') {
+      setShowLoading(true); // Show loading while session is being fetched
+    } else if (status === 'unauthenticated') {
+      router.push('/login'); // Redirect to login if unauthenticated
     } else {
-      setShowLoading(false);
-    }
-  }, [status]);
-
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/login');
+      setShowLoading(false); // Session is loaded and user is authenticated
     }
   }, [status, router]);
 
@@ -36,12 +33,15 @@ const CreateEvent = () => {
     setIsMenu(menu);
   };
 
-  if (showLoading && status === 'unauthenticated') {
+  // Show loading state while session is being fetched
+  if (showLoading || status === 'loading') {
     return <Loading />;
   }
 
-
-  // search query
+  // If session is not available, do not render the main content
+  if (!session) {
+    return null; // or redirect to login
+  }
 
   return (
     <div className='w-full h-full flex flex-col justify-center items-center border'>

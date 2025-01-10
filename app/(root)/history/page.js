@@ -12,9 +12,6 @@ import { useSession } from "@node_modules/next-auth/react";
 import { useRouter } from "@node_modules/next/navigation";
 
 const Page = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const router = useRouter();
-
   // Session and router hooks
   const { data: session, status } = useSession();
   const [email, setEmail] = useState("");
@@ -58,14 +55,13 @@ const Page = () => {
 
   return (
     <>
-      <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      <Header/>
       <Events
         nameClass="justify-around"
         widthE="w-10/12"
         pageEvent="history"
         removeLike="false"
-        paramPage="history"
-        searchQuery={searchQuery}
+        paramPage = "history"
         EventCreator="yes"
         email={email}
       />
@@ -74,4 +70,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default Page

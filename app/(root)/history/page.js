@@ -13,7 +13,6 @@ import { useRouter } from '@node_modules/next/navigation'
 
 const Page = () => {
 
-  const [searchQuery, setSearchQuery] = useState("")
   const router = useRouter()
 
   // Session and router hooks
@@ -57,14 +56,13 @@ const Page = () => {
 
   return (
     <>
-      <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      <Header/>
       <Events
         nameClass="justify-around"
         widthE="w-10/12"
         pageEvent="history"
         removeLike="false"
         paramPage = "history"
-        searchQuery={searchQuery}
         EventCreator="yes"
         email={email}
       />

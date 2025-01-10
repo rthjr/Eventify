@@ -10,8 +10,11 @@ import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 import Button from "@components/Button/Button";
 import defaultFavorites from "@model/favoritePageData";
 import { useSession } from "@node_modules/next-auth/react";
+import { useSearch } from "@app/(root)/(form)/context/SearchContext";
 
-const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, removeLike, paramPage, searchQuery, email }) => {
+const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, removeLike, paramPage, email }) => {
+
+    const { searchQuery } = useSearch()
     const [eventData, setEventData] = useState([]);
     console.log(email)
     console.log(paramPage)
@@ -45,7 +48,7 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                         console.log('filter events', filteredEvents)
                         setEventData(filteredEvents); // Set all data for other pages
                     }
-                }else{
+                } else {
                     setEventData(result)
                 }
             } catch (error) {
@@ -66,15 +69,24 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
     // default event
     const [favorites, setFavorites] = useState({});
 
-    // Initialize state with localStorage data or default favorites
-    const [pageFavorite, setPageFavorite] = useState(() => {
-        const storedFavorites = localStorage.getItem("pageFavorite");
-        return storedFavorites ? JSON.parse(storedFavorites) : defaultFavorites;
-    });
+    // Replace this block
+    const [pageFavorite, setPageFavorite] = useState(defaultFavorites);
+
+    useEffect(() => {
+        // Check if window is defined (client-side)
+        if (typeof window !== "undefined") {
+            const storedFavorites = localStorage.getItem("pageFavorite");
+            if (storedFavorites) {
+                setPageFavorite(JSON.parse(storedFavorites));
+            }
+        }
+    }, []);
 
     // Save to localStorage whenever pageFavorite changes
     useEffect(() => {
-        localStorage.setItem("pageFavorite", JSON.stringify(pageFavorite));
+        if (typeof window !== "undefined") {
+            localStorage.setItem("pageFavorite", JSON.stringify(pageFavorite));
+        }
     }, [pageFavorite]);
 
     // Filter events based on selected filters

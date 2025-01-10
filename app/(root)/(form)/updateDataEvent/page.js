@@ -1,15 +1,17 @@
-"use client"
-import { useRouter, useSearchParams } from '@node_modules/next/navigation';
-import UpdateEventDetail from '@components/FormCard/UpdateEventDetail';
+"use client";
 
-const UpdateDataEvent = () => {
+import { useRouter, useSearchParams } from 'next/navigation';
+import UpdateEventDetail from '@components/FormCard/UpdateEventDetail';
+import { Suspense } from 'react'; // Import Suspense
+
+const UpdateDataEventContent = () => {
     const router = useRouter();
 
-    // get param from path
+    // Get param from path
     const searchParams = useSearchParams();
     const pageEvent = Number(searchParams.get("eventID"));
-    
-    // handle route back
+
+    // Handle route back
     const handleRouteBack = (e) => {
         e.preventDefault();
         router.back();
@@ -25,6 +27,14 @@ const UpdateDataEvent = () => {
                 />
             )}
         </div>
+    );
+};
+
+const UpdateDataEvent = () => {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <UpdateDataEventContent />
+        </Suspense>
     );
 };
 

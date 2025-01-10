@@ -15,14 +15,10 @@ const Header = ({ searchQuery, setSearchQuery, isMenu }) => {
 
   // when signout redirect to home page
   const handleSignOut = async () => {
-    await signOut({redirect: false, callbackUrl: "/"});  // Sign out the user
-  };
-
+    await signOut({redirect: false, callbackUrl: "/"});
+  }
   const { data: session } = useSession();
-  console.log(session);
-
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };

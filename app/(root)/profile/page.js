@@ -1,22 +1,15 @@
-"use client"
+"use client";
 
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import { RxAvatar } from "react-icons/rx";
 import Header from '@components/layout/Header';
 import Footer from '@components/layout/Footer';
-import { useState } from 'react';
 import Events from '@components/All_Event/Events';
-import { useEffect } from 'react';
-import { useRouter } from '@node_modules/next/navigation';
-
-
-
-// lib to check  login and sign up after login
-import {  useSession } from '@node_modules/next-auth/react';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import Button from '@components/Button/Button';
 
 const My_Booking = () => {
-
   // State declarations
   const [emailAuth, setEmailAuth] = useState('');
   const [activeSection, setActiveSection] = useState('myBooking');
@@ -27,29 +20,11 @@ const My_Booking = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
 
   // Session and router hooks
   const { data: session, status } = useSession();
   const router = useRouter();
-  console.log(session.user?.phoneAuthenticated)
-  // api
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch('https://coding-fairy.com/api/mock-api-resources/1734491523/eventify');
-        const data = await response.json();
-        // Check if the API response contains registerEmail
-        if (data.registerEmail && data.registerEmail === emailAuth) {
-          setEmailAuth(data.registerEmail); // Store registerEmail in state
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    }
 
-    fetchData();
-  });
   // Ensure loading state persists for at least 3000ms
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -117,9 +92,19 @@ const My_Booking = () => {
     setIsPopupOpen(false);
   };
 
+  // Render loading state
+  if (showLoading || status === 'loading') {
+    return <div>Loading...</div>;
+  }
+
+  // Render nothing if session is not available
+  if (!session) {
+    return null;
+  }
+
   return (
     <div>
-      <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      <Header />
       <div className='w-full h-full my-20 flex flex-col justify-center items-center'>
         <div className='w-9/12 h-auto flex flex-col '>
 
@@ -252,8 +237,7 @@ const My_Booking = () => {
                   paramPage="MyBookingProfile"
                   nameClass="justify-between"
                   EventCreator="yes"
-                  searchQuery={searchQuery}
-                  email = {email}
+                  email={email}
                 />
               </div>
             )}
@@ -267,7 +251,6 @@ const My_Booking = () => {
                   nameClass="justify-around"
                   pageEvent="create_event"
                   paramPage="profileMyEvent"
-                  searchQuery={searchQuery}
                   myevent="myevent"
                   email={email}
                 />

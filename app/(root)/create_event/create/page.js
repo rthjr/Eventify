@@ -8,18 +8,12 @@ import { Editor, createEditor, Node } from "slate";
 import { withReact, Slate, Editable } from "slate-react";
 import { withHistory } from "slate-history";
 import { useSession } from "@node_modules/next-auth/react";
-const Create = () => {
-  const { data: session } = useSession()
-  let emailOwner = ''
-  if(session.user.phoneAuthenticated){
-    emailOwner = session.user.phone 
-  } else {
-    emailOwner = session.user.email
-  }
 
+const Create = () => {
+  const { data: session, status } = useSession();
   const router = useRouter();
 
-  // Rich Text Editor
+  // Declare all hooks unconditionally
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
   const [value, setValue] = useState([
     {
@@ -27,15 +21,25 @@ const Create = () => {
       children: [{ text: " " }],
     },
   ]);
-
   const [activeFormats, setActiveFormats] = useState({
     bold: false,
     italic: false,
     underline: false,
   });
-
   const [selectedColor, setSelectedColor] = useState("black");
+  const [formData, setFormData] = useState({
+    name: "",
+    date: "",
+    startTime: "",
+    endTime: "",
+    location: "",
+    category: "",
+    description: "",
+    owner: "",
+  });
+  const [category, setCategory] = useState([]);
 
+  // Rich Text Editor functions
   const renderElement = useCallback(({ attributes, children, element }) => {
     switch (element.type) {
       case "paragraph":
@@ -58,6 +62,54 @@ const Create = () => {
     return <span {...attributes}>{children}</span>;
   }, []);
 
+  // Fetch categories
+  useEffect(() => {
+    async function fetchCategory() {
+      try {
+        const response = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/category");
+        const data = await response.json();
+        const filteredData = data.filter(item => item.name !== "All");
+        setCategory(filteredData);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    }
+
+    fetchCategory();
+  }, []);
+
+  // Handle session and emailOwner logic
+  useEffect(() => {
+    if (status === "loading") return; // Still loading, do nothing
+
+    if (!session || !session.user) {
+      router.push("/auth/signin"); // Redirect if not authenticated
+      return;
+    }
+
+    // Set emailOwner based on session
+    let emailOwner = '';
+    if (session.user.phoneAuthenticated) {
+      emailOwner = session.user.phone;
+    } else {
+      emailOwner = session.user.email;
+    }
+
+    // Update formData with emailOwner
+    setFormData((prev) => ({ ...prev, owner: emailOwner }));
+  }, [session, status, router]);
+
+  // Render loading state if session is still loading
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  // Render nothing if redirecting (router.push will handle the redirect)
+  if (!session || !session.user) {
+    return null;
+  }
+
+  // Rich Text Editor functions
   const toggleFormat = (format) => {
     const isActive = Editor.marks(editor)?.[format] === true;
     if (isActive) {
@@ -73,8 +125,6 @@ const Create = () => {
     Editor.addMark(editor, "color", color);
     setSelectedColor(color);
   };
-
-
 
   const TextEditorButton = ({ onMouseDown, active, children }) => (
     <button
@@ -113,28 +163,14 @@ const Create = () => {
     </select>
   );
 
-  //TODO handle form submitted
-  const [formData, setFormData] = useState({
-    name: "",
-    date: "",
-    startTime: "",
-    endTime: "",
-    location: "",
-    category: "",
-    description: "",
-    owner: emailOwner,
-  });
-
-
   const handleFormChange = (e) => {
     const { id, value } = e.target;
-    console.log(value);
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
+
   const handleEditorChange = (newValue) => {
     setValue(newValue);
     const plainText = serialize(newValue);
-    console.log(plainText)
     setFormData((prev) => ({ ...prev, description: plainText }));
     const marks = Editor.marks(editor) || {};
     setActiveFormats({
@@ -144,7 +180,6 @@ const Create = () => {
     });
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.date || !formData.startTime || !formData.endTime || !formData.location || !formData.category) {
@@ -152,39 +187,16 @@ const Create = () => {
       return;
     }
     try {
-      console.log(formData)
       localStorage.setItem("eventData", JSON.stringify(formData));
-      console.log("Updated local storage data:", formData);
       router.push(`/create_event/create/upload`);
     } catch (error) {
       throw new Error(error);
     }
   };
 
-
   const serialize = (nodes) => {
     return nodes.map(n => Node.string(n)).join('\n');
   };
-
-
-
-  // hanlde select data form category put in selector
-  const [category, setCategory] = useState([]);
-
-  useEffect(() => {
-    async function fetchCategory() {
-      try {
-        const response = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/category");
-        const data = await response.json();
-        const filteredData = data.filter(item => item.name !== "All");
-        setCategory(filteredData);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    }
-
-    fetchCategory();
-  }, []);
 
 
   return (

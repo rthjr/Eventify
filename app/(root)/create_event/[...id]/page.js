@@ -141,7 +141,7 @@ const DynamicRoutePage = ({ params }) => {
                                     ) : (
                                         <tr>
                                             <td colSpan="3" style={{ textAlign: 'center' }}>
-                                                No registered emails available.
+                                                <span> No registered emails available.</span>
                                             </td>
                                         </tr>
                                     )}

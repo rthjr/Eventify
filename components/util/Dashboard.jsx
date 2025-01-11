@@ -3,7 +3,7 @@ import Dropdown from "@components/util/DropDown";
 import StatusBar from "@components/util/StatusBar";
 import Table from "@components/util/Table";
 import { useEffect, useState } from "react";
-
+import LoadingPage from "./Loading";
 export default function DashboardAdmin() {
   const thName = [
     "Select",
@@ -49,7 +49,9 @@ export default function DashboardAdmin() {
   }, []);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <div className='flex justify-center items-center min-h-screen'>
+            <LoadingPage />
+          </div>;
   }
 
   if (error) {

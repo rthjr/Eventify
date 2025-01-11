@@ -1,4 +1,5 @@
 "use client";
+import { NextResponse } from "@node_modules/next/server";
 import { useState, useEffect } from "react";
 
 function StatCard({ title, value, icon }) {
@@ -20,36 +21,42 @@ export default function StatusBar() {
 
   useEffect(() => {
     async function fetchData() {
-      try {
-        const response = await fetch(
-          "https://coding-fairy.com/api/mock-api-resources/1734491523/eventify"
-        );
-        const result = await response.json();
+        try {
+            const response = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/eventify", {
+                method: "GET",
+            });
+            if (!response.ok) {
+                throw new Error("Cannot fetch from API");
+            }
 
-        const totalEvents = result.length;
-        const allEmailUsers = new Set();
-        const allCreators = new Set();
+            const result = await response.json();
 
-        result.forEach((event) => {
-          // for user registration
-          event.registerEmail.forEach((email) => allEmailUsers.add(email));
+            console.log(result)
 
-          // for creator
-          allCreators.add(event.owner);
+            const totalEvents = result.length;
+            const allEmailUsers = new Set();
+            const allCreators = new Set();
+            console.log(totalEvents, allEmailUsers, allCreators)
 
-          setEventsData({
-            totalUsers: allEmailUsers.size, 
-            totalCreators: allCreators.size,
-            totalEvents,
-          });
-        });
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+            result.forEach((event) => {
+                event.registerEmail.forEach((email) => allEmailUsers.add(email));
+                allCreators.add(event.owner);
+            });
+            setEventsData({
+                totalUsers: allEmailUsers.size,
+                totalCreators: allCreators.size,
+                totalEvents,
+            });
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
     }
 
     fetchData();
-  }, []);
+}, []); // Dependency array is empty to run this effect only once
+
+
+  console.log(eventsData)
 
   const stats = [
     {

@@ -8,7 +8,7 @@ export default function Category() {
   const [click, setClick] = useState(false);
   const [categories, setCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filterOrder, setFilterOrder] = useState(null); // state for sorting order
+  const [filterOrder, setFilterOrder] = useState(null);
   const thName = [
     "select",
     "Category Name",

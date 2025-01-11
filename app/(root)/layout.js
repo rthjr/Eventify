@@ -13,7 +13,8 @@ export default function RootLayout({ children }) {
             <body>
                 <main>
                     <AuthProvider>
-                        <SearchProvider>{children}</SearchProvider>
+                        <SearchProvider>
+                            {children}</SearchProvider>
                     </AuthProvider>
                 </main>
             </body>

@@ -103,29 +103,33 @@ const EventDetail = ({ ticket, bookOtp, pageEvent, blockButton, imageUrl, name, 
                         <p>{description}</p>
                     </div>
 
-                    <div className="flex flex-col gap-2 mb-12">
-                        <p className="font-bold text-xl">Refund</p>
-                        <div>
-                            {ticketType === "paid" && refund === null
-                                ? (
-                                    <>
-                                        <div className="flex flex-col gap-4">
-                                            <span>Status : Cannot Refund</span>
-                                            <span>&quot;After booking this event, you cannot refund money.&quot;</span>
-                                        </div>
-                                    </>
-                                )
-                                : refund !== null
-                                    ? (
-                                        <>
-                                            <div>
-                                                <span>&quot;You have 24 hours after the event to request a refund. The refund amount will be 80%.&quot;</span>
-                                            </div>
-                                        </>
-                                    )
-                                    : ""}
-                        </div>
-                    </div>
+                    {
+                        ticketType === "paid" && (
+                            <div className="flex flex-col gap-2 mb-12">
+                                <p className="font-bold text-xl">Refund</p>
+                                <div>
+                                    {ticketType === "paid" && refund === null
+                                        ? (
+                                            <>
+                                                <div className="flex flex-col gap-4">
+                                                    <span>Status : Cannot Refund</span>
+                                                    <span>&quot;After booking this event, you cannot refund money.&quot;</span>
+                                                </div>
+                                            </>
+                                        )
+                                        : refund !== null
+                                            ? (
+                                                <>
+                                                    <div>
+                                                        <span>&quot;You have 24 hours after the event to request a refund. The refund amount will be 80%.&quot;</span>
+                                                    </div>
+                                                </>
+                                            )
+                                            : ""}
+                                </div>
+                            </div>
+                        )
+                    }
 
                     <div className="flex flex-col gap-2 mb-12">
                         <p className="font-bold text-xl">Organized by</p>

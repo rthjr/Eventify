@@ -12,6 +12,8 @@ import { useSession } from "@node_modules/next-auth/react";
 import { useRouter } from "@node_modules/next/navigation";
 
 const Page = () => {
+
+  const router = useRouter()
   // Session and router hooks
   const { data: session, status } = useSession();
   const [email, setEmail] = useState("");

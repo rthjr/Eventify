@@ -20,24 +20,44 @@ const Dashboard = ({ email }) => {
         );
         const result = await response.json();
 
-        // Filter data
-        const filteredBook = result.filter(
+        // Filter data based on the selected filter (day, week, month)
+        const currentDate = new Date();
+        const filteredEvents = result.filter((event) => {
+          const eventDate = new Date(event.date);
+          const timeDiff = eventDate - currentDate;
+
+          switch (filter) {
+            case "day":
+              return (
+                eventDate.getDate() === currentDate.getDate() &&
+                eventDate.getMonth() === currentDate.getMonth() &&
+                eventDate.getFullYear() === currentDate.getFullYear()
+              );
+            case "week":
+              return timeDiff > 0 && timeDiff <= 7 * 24 * 60 * 60 * 1000;
+            case "month":
+              return (
+                eventDate.getMonth() === currentDate.getMonth() &&
+                eventDate.getFullYear() === currentDate.getFullYear()
+              );
+            default:
+              return true;
+          }
+        });
+
+        const filteredBook = filteredEvents.filter(
           (row) => row.registerEmail && row.registerEmail.includes(email)
         );
-        const filteredEvents = result.filter((event) => event.owner === email);
-
         const totalEvents = filteredEvents.length;
         const totalBooked = filteredBook.length;
 
-
-        // filtered up coming event
-        const currentDate = new Date();
+        // Filter upcoming events
         const totalUpComing = filteredEvents.filter((event) => {
           const eventDate = new Date(event.date);
           return eventDate > currentDate;
         }).length;
 
-        setEventsData({ 
+        setEventsData({
           totalEvent: totalEvents,
           totalBooked: totalBooked,
           totalUpComing: totalUpComing,
@@ -47,7 +67,7 @@ const Dashboard = ({ email }) => {
       }
     }
     fetchData();
-  }, [email]); // Ensure `email` is part of dependencies
+  }, [email, filter]); // Ensure `email` and `filter` are part of dependencies
 
   // Handle filter change
   const handleFilterChange = (e) => {

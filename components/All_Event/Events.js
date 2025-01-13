@@ -11,8 +11,11 @@ import Button from "@components/Button/Button";
 import defaultFavorites from "@model/favoritePageData";
 import { useSession } from "@node_modules/next-auth/react";
 import { useSearch } from "@app/(root)/(form)/context/SearchContext";
+import { useFavorite } from "@app/(root)/(form)/context/FavoriteContext";
 
 const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, removeLike, paramPage, email }) => {
+
+    const { pageFavorite, handleAddToFavorite, handleDeleteFavorite } = useFavorite();
 
     const { searchQuery } = useSearch()
     const [eventData, setEventData] = useState([]);
@@ -69,26 +72,7 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
     // default event
     const [favorites, setFavorites] = useState({});
 
-    // Replace this block
-    const [pageFavorite, setPageFavorite] = useState(defaultFavorites);
-
-    useEffect(() => {
-        // Check if window is defined (client-side)
-        if (typeof window !== "undefined") {
-            const storedFavorites = localStorage.getItem("pageFavorite");
-            if (storedFavorites) {
-                setPageFavorite(JSON.parse(storedFavorites));
-            }
-        }
-    }, []);
-
-    // Save to localStorage whenever pageFavorite changes
-    useEffect(() => {
-        if (typeof window !== "undefined") {
-            localStorage.setItem("pageFavorite", JSON.stringify(pageFavorite));
-        }
-    }, [pageFavorite]);
-
+   
     // Filter events based on selected filters
     const filteredEvents = eventData.filter(event => {
         // Search matching
@@ -167,15 +151,6 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
         }));
     };
 
-    // add card to favorite page
-    // Add event to pageFavorite
-    const handleAddToFavorite = (eventId) => {
-        setPageFavorite(prev => ({
-            ...prev,
-            [eventId]: true,
-        }));
-    };
-
     // like
     const handleFavoriteCompo = (id) => {
         return favorites[id] ? (
@@ -191,15 +166,6 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
             />
         );
     };
-
-    // function delete event from favorite page
-    const handleDeleteFavorite = (eventId) => {
-        setPageFavorite(prev => {
-            const updateFavorite = { ...prev };
-            delete updateFavorite[eventId]
-            return updateFavorite
-        })
-    }
 
     // handle delete event form creator list 
     // condition able to delete if the date range in 24hours after create 

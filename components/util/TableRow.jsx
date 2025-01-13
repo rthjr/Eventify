@@ -58,7 +58,8 @@ export default function TableRow({
           (key === "qrUrl") ||
           (key === "isCash") ||
           (key === "registerEmail") ||
-          (key === "isEditing")
+          (key === "isEditing") ||
+          (key === "surveyResponse")
         ) {
           return null;
         }

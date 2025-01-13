@@ -262,27 +262,7 @@ const Tickets = () => {
               )}
               {isFree && (
                 <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
-                  <h2 className="text-xl font-bold text-start">
-                    Type of event Regular, Early Bird, Last Event
-                  </h2>
                   <div className="flex flex-col gap-8">
-                    <div className="flex flex-col gap-4">
-                      <label htmlFor="eventType">Event Type</label>
-                      <select
-                        id="eventType"
-                        className="p-2 border-2 border-black rounded-lg text-black"
-                        onChange={handleFormChange}
-                      >
-                        <option value="" disabled>
-                          Select Event Type
-                        </option>
-                        <option value="Early Bird">Early Bird</option>
-                        <option value="Regular">Regular</option>
-                        <option value="Last">Last</option>
-                      </select>
-                    </div>
-
-
                     <div className="flex flex-col gap-4">
                       <label htmlFor="Amount of Attendee">
                         Amount of Attendee
@@ -298,65 +278,32 @@ const Tickets = () => {
                   </div>
 
                   <button
-                type="button"
-                onClick={() => console.log("Go Back")}
-                className="bg-gray-300 text-black py-2 px-4 rounded"
-              >
-                Back
-              </button>
+                    type="button"
+                    onClick={() => console.log("Go Back")}
+                    className="bg-gray-300 text-black py-2 px-4 rounded"
+                  >
+                    Back
+                  </button>
 
-              <button className="bg-blue-500 text-white py-2 px-4 rounded">
-                Save & Continue
-              </button>
+                  <button className="bg-blue-500 text-white py-2 px-4 rounded">
+                    Save & Continue
+                  </button>
                 </form>
               )}
               {isOpen && (
                 <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
-                  <h2 className="text-xl font-bold text-start">
-                    Type of event Regular, Early Bird, Last Event
-                  </h2>
-                  <div className="flex flex-col gap-8">
-                    <div className="flex flex-col gap-4">
-                      <label htmlFor="eventType">Event Type</label>
-                      <select
-                        id="eventType"
-                        className="p-2 border-2 border-black rounded-lg text-black"
-                        onChange={handleFormChange}
-                      >
-                        <option value="" disabled defaultValue>
-                          Select Event Type
-                        </option>
-                        <option value="Early Bird">Early Bird</option>
-                        <option value="Regular">Regular</option>
-                        <option value="Last">Last</option>
-                      </select>
-                    </div>
-
-                    <div className="flex flex-col gap-4">
-                      <label htmlFor="Amount of Attendee">
-                        Amount of Attendee
-                      </label>
-                      <input
-                        className="p-2 border-2 border-black rounded-lg text-black"
-                        type="number"
-                        placeholder="Amount of attendee"
-                        id="limitTicket"
-                        onChange={handleFormChange}
-                      />
-                    </div>
-                  </div>
-
+                  <span>Click save and continue!</span>
                   <button
-                type="button"
-                onClick={() => console.log("Go Back")}
-                className="bg-gray-300 text-black py-2 px-4 rounded"
-              >
-                Back
-              </button>
+                    type="button"
+                    onClick={() => console.log("Go Back")}
+                    className="bg-gray-300 text-black py-2 px-4 rounded"
+                  >
+                    Back
+                  </button>
 
-              <button className="bg-blue-500 text-white py-2 px-4 rounded">
-                Save & Continue
-              </button>
+                  <button className="bg-blue-500 text-white py-2 px-4 rounded">
+                    Save & Continue
+                  </button>
                 </form>
               )}
             </div>

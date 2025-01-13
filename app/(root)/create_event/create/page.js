@@ -96,7 +96,7 @@ const Create = () => {
     }
 
     // Update formData with emailOwner
-    setFormData((prev) => ({ ...prev, owner: emailOwner }));
+    setFormData((prev) => ({ ...prev, owner: emailOwner, registerEmail: {} }));
   }, [session, status, router]);
 
   // Render loading state if session is still loading

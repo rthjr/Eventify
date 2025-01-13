@@ -8,6 +8,7 @@ import Events from '@components/All_Event/Events';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Button from '@components/Button/Button';
+import LoadingPage from '@components/util/Loading';
 
 const My_Booking = () => {
   // State declarations
@@ -94,7 +95,11 @@ const My_Booking = () => {
 
   // Render loading state
   if (showLoading || status === 'loading') {
-    return <div>Loading...</div>;
+    return (
+      <div className='flex justify-center items-center min-h-screen'>
+        <LoadingPage />
+      </div>
+    );
   }
 
   // Render nothing if session is not available
@@ -107,7 +112,6 @@ const My_Booking = () => {
       <Header />
       <div className='w-full h-full my-20 flex flex-col justify-center items-center'>
         <div className='w-9/12 h-auto flex flex-col '>
-
           {/* Profile Details Section */}
           <div className='flex flex-col items-center'>
             {/* Profile Section */}

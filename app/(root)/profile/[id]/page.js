@@ -23,10 +23,10 @@ const Page = ({ params }) => {
                 console.error("Error fetching data:", error);
             }
         }
-
         fetchData();
     }, [])
 
+    
     const unwrappedParams = use(params); // Unwrap the params Promise
     const eventId = Number(unwrappedParams.id); // Convert unwrappedParams.id to a number
     const event = events.find(event => event.id === eventId);

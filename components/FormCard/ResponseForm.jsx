@@ -3,7 +3,6 @@ import { useSession } from "@node_modules/next-auth/react";
 import { useEffect, useState } from "react";
 import LoadingPage from "@components/util/Loading";
 import NotFound from "@components/util/NotFound";
-import { useTheme } from "@node_modules/@mui/material";
 export default function ResponseForm() {
   const { data: session, status } = useSession();
 
@@ -23,6 +22,7 @@ export default function ResponseForm() {
   const [respondence, setRespondence] = useState([]);
   const [authorize, setAuthorize] = useState(false);
   const [respond, setRespond] = useState({})
+  console.log(respondence)
   useEffect(() => {
     async function fetchResponder() {
       try {
@@ -52,7 +52,7 @@ export default function ResponseForm() {
     }
   }, [respondence, session]);
 
-
+  console.log(respond)
   if (status === "loading") {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -62,8 +62,6 @@ export default function ResponseForm() {
   }
 
   //find the email compare to the session
- 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -72,7 +70,7 @@ export default function ResponseForm() {
     e.preventDefault();
     try {
       const updatedData = {
-        eventID: respond,
+        eventID: respond.eventID,
         sender: session.user.email,
         feedback: formData,
       };
@@ -94,7 +92,8 @@ export default function ResponseForm() {
       const resEmails = respond.responderEmail || [];
       const filterEmails = resEmails.filter(email => email !== session.user.email);
       respond.responderEmail = filterEmails;
-      const updateRespondent = await fetch(`https://coding-fairy.com/api/mock-api-resources/1734491523/responder/${respond.eventID}`, {
+      console.log(filterEmails)
+      const updateRespondent = await fetch(`https://coding-fairy.com/api/mock-api-resources/1734491523/responder/${respond.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

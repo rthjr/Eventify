@@ -1,6 +1,7 @@
 "use client";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Loading from "@app/(root)/loading";
 
 export default function CategoryForm() {
   const [submitted, setSubmitted] = useState(false);
@@ -12,6 +13,21 @@ export default function CategoryForm() {
     reset,
   } = useForm();
   const [imagePreview, setImagePreview] = useState(null);
+  const [isLoading, setIsLoading] = useState(false); // State for loading spinner
+
+  // Function to handle image selection
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setIsLoading(true); // Show loading spinner
+      setImagePreview(URL.createObjectURL(file));
+
+      // Simulate a 2000ms delay for the spinning effect
+      setTimeout(() => {
+        setIsLoading(false); // Hide loading spinner after 2000ms
+      }, 2000);
+    }
+  };
 
   const onSubmit = async (data) => {
     const currentDate = new Date();
@@ -106,21 +122,25 @@ export default function CategoryForm() {
               accept="image/*"
               {...register("imageSrc", { required: "Image is required" })}
               className="bg-white rounded-lg py-2 px-5 border-blue-600 border-[1px]"
-              onChange={(e) =>
-                setImagePreview(URL.createObjectURL(e.target.files[0]))
-              }
+              onChange={handleImageChange} // Use the new handler
             />
             {errors.imageSrc && (
               <p className="mt-2 mb-2 text-sm text-red-600">
                 {errors.imageSrc.message}
               </p>
             )}
-            {imagePreview && (
-              <img
-                src={imagePreview}
-                alt="Preview"
-                className="mt-4 w-32 h-32 object-cover rounded-lg"
-              />
+            {isLoading ? ( // Show loading spinner while image is "processing"
+              <div className="mt-4 w-32 h-32 flex items-center justify-center">
+                <Loading />
+              </div>
+            ) : (
+              imagePreview && ( // Show image preview after loading
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  className="mt-4 w-32 h-32 object-cover rounded-lg"
+                />
+              )
             )}
           </div>
 

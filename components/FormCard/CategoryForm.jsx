@@ -17,7 +17,7 @@ export default function CategoryForm() {
   const [isLoading, setIsLoading] = useState(false); // State for loading spinner
 
   // Function to handle image selection
-  const handleImageChange = (e) => {
+  const handleImagePreviewChange  = (e) => {
     const file = e.target.files[0];
     if (file) {
       setIsLoading(true); // Show loading spinner
@@ -134,7 +134,7 @@ export default function CategoryForm() {
               accept="image/*"
               {...register("imageSrc", { required: "Image is required" })}
               className="bg-white rounded-lg py-2 px-5 border-blue-600 border-[1px]"
-              onChange={handleImageChange} 
+              onChange={handleImagePreviewChange } // Use the new handler
             />
             {errors.imageSrc && (
               <p className="mt-2 mb-2 text-sm text-red-600">

@@ -5,6 +5,7 @@ import Loading from "@app/(root)/loading";
 
 export default function CategoryForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false); 
   const [categories, setCategories] = useState([]);
   const {
     register,
@@ -85,6 +86,17 @@ export default function CategoryForm() {
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+
+  // Handle image preview loading
+  const handleImageChange = (e) => {
+    setLoading(true); // Start loading when image is selected
+    const file = e.target.files[0];
+    const imageUrl = URL.createObjectURL(file);
+    setImagePreview(imageUrl);
+
+    // Simulate loading time and stop spinner after 2000ms or once the image is loaded
+    setTimeout(() => setLoading(false), 2000);
   };
 
   if (submitted) {

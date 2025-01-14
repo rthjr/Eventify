@@ -1,5 +1,4 @@
 "use client";
-
 import EventDetail from "@components/layout/EventDetail";
 import { useState, useEffect } from "react";
 import Header from "@components/layout/Header";
@@ -8,6 +7,7 @@ import SurveyForm from "@components/FormCard/SurveyForm";
 import Button from "@components/Button/Button";
 import ResultSurveyForm from "@components/FormCard/ResultSurveyForm";
 import { useRouter } from "@node_modules/next/navigation";
+import emailjs, { send } from '@emailjs/browser';
 import { use } from "react";
 
 const DynamicRoutePage = ({ params }) => {
@@ -16,6 +16,7 @@ const DynamicRoutePage = ({ params }) => {
   const [selectedEmails, setSelectedEmails] = useState([]);
   const router = useRouter();
   const [isSurveyFormVisible, setIsSurveyFormVisible] = useState(false);
+  const [senders, setSenders] = useState([])
   const [responder, setResponder] = useState({
     responderEmails: {},
     eventID: null,
@@ -34,6 +35,7 @@ const DynamicRoutePage = ({ params }) => {
         const result = await response.json();
         const event = result.find((event) => event.id === eventIdNumber);
         setEventData(event);
+        setSenders(event.registerEmail);
         setResponder({ eventID: eventIdNumber });
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -43,13 +45,14 @@ const DynamicRoutePage = ({ params }) => {
     fetchData();
   }, [eventIdNumber]);
 
+  console.log(senders)
    const onSubmitButton = async () => {
     console.log(selectedEmails)
     console.log(responder)
     setResponder({ responderEmails: selectedEmails})
     console.log(responder)
     try {
-      await fetch(
+       const response = await fetch(
         "https://coding-fairy.com/api/mock-api-resources/1734491523/responder",
         {
           method: "POST",
@@ -59,6 +62,35 @@ const DynamicRoutePage = ({ params }) => {
           body: JSON.stringify(responder),
         }
       );
+
+      if(!response.ok){
+        console.log('cannot post request')
+      }
+
+      const emailPromises = selectedEmails.map((email) => {
+        const templateParams = {
+          to_email: email,
+          to_name: email,
+          message: 'https://github.com/goktugcy/hono-boilerplate/blob/main/src/middlewares/authMiddleware.ts',
+        };
+    
+        return emailjs.send(
+          "service_okd15r2",
+          "template_uuxk1ab",
+          templateParams,
+          "beDn_1Gr5miERdH1L"
+        );
+      });
+
+      try {
+        const emailResults = await Promise.all(emailPromises);
+        console.log("Emails sent successfully:", emailResults);
+        alert("Emails sent to selected participants.");
+      } catch (error) {
+        console.error("Error sending emails:", error);
+        alert("Failed to send some emails.");
+      }
+    
     } catch (error) {
       throw new Error("fetching error");
     }
@@ -215,16 +247,15 @@ const DynamicRoutePage = ({ params }) => {
             </div>
           </div>
         )}
-
         {activeView === "resultSurvey" && (
           <div className="m-auto w-5/12">
             <ResultSurveyForm
               detailSurvey="yes"
               eventIdNumber={eventIdNumber}
+              senders = { senders }
             />
           </div>
         )}
-
         <Footer />
       </div>
     </div>

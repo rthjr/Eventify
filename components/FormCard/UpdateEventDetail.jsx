@@ -4,12 +4,14 @@ import React, { useState, useEffect } from "react";
 import { IoPencil } from "react-icons/io5";
 import { useRouter } from "next/navigation";
 import Button from "@components/Button/Button";
+import Loading from "@app/(root)/loading";
 
 const UpdateEventDetail = ({ eventID }) => {
   const [editableEvent, setEditableEvent] = useState(null);
   const [originalEvent, setOriginalEvent] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
   const eventIDNumber = Number(eventID);
+  const [isUploading, setIsUploading] = useState(false);
 
   const router = useRouter();
 
@@ -59,6 +61,7 @@ const UpdateEventDetail = ({ eventID }) => {
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
+      setIsUploading(true);
       const formData = new FormData();
       formData.append("file", file);
       formData.append("upload_preset", "ml_default");
@@ -78,6 +81,8 @@ const UpdateEventDetail = ({ eventID }) => {
         }
       } catch (error) {
         console.error("Error uploading image:", error);
+      } finally {
+        setIsUploading(false);
       }
     }
   };
@@ -134,11 +139,17 @@ const UpdateEventDetail = ({ eventID }) => {
         </div>
         <div className="w-full h-full flex flex-col">
           <div className="w-auto h-[500px] overflow-hidden rounded-lg relative mb-8 z-20 shadow-gray shadow-2xl">
-            <img
-              src={editableEvent.imageUrl} // Use the updated imageUrl
-              alt={editableEvent.name}
-              className="w-full h-full object-cover"
-            />
+            {isUploading ? ( // Show spinner while uploading
+              <div className="absolute inset-0 flex justify-center items-center bg-opacity-50 bg-gray-600">
+                <Loading /> {/* Replace this with your spinner component */}
+              </div>
+            ) : (
+              <img
+                src={editableEvent.imageUrl} // Use the updated imageUrl
+                alt={editableEvent.name}
+                className="w-full h-full object-cover"
+              />
+            )}
             <div className="absolute bottom-4 right-4">
               <label className="bg-gray-800 text-white px-4 py-2 rounded cursor-pointer">
                 Change Image

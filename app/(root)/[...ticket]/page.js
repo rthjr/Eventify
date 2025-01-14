@@ -20,12 +20,12 @@ export default function TicketType({ params }) {
   });
 
   const searchParams = useSearchParams();
-  const pageEvent = searchParams.get("pageEvent"); // Extract pageEvent
+  const pageEvent = searchParams.get("pageEvent");
 
   // Unwrap params using React.use()
   const unwrappedParams = React.use(params);
-  const { ticket } = unwrappedParams; // Extract ticket from unwrapped params
-  const eventId = Number(ticket); // Convert ticket to a number
+  const { ticket } = unwrappedParams;
+  const eventId = Number(ticket);
 
   const handleRadioChange = (event) => {
     setPaymentMethod(event.target.value);

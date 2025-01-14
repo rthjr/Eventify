@@ -17,10 +17,8 @@ const EventDetail = ({ ticket, bookOtp, pageEvent, blockButton, imageUrl, name, 
 
     const handleBookNow = () => {
         if (status === "unauthenticated") {
-            // Redirect to login page if unauthenticated
             router.push("/login");
         } else {
-
             return (
                 <Link href={`/${ticket}?pageEvent=${pageEvent}`}>
                     <Button param="Book" />
@@ -28,8 +26,6 @@ const EventDetail = ({ ticket, bookOtp, pageEvent, blockButton, imageUrl, name, 
             )
         }
     };
-
-    // Set email from session
     useEffect(() => {
         if (session?.user?.email) {
             setEmail(session.user.email);
@@ -130,7 +126,6 @@ const EventDetail = ({ ticket, bookOtp, pageEvent, blockButton, imageUrl, name, 
                             </div>
                         )
                     }
-
                     <div className="flex flex-col gap-2 mb-12">
                         <p className="font-bold text-xl">Organized by</p>
                         <div className="p-4 flex flex-col gap-8 bg-slate-200 rounded-lg">

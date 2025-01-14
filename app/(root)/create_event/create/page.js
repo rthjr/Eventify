@@ -95,9 +95,9 @@ const Create = () => {
       emailOwner = session.user.email;
     }
 
-    // Update formData with emailOwner
-    setFormData((prev) => ({ ...prev, owner: emailOwner, registerEmail: {} }));
-  }, [session, status, router]);
+    // Update formData with emailOwner and createdAt
+    setFormData((prev) => ({ ...prev, owner: emailOwner, createdAt: new Date().toISOString(), registerEmail: {}, surveyResponse: {} }));
+    }, [session, status, router]);
 
   // Render loading state if session is still loading
   if (status === "loading") {

@@ -8,12 +8,14 @@ import { useRouter } from "@node_modules/next/navigation";
 import Image from "@node_modules/next/image";
 import { LuUpload } from "react-icons/lu";
 import { CiImageOn } from "react-icons/ci";
+import Loading from "@app/(root)/loading";
 
 const UploadImage = () => {
   const router = useRouter();
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [id, setId] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const eventId = localStorage.getItem("eventId");
@@ -71,6 +73,12 @@ const UploadImage = () => {
     if (file) {
       setSelectedImage(URL.createObjectURL(file));
       setImageFile(file);
+
+      // Simulate loading spinner for 2000ms
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
     }
   };
 
@@ -99,7 +107,9 @@ const UploadImage = () => {
 
             {/* Upload and preview image */}
             <div className="p-4 w-full h-auto border-black border-2 border-dotted rounded-lg flex flex-col gap-4 justify-center items-center">
-              {selectedImage ? (
+              {loading ? (
+                <Loading /> 
+              ) : selectedImage ? (
                 <Image
                   src={selectedImage}
                   alt="Selected"

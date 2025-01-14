@@ -38,7 +38,6 @@ export default function TableRow({
       console.error("Error:", error);
     }
   };
-
   // Function to handle rendering of object values
   const renderValue = (value) => {
     if (typeof value === "object" && value !== null) {

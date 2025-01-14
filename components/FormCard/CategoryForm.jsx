@@ -5,6 +5,7 @@ import Loading from "@app/(root)/loading";
 
 export default function CategoryForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false); 
   const [categories, setCategories] = useState([]);
   const {
     register,
@@ -87,6 +88,17 @@ export default function CategoryForm() {
     }
   };
 
+  // Handle image preview loading
+  const handleImageChange = (e) => {
+    setLoading(true); // Start loading when image is selected
+    const file = e.target.files[0];
+    const imageUrl = URL.createObjectURL(file);
+    setImagePreview(imageUrl);
+
+    // Simulate loading time and stop spinner after 2000ms or once the image is loaded
+    setTimeout(() => setLoading(false), 2000);
+  };
+
   if (submitted) {
     return <p>Category added successfully!</p>;
   }
@@ -122,7 +134,7 @@ export default function CategoryForm() {
               accept="image/*"
               {...register("imageSrc", { required: "Image is required" })}
               className="bg-white rounded-lg py-2 px-5 border-blue-600 border-[1px]"
-              onChange={handleImageChange} // Use the new handler
+              onChange={handleImageChange} 
             />
             {errors.imageSrc && (
               <p className="mt-2 mb-2 text-sm text-red-600">

@@ -10,6 +10,7 @@ export default function Table({
   selectAll,
   detailSurvey,
   hideDescription,
+  hideUpdate,
 }) {
   const [selectedAll, setSelectedAll] = useState(false);
 
@@ -44,6 +45,7 @@ export default function Table({
               api={api}
               detailSurvey={detailSurvey}
               hideDescription={hideDescription}
+              hideUpdate={hideUpdate}
             />
           ))}
         </tbody>

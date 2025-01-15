@@ -13,6 +13,7 @@ export default function DashboardAdmin() {
     "End Time",
     "Category",
     "Creator",
+    "createAt",
     "Event Type",
     "Limit Ticket",
     "Price",
@@ -20,7 +21,6 @@ export default function DashboardAdmin() {
     "Refund",
     "ID",
     "Remove",
-    "updated",
   ];
   const [tData, setTData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -97,6 +97,7 @@ export default function DashboardAdmin() {
                 "https://coding-fairy.com/api/mock-api-resources/1734491523/eventify"
               }
               hideDescription="yes"
+              hideUpdate = "yes"
             />
           </div>
         </div>

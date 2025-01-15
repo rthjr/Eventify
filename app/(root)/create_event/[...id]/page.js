@@ -7,7 +7,7 @@ import SurveyForm from "@components/FormCard/SurveyForm";
 import Button from "@components/Button/Button";
 import ResultSurveyForm from "@components/FormCard/ResultSurveyForm";
 import { useRouter } from "@node_modules/next/navigation";
-import emailjs, { EmailJSResponseStatus } from '@emailjs/browser';
+import emailjs, { send } from '@emailjs/browser';
 import { use } from "react";
 
 const DynamicRoutePage = ({ params }) => {
@@ -16,6 +16,7 @@ const DynamicRoutePage = ({ params }) => {
   const [selectedEmails, setSelectedEmails] = useState([]);
   const router = useRouter();
   const [isSurveyFormVisible, setIsSurveyFormVisible] = useState(false);
+  const [senders, setSenders] = useState([])
   const [responder, setResponder] = useState({
     responderEmails: {},
     eventID: null,
@@ -34,6 +35,7 @@ const DynamicRoutePage = ({ params }) => {
         const result = await response.json();
         const event = result.find((event) => event.id === eventIdNumber);
         setEventData(event);
+        setSenders(event.registerEmail);
         setResponder({ eventID: eventIdNumber });
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -43,6 +45,7 @@ const DynamicRoutePage = ({ params }) => {
     fetchData();
   }, [eventIdNumber]);
 
+  console.log(senders)
    const onSubmitButton = async () => {
     console.log(selectedEmails)
     console.log(responder)
@@ -72,10 +75,10 @@ const DynamicRoutePage = ({ params }) => {
         };
     
         return emailjs.send(
-          "service_okd15r2", // Replace with your EmailJS service ID
-          "template_uuxk1ab", // Replace with your EmailJS template ID
+          "service_okd15r2",
+          "template_uuxk1ab",
           templateParams,
-          "beDn_1Gr5miERdH1L" // Replace with your EmailJS public key
+          "beDn_1Gr5miERdH1L"
         );
       });
 
@@ -244,16 +247,15 @@ const DynamicRoutePage = ({ params }) => {
             </div>
           </div>
         )}
-
         {activeView === "resultSurvey" && (
           <div className="m-auto w-5/12">
             <ResultSurveyForm
               detailSurvey="yes"
               eventIdNumber={eventIdNumber}
+              senders = { senders }
             />
           </div>
         )}
-
         <Footer />
       </div>
     </div>

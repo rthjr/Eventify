@@ -13,12 +13,16 @@ import { useSession } from "@node_modules/next-auth/react";
 import { useSearch } from "@app/(root)/(form)/context/SearchContext";
 import { useFavorite } from "@app/(root)/(form)/context/FavoriteContext";
 
+
+import { FaRegCheckCircle } from "react-icons/fa";
+
 const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, removeLike, paramPage, email }) => {
 
     const { pageFavorite, handleAddToFavorite, handleDeleteFavorite } = useFavorite();
 
     const { searchQuery } = useSearch()
     const [eventData, setEventData] = useState([]);
+    const [deleteMyEvent, setDeleteMyEvent] = useState(null)
     console.log(email)
     console.log(paramPage)
     useEffect(() => {
@@ -72,7 +76,7 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
     // default event
     const [favorites, setFavorites] = useState({});
 
-   
+
     // Filter events based on selected filters
     const filteredEvents = eventData.filter(event => {
         // Search matching
@@ -178,7 +182,7 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
         }
 
         // Use the 'createAt' field for the timestamp
-        const createAtTime = new Date(event.createAt).getTime();
+        const createAtTime = new Date(event.createdAt).getTime();
         const currentTime = new Date().getTime();
         const timeDiffInHours = (currentTime - createAtTime) / (1000 * 3600);
 
@@ -189,7 +193,7 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                 });
 
                 if (response.ok) {
-                    alert("Event successfully deleted.");
+                    setDeleteMyEvent(" ")
                     await fetchData();
                 } else {
                     alert("Failed to delete the event. Please try again.");
@@ -201,6 +205,10 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
         } else {
             alert("You can only delete an event within 24 hours of its creation.");
         }
+    };
+
+    const handleCancel = () => {
+        setDeleteMyEvent("")
     };
 
 
@@ -501,6 +509,24 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
                     </div>
                 </div>
             </div>
+            {deleteMyEvent && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
+                    <div className="bg-white shadow-lg w-fit text-white text-sm py-1 px-3 rounded-md">
+                        {/* Error form handling */}
+                        <div className="lg:w-96 lg:h-96 text-white text-sm py-2 px-4 rounded-md flex flex-col items-center justify-center">
+                            <FaRegCheckCircle size={100} color="green" />
+                            <span className="my-5 text-black">Delete Successfully!</span>
+                            <button
+                                onClick={handleCancel}
+                                className="mt-2 bg-white text-black py-1 px-3 border-2 border-black rounded-md hover:bg-gray-200"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            )}
         </>
     )
 }

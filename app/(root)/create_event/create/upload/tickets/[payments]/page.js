@@ -9,6 +9,7 @@ import { use } from 'react'
 
 import { MdOutlineQrCodeScanner } from "react-icons/md";
 import { BsCashCoin } from "react-icons/bs";
+import Loading from '@app/(root)/loading'
 
 const Payment = ({ params }) => {
     const router = useRouter()
@@ -17,6 +18,8 @@ const Payment = ({ params }) => {
     const [id, setId] = useState(0)
     const [imageFile, setImageFile] = useState(null)
     const [selectedImage, setSelectedImage] = useState(null);
+
+    const [isLoading, setIsLoading] = useState(false);
     // url param
     const unwrappedParams = use(params);
     const { payments } = unwrappedParams;
@@ -31,6 +34,7 @@ const Payment = ({ params }) => {
         const formData = new FormData();
 
 
+        setIsLoading(true);
         // Check payment type before proceeding
         if (payments !== "paid") {
             try {
@@ -56,16 +60,21 @@ const Payment = ({ params }) => {
                 const responseData = await response.json();
                 console.log("Data updated successfully:", responseData);
 
-                router.push("/finish");
+                setTimeout(() => {
+                    setIsLoading(false);
+                    router.push("/finish");
+                }, 2000);
             } catch (error) {
                 console.error("Error:", error);
             }
         }
         if (payments === "paid") {
             if (!isCash && !isQR) {
+                setIsLoading(false);
                 alert("Please select a payment method.");
                 return;
             } else if (isQR && !imageFile) {
+                setIsLoading(false);
                 alert("Please upload your QR code.");
                 return;
             }
@@ -115,8 +124,13 @@ const Payment = ({ params }) => {
 
             const responseData = await response.json();
             console.log("Data saved successfully:", responseData);
-            router.push("/finish");
+            setTimeout(() => {
+                setIsLoading(false);
+                router.push("/finish");
+            }, 2000);
+
         } catch (error) {
+            setIsLoading(false);
             console.error("Error:", error);
         }
     };
@@ -204,7 +218,8 @@ const Payment = ({ params }) => {
                                 </div>
                             )}
 
-                            <div className='w-full h-auto flex flex-wrap justify-end items-end'>
+                            <div className='w-full h-auto flex flex-wrap justify-between items-end'>
+                                <button onClick={() => router.back()} className='bg-gray-300 text-black py-2 px-4 rounded'>Back</button>
                                 <button className='rounded-lg bg-customPurple-default hover:bg-customPurple-hover text-white p-2' onClick={handleNext}>
                                     Publish Event
                                 </button>
@@ -215,6 +230,14 @@ const Payment = ({ params }) => {
             </div>
 
             <Footer />
+
+            {isLoading && (
+                <div className="absolute top-0 h-full w-full z-50 flex items-center justify-center backdrop-blur-sm">
+                    <div className=" w-fit text-white rounded-md  z-50">
+                        <Loading wh="w-12 h-12" />
+                    </div>
+                </div>
+            )}
         </>
     )
 }

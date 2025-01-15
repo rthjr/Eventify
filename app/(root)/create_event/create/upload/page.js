@@ -106,7 +106,7 @@ const UploadImage = () => {
             </ul>
 
             {/* Upload and preview image */}
-            <div className="p-4 w-full h-auto border-black border-2 border-dotted rounded-lg flex flex-col gap-4 justify-center items-center">
+            <div className="p-4 w-full h-fit border-black border-2 border-dotted rounded-lg flex flex-col gap-4 justify-center items-center">
               {loading ? (
                 <Loading /> 
               ) : selectedImage ? (

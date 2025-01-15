@@ -9,15 +9,20 @@ import Error404 from "../404";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { MdOutlineQrCodeScanner } from "react-icons/md";
 import { BsCashCoin } from "react-icons/bs";
+import { CiCircleAlert } from "react-icons/ci";
+import Loading from "../loading";
 
 export default function TicketType({ params }) {
   const { data: session } = useSession();
   const router = useRouter();
   const [paymentMethod, setPaymentMethod] = useState("");
-  const [event, setEvent] = useState(() => {
-    const storedEvent = localStorage.getItem("currentEvent");
-    return storedEvent ? JSON.parse(storedEvent) : null;
-  });
+  const [notification, setNotification] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+
+
+  const [event, setEvent] = useState(null);
+
+
 
   const searchParams = useSearchParams();
   const pageEvent = searchParams.get("pageEvent");
@@ -30,6 +35,14 @@ export default function TicketType({ params }) {
   const handleRadioChange = (event) => {
     setPaymentMethod(event.target.value);
   };
+
+  useEffect(() => {
+    // Check and set event from localStorage
+    const storedEvent = localStorage.getItem("currentEvent");
+    if (storedEvent) {
+      setEvent(JSON.parse(storedEvent));
+    }
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -60,6 +73,8 @@ export default function TicketType({ params }) {
       return;
     }
 
+    setIsLoading(true);
+
     try {
       const response = await fetch(
         `https://coding-fairy.com/api/mock-api-resources/1734491523/eventify/${eventId}`
@@ -74,7 +89,11 @@ export default function TicketType({ params }) {
       if (!updatedEmails.includes(session.user.email)) {
         updatedEmails.push(session.user.email);
       } else {
-        alert("User is already registered.");
+        setTimeout(() => {
+          setIsLoading(false)
+
+          setNotification(" ")
+        }, 2000);
         return;
       }
 
@@ -96,10 +115,16 @@ export default function TicketType({ params }) {
       }
 
       console.log("Registration successful!");
-      router.push("/finish")
+
+      setTimeout(() => {
+        setIsLoading(false)
+        router.push("/finish")
+      }, 2000);
 
     } catch (error) {
       console.error("Registration failed:", error.message);
+
+      setIsLoading(false);
     }
   };
 
@@ -113,6 +138,10 @@ export default function TicketType({ params }) {
 
   const handleBackClick = () => {
     router.back();
+  };
+
+  const handleCancel = () => {
+    setNotification("");
   };
 
   return (
@@ -141,19 +170,19 @@ export default function TicketType({ params }) {
                 <span>{event.location}</span>
               </div>
               <div className=" flex justify-between">
-                <p  className="text-black font-bold text-lg">Ticket</p>
+                <p className="text-black font-bold text-lg">Ticket</p>
                 <span>{event.ticketType}</span>
               </div>
 
               {event.ticketType === "paid" && (
                 <div className="flex justify-between">
-                <p  className="text-black font-bold text-lg">Total</p>
-                <div>
-                  {event.ticketType === null ? (
-                    <span>0</span>
-                  ) : (<span>${event.price}</span>)}
+                  <p className="text-black font-bold text-lg">Total</p>
+                  <div>
+                    {event.ticketType === null ? (
+                      <span>0</span>
+                    ) : (<span>${event.price}</span>)}
+                  </div>
                 </div>
-              </div>
               )}
             </div>
           </div>
@@ -213,7 +242,7 @@ export default function TicketType({ params }) {
                   />
                 </div>
 
-                {(!event.qrUrl) ? (
+                {(event.ticketType !== "paid") ? (
                   <span>You Ready to Register!</span>
                 ) : (<div>
                   <h2 className="mb-4 text-black font-bold text-lg">Pay With</h2>
@@ -237,11 +266,11 @@ export default function TicketType({ params }) {
                       </div>
                     )}
 
-                   <div>
-                    {event.isCash !== false && event.qrUrl && (
-                       <div className="w-full border-t border-black mb-4"></div>
-                    )}
-                   </div>
+                    <div>
+                      {event.isCash !== false && event.qrUrl && (
+                        <div className="w-full border-t border-black mb-4"></div>
+                      )}
+                    </div>
 
                     {event.qrUrl && (
                       <div>
@@ -285,6 +314,32 @@ export default function TicketType({ params }) {
           </div>
         </div>
       </div>
+
+      {isLoading && (
+        <div className="absolute top-0 h-full w-full z-50 flex items-center justify-center backdrop-blur-sm">
+          <div className=" w-fit text-white rounded-md  z-50">
+            <Loading wh="w-12 h-12" />
+          </div>
+        </div>
+      )}
+
+      {notification && (
+        <div className="absolute top-0 h-full w-full z-50 flex items-center justify-center backdrop-blur-sm">
+          <div className="bg-white shadow-lg w-fit text-white text-sm py-1 px-3 rounded-md mt-2 z-50">
+            <div className="lg:w-96 lg:h-96 text-white text-sm py-2 px-4 rounded-md flex flex-col items-center justify-center">
+              <CiCircleAlert size={100} color="yellow" />
+              <span className="my-5 text-black">Email Already Exist!</span>
+              <button
+                onClick={handleCancel}
+                className="mt-2 bg-white text-black py-1 p-3 border-2 border-black rounded-md hover:bg-gray-200"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }

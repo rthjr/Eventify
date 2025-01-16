@@ -191,7 +191,7 @@ export default function Login() {
         {/* Image div, hidden on small screens and shown on large screens */}
         <div className="hidden lg:flex w-full lg:w-6/12 bg-customPurple-default justify-center items-center">
           <Image
-            src="/assets/loginim/loginamico.png" // Ensure the path is correct
+            src="/assets/loginim/Loginamico.png" // Ensure the path is correct
             alt="login image"
             width={500} // Provide the image's dimensions for optimization
             height={300}

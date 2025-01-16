@@ -218,7 +218,7 @@ const Events = ({ favoritePage, EventCreator, nameClass, widthE, pageEvent, remo
         try {
             const response = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/eventify");
             const result = await response.json();
-            const filteredEvents = result.filter(event => event.owner !== email);
+            const filteredEvents = result.filter(event => event.owner === email);
 
             console.log(filteredEvents)
             setEventData(filteredEvents);

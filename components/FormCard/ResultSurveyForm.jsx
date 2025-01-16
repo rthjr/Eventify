@@ -22,7 +22,7 @@ const ResultSurveyForm = ({ eventIdNumber }) => {
     fetchData();
   }, [eventIdNumber]);
   return (
-    <div>
+    <div className="flex flex-col space-y-2 ">
       {respond.map((survey, index) => (
         <SurveyModel key={index} sender={survey.sender} feedback={survey.feedback} />
       ))}

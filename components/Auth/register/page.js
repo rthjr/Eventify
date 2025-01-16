@@ -6,6 +6,8 @@ import { useState } from "react";
 import Loading from "@app/(root)/loading";
 import { FaRegCheckCircle } from "react-icons/fa";
 
+import styles from "@styles/login.module.css";
+
 import { getProviders, signIn } from "next-auth/react";
 
 import { FaGoogle } from "react-icons/fa";
@@ -169,26 +171,29 @@ export default function Register() {
                                 <button className="p-2 bg-customPurple-default hover:bg-customPurple-hover text-white border-none rounded-lg" >Submit</button>
                             </div>
                         </form>
-                        <span className="text-center">Other login method</span>
-                        {/* add other method with facebook and google */}
-                        <div className="w-full flex  justify-center items-center">
-                            <div className="flex gap-4 mt-4">
-                                {providers && providers.facebook && (
-                                    <div>
+                        <div className={`${styles.orLine} w-full mb-4`}>or</div>
+                        <div className="flex flex-col w-full h-full">
+                            <span className="text-center w-full">Other login method</span>
+                            {/* add other method with facebook and google */}
+                            <div className="w-full flex  justify-center items-center">
+                                <div className="flex gap-4 mt-4">
+                                    {providers && providers.facebook && (
+                                        <div>
 
-                                        <button onClick={handleSignInFacebook} >
-                                            <FaFacebookSquare className="text-4xl" />
-                                        </button>
+                                            <button onClick={handleSignInFacebook} >
+                                                <FaFacebookSquare className="text-4xl" />
+                                            </button>
 
-                                    </div>
-                                )}
-                                {providers && providers.google && (
-                                    <div>
-                                        <button onClick={handleSignInGoogle}>
-                                            <FaGoogle className="text-4xl" />
-                                        </button>
-                                    </div>
-                                )}
+                                        </div>
+                                    )}
+                                    {providers && providers.google && (
+                                        <div>
+                                            <button onClick={handleSignInGoogle}>
+                                                <FaGoogle className="text-4xl" />
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                         {error && (

@@ -9,6 +9,8 @@ import { getProviders, signIn } from "next-auth/react";
 import { FaPhone } from "react-icons/fa6";
 import { FaGoogle } from "react-icons/fa";
 import { RxCrossCircled } from "react-icons/rx";
+import Loading from "@app/(root)/loading";
+import { FaRegCheckCircle } from "react-icons/fa";
 
 export default function Login() {
   const router = useRouter();
@@ -16,6 +18,8 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
 
   useEffect(() => {
@@ -45,20 +49,34 @@ export default function Login() {
   //function for handle sign in
   const handleSignIn = async (e) => {
     e.preventDefault();
+    setIsLoading(true); // Start loading
+    setError(''); // Clear any previous errors
+
     try {
       const res = await signIn("emailCredentials", {
         email,
         password,
         redirect: false,
       });
+
       if (res?.error) {
         setError(res.error);
+        setIsLoading(false);
         return;
       }
-      router.replace("/");
+
+      // Simulate a minimum loading time of 2000ms
+      setTimeout(() => {
+        setIsLoading(false);
+        setIsSuccess(true); // Set success state
+        setTimeout(() => {
+          router.replace("/"); // Redirect after showing success message
+        }, 2000); // Show success message for 2 seconds before redirecting
+      }, 2000);
 
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
 
@@ -117,7 +135,6 @@ export default function Login() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                     />
-                    {/* icon */}
                   </div>
                 </div>
 
@@ -132,10 +149,10 @@ export default function Login() {
                     </strong>
                   </span>
                 </div>
-
-                <button className="p-3 bg-customPurple-default rounded-xl text-white border-none mb-4 hover:bg-customPurple-hover w-full">
-                  Login
+                <button type="submit" disabled={isLoading} className="p-3 bg-customPurple-default rounded-xl text-white border-none mb-4 hover:bg-customPurple-hover w-full">
+                  {isLoading ? 'Signing In...' : 'Login'}
                 </button>
+
                 <div className={`${styles.orLine} w-full mb-4`}>or</div>
 
                 {/* add icon phone number */}
@@ -145,7 +162,7 @@ export default function Login() {
                 <FaPhone size={24} className="mr-2" />
                 <span>Phone Number</span>
               </button>
-              <span className = "text-center">Other login method</span>
+              <span className="text-center">Other login method</span>
               {/* add other method with facebook and google */}
               <div className="w-full flex  justify-center items-center">
                 <div className="flex gap-4 mt-4">
@@ -181,6 +198,13 @@ export default function Login() {
           />
         </div>
       </div>
+      {isLoading && (
+        <div className="absolute top-0 h-full w-full z-50 flex items-center justify-center backdrop-blur-sm">
+          <div className=" w-fit text-white rounded-md  z-50">
+            <Loading wh="w-12 h-12" />
+          </div>
+        </div>
+      )}
 
       {error && (
         <div className="absolute top-0 h-full w-full z-50 flex items-center justify-center backdrop-blur-sm">
@@ -189,6 +213,23 @@ export default function Login() {
             <div className=" lg:w-96 lg:h-96 text-white text-sm py-2 px-4 rounded-md flex flex-col items-center justify-center">
               <RxCrossCircled size={100} color="red" />
               <span className="my-5 text-black">Wrong Password or Email!</span>
+              <button
+                onClick={handleCancel}
+                className="mt-2 bg-white text-black py-1 p-3 border-2 border-black rounded-md hover:bg-gray-200"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isSuccess && (
+        <div className="absolute top-0 h-full w-full z-50 flex items-center justify-center backdrop-blur-sm">
+          <div className="bg-white shadow-lg w-fit text-white text-sm py-1 px-3 rounded-md mt-2 z-50">
+            <div className="lg:w-96 lg:h-96 text-white text-sm py-2 px-4 rounded-md flex flex-col items-center justify-center">
+              <FaRegCheckCircle size={100} color="green" />
+              <span className="my-5 text-black">Login Successful!</span>
               <button
                 onClick={handleCancel}
                 className="mt-2 bg-white text-black py-1 p-3 border-2 border-black rounded-md hover:bg-gray-200"

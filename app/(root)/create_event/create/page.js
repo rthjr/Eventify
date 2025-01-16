@@ -372,7 +372,7 @@ const Create = () => {
                 Back
               </button>
 
-              <button className="bg-blue-500 text-white py-2 px-4 rounded">
+              <button className="bg-customPurple-default transition-all hover:bg-customPurple-hover text-white py-2 px-4 rounded">
                 Save & Continue
               </button>
             </div>

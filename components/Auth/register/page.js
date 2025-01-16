@@ -3,6 +3,10 @@
 import Image from "next/image";
 import { useRouter } from "@node_modules/next/navigation";
 import { useState } from "react";
+import Loading from "@app/(root)/loading";
+import { FaRegCheckCircle } from "react-icons/fa";
+
+import { RxCrossCircled } from "react-icons/rx";
 
 export default function Register() {
 
@@ -10,6 +14,9 @@ export default function Register() {
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
     const [error, setError] = useState('')
     const router = useRouter();
     const handleSubmit = async (e) => {
@@ -32,7 +39,9 @@ export default function Register() {
 
             const { user } = await resUserExists.json()
             if (user) {
-                setError("email already exists")
+                setError(" ")
+
+                setIsLoading(false);
                 return
             }
 
@@ -51,7 +60,15 @@ export default function Register() {
             const data = res.json()
             if (res.ok) {
                 e.target.reset()
-                router.push("/login")
+                setTimeout(() => {
+                    setIsLoading(false);
+                    setIsSuccess(true);
+                    setTimeout(() => {
+                        router.push("/login")
+                    }, 2000);
+                }, 2000);
+
+
                 router.refresh()
             } else {
 
@@ -62,15 +79,24 @@ export default function Register() {
             console.log(error)
         }
     }
-
+    
     // use to router page
     const currentPath = router.pathname;
 
     const goBack = () => {
         const targetPath = currentPath === '/' ? '/login' : '/';
-        router.push(targetPath);
+        if(currentPath === '/'){
+            router.push(targetPath);
+        }else{
+            router.back()
+        }
+        
     };
-    
+
+    const handleCancel = () => {
+        setError(""); // Clear the error message
+    };
+
 
 
     return (
@@ -123,6 +149,49 @@ export default function Register() {
                     </div>
                 </div>
             </div>
+
+            {isLoading && (
+                <div className="absolute top-0 h-full w-full z-50 flex items-center justify-center backdrop-blur-sm">
+                    <div className="bg-white shadow-lg w-fit text-white rounded-md  z-50">
+                        <Loading wh="w-12 h-12" />
+                    </div>
+                </div>
+            )}
+
+            {error && (
+                <div className="absolute top-0 h-full w-full z-50 flex items-center justify-center backdrop-blur-sm">
+                    <div className="bg-white shadow-lg w-fit text-white text-sm py-1 px-3 rounded-md mt-2 z-50">
+                        {/* error form habling */}
+                        <div className=" lg:w-96 lg:h-96 text-white text-sm py-2 px-4 rounded-md flex flex-col items-center justify-center">
+                            <RxCrossCircled size={100} color="red" />
+                            <span className="my-5 text-black">Email already exist!</span>
+                            <button
+                                onClick={handleCancel}
+                                className="mt-2 bg-white text-black py-1 p-3 border-2 border-black rounded-md hover:bg-gray-200"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {isSuccess && (
+                <div className="absolute top-0 h-full w-full z-50 flex items-center justify-center backdrop-blur-sm">
+                    <div className="bg-white shadow-lg w-fit text-white text-sm py-1 px-3 rounded-md mt-2 z-50">
+                        <div className="lg:w-96 lg:h-96 text-white text-sm py-2 px-4 rounded-md flex flex-col items-center justify-center">
+                            <FaRegCheckCircle size={100} color="green" />
+                            <span className="my-5 text-black">Login Successful!</span>
+                            <button
+                                onClick={handleCancel}
+                                className="mt-2 bg-white text-black py-1 p-3 border-2 border-black rounded-md hover:bg-gray-200"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

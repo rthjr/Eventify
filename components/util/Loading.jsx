@@ -1,5 +1,5 @@
-export default function LoadingPage(){
+export default function LoadingPage({wh}){
     return (
-        <span className="loading loading-spinner text-primary"></span>
+        <span className={`loading loading-spinner text-primary ${wh}`}></span>
     )
 }

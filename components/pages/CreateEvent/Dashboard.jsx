@@ -11,7 +11,8 @@ const Dashboard = ({ email }) => {
 
   const [filter, setFilter] = useState("month");
 
-  // Fetch API
+  const [allEvents, setAllEvents] = useState([]);
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -19,57 +20,62 @@ const Dashboard = ({ email }) => {
           "https://coding-fairy.com/api/mock-api-resources/1734491523/eventify"
         );
         const result = await response.json();
-
-        // Filter data based on the selected filter (day, week, month)
-        const currentDate = new Date();
-        const filteredEvents = result.filter((event) => {
-          const eventDate = new Date(event.date);
-          const timeDiff = eventDate - currentDate;
-
-          switch (filter) {
-            case "day":
-              return (
-                eventDate.getDate() === currentDate.getDate() &&
-                eventDate.getMonth() === currentDate.getMonth() &&
-                eventDate.getFullYear() === currentDate.getFullYear()
-              );
-            case "week":
-              return timeDiff > 0 && timeDiff <= 7 * 24 * 60 * 60 * 1000;
-            case "month":
-              return (
-                eventDate.getMonth() === currentDate.getMonth() &&
-                eventDate.getFullYear() === currentDate.getFullYear()
-              );
-            default:
-              return true;
-          }
-        });
-
-        const filteredBook = filteredEvents.filter(
-          (row) => row.registerEmail && row.registerEmail.includes(email)
-        );
-        const totalEvents = filteredEvents.length;
-        const totalBooked = filteredBook.length;
-
-        // Filter upcoming events
-        const totalUpComing = filteredEvents.filter((event) => {
-          const eventDate = new Date(event.date);
-          return eventDate > currentDate;
-        }).length;
-
-        setEventsData({
-          totalEvent: totalEvents,
-          totalBooked: totalBooked,
-          totalUpComing: totalUpComing,
-        });
+        setAllEvents(result);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     }
     fetchData();
-  }, [email, filter]); // Ensure `email` and `filter` are part of dependencies
+  }, [email]);
 
-  // Handle filter change
+  useEffect(() => {
+    const currentDate = new Date();
+
+    const filteredEvents = allEvents.filter((event) => {
+      const eventDate = new Date(event.createdAt);
+      const timeDiff = Math.abs(eventDate - currentDate); // Use absolute value to ensure positive time difference
+
+      switch (filter) {
+        case "day":
+          const diffInDays = timeDiff / (24 * 60 * 60 * 1000);
+          return diffInDays <= 1; // Events within the last or next day
+        case "week":
+          const diffInWeeks = timeDiff / (7 * 24 * 60 * 60 * 1000);
+          return diffInWeeks <= 1; // Events within the last or next week
+        case "month":
+          const diffInMonths = timeDiff / (30 * 24 * 60 * 60 * 1000);
+          return diffInMonths <= 1; // Events within the last or next month
+        default:
+          return true; // No filter applied
+      }
+    });
+
+    console.log(filteredEvents)
+
+    // Calculate total events, booked events, and upcoming events
+    const totalEvents = filteredEvents.filter(
+      (event) => event.owner === email
+    ).length;
+
+    const totalBooked = filteredEvents.filter(
+      (event) =>
+        event.owner === email &&
+        event.registerEmail &&
+        event.registerEmail.includes(email)
+    ).length;
+
+    const totalUpComing = filteredEvents.filter((event) => {
+      const eventDate = new Date(event.date);
+      return eventDate > currentDate; // Check if the event is upcoming
+    }).length;
+
+    setEventsData({
+      totalEvent: totalEvents,
+      totalBooked: totalBooked,
+      totalUpComing: totalUpComing,
+    });
+  }, [filter, allEvents, email]);
+
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
   };
@@ -108,7 +114,7 @@ const Dashboard = ({ email }) => {
 
         <div className="flex flex-col justify-center items-center p-4 w-52 h-52 bg-gray-100 rounded-lg shadow-lg">
           <h2 className="text-7xl">{eventsData.totalUpComing}</h2>
-          <span className="font-light">Up Coming Event</span>
+          <span className="font-light">Upcoming Event</span>
         </div>
       </div>
     </div>

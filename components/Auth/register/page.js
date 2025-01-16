@@ -6,11 +6,20 @@ import { useState } from "react";
 import Loading from "@app/(root)/loading";
 import { FaRegCheckCircle } from "react-icons/fa";
 
+import { getProviders, signIn } from "next-auth/react";
+
+import { FaGoogle } from "react-icons/fa";
+
+import { FaFacebookSquare } from "react-icons/fa";
+
 import { RxCrossCircled } from "react-icons/rx";
+import { useEffect } from "react";
 
 export default function Register() {
 
     const [firstName, setFirstName] = useState('')
+
+    const [providers, setProviders] = useState(null);
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -79,24 +88,43 @@ export default function Register() {
             console.log(error)
         }
     }
-    
+
     // use to router page
     const currentPath = router.pathname;
 
     const goBack = () => {
         const targetPath = currentPath === '/' ? '/login' : '/';
-        if(currentPath === '/'){
+        if (currentPath === '/') {
             router.push(targetPath);
-        }else{
+        } else {
             router.back()
         }
-        
+
     };
 
     const handleCancel = () => {
         setError(""); // Clear the error message
     };
 
+
+    // login with facebook google
+    useEffect(() => {
+        const fetchProviders = async () => {
+            const res = await getProviders();
+            setProviders(res);
+        };
+        fetchProviders();
+    }, []);
+
+    //handle facebook
+    const handleSignInFacebook = async () => {
+        await signIn('facebook', { callbackUrl: '/' })
+    }
+
+    //handle google sign in 
+    const handleSignInGoogle = async () => {
+        await signIn('google', { callbackUrl: '/' })
+    }
 
 
     return (
@@ -141,6 +169,28 @@ export default function Register() {
                                 <button className="p-2 bg-customPurple-default hover:bg-customPurple-hover text-white border-none rounded-lg" >Submit</button>
                             </div>
                         </form>
+                        <span className="text-center">Other login method</span>
+                        {/* add other method with facebook and google */}
+                        <div className="w-full flex  justify-center items-center">
+                            <div className="flex gap-4 mt-4">
+                                {providers && providers.facebook && (
+                                    <div>
+
+                                        <button onClick={handleSignInFacebook} >
+                                            <FaFacebookSquare className="text-4xl" />
+                                        </button>
+
+                                    </div>
+                                )}
+                                {providers && providers.google && (
+                                    <div>
+                                        <button onClick={handleSignInGoogle}>
+                                            <FaGoogle className="text-4xl" />
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
                         {error && (
                             <div>
                                 <h2>{error}</h2>

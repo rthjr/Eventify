@@ -4,6 +4,7 @@ import { AuthProvider } from "@provider/provider";
 import SideBar from "@components/layout/SideBar";
 import { SessionProvider, useSession } from "next-auth/react";
 import LoadingPage from "@components/util/Loading";
+import NotFound from "@components/util/NotFound";
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -41,6 +42,6 @@ function ProtectedLayout({ children }) {
       <div className=" w-full md:w-10/12">{children}</div>
     </div>
   ) : (
-    <div>you do not have permission to access this page</div>
+    <NotFound/>
   );
 }

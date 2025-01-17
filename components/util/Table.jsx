@@ -11,6 +11,7 @@ export default function Table({
   detailSurvey,
   hideDescription,
   hideUpdate,
+  refreshData,
 }) {
   const [selectedAll, setSelectedAll] = useState(false);
 
@@ -46,6 +47,7 @@ export default function Table({
               detailSurvey={detailSurvey}
               hideDescription={hideDescription}
               hideUpdate={hideUpdate}
+              refreshData = {refreshData}
             />
           ))}
         </tbody>

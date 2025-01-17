@@ -9,7 +9,7 @@ import Link from "@node_modules/next/link";
 import Button from "@components/Button/Button";
 import { useEffect } from "react";
 
-const EventDetail = ({ ticket, bookOtp, pageEvent, blockButton, imageUrl, name, date, eventType, location, description, refund, ticketType }) => {
+const EventDetail = ({ ticket, bookOtp, pageEvent, blockButton, imageUrl, name, date, eventType, location, description, refund, ticketType,owner }) => {
     const { status } = useSession(); // Check session status
     const router = useRouter();
     const { data: session } = useSession();
@@ -131,7 +131,7 @@ const EventDetail = ({ ticket, bookOtp, pageEvent, blockButton, imageUrl, name, 
                         <div className="p-4 flex flex-col gap-8 bg-slate-200 rounded-lg">
                             <div>
                                 <p className="font-bold text-xl">Contact</p>
-                                <span>{email}</span>
+                                <span>{owner}</span>
                             </div>
                         </div>
                     </div>

@@ -47,6 +47,7 @@ const Page = ({ params }) => {
           description = {event.description}
           bookOtp="true"
           pageEvent={pageEvent}
+          owner={event.owner}
 
         />
       ) : (

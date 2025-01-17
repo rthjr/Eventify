@@ -28,8 +28,15 @@ const Page = () => {
         const data = await response.json();
         // Check if the API response contains registerEmail
         if (data.registerEmail && data.registerEmail === email) {
-          setEmail(data.registerEmail); // Store registerEmail in state
+          const createdAtDate = new Date(data.createdAt); 
+          const currentDate = new Date(); 
+
+          // Compare createdAt with the current date
+          if (createdAtDate < currentDate) {
+            setEmail(data.registerEmail); // Store registerEmail in state
+          }
         }
+
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -57,13 +64,13 @@ const Page = () => {
 
   return (
     <>
-      <Header/>
+      <Header />
       <Events
         nameClass="justify-around"
         widthE="w-10/12"
         pageEvent="history"
         removeLike="false"
-        paramPage = "history"
+        paramPage="history"
         EventCreator="yes"
         email={email}
       />

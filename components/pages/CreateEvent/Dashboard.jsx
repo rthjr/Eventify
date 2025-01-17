@@ -66,8 +66,12 @@ const Dashboard = ({ email }) => {
 
     const totalUpComing = filteredEvents.filter((event) => {
       const eventDate = new Date(event.date);
-      return eventDate > currentDate; // Check if the event is upcoming
+      return (
+        event.owner === email && 
+        eventDate > currentDate 
+      );
     }).length;
+    
 
     setEventsData({
       totalEvent: totalEvents,

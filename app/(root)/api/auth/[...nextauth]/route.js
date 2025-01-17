@@ -7,6 +7,7 @@ import Facebook from "next-auth/providers/facebook";
 import Google from "next-auth/providers/google"
 import dotenv from 'dotenv'
 import { signIn } from "@node_modules/next-auth/react";
+import SignUpPage from "@app/(root)/signup/page";
 dotenv.config()
 export const authOptions = {
     providers : [
@@ -75,9 +76,7 @@ export const authOptions = {
     secret: process.env.NEXTAUTH_SECRET,
     pages: {
         signIn: "/login",
-    },
-    pages: {
-        signIn: "/login/loginwithphone"
+        SignUpPage: "/signup"
     },
     callbacks: {
 

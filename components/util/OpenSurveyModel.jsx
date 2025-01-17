@@ -1,8 +1,6 @@
 export default function SurveyModel({ index, sender, feedback }) {
-  console.log(feedback);
-  console.log(sender);
   return (
-    <div className="collapse bg-gray-50">
+    <div className="collapse bg-purple-50 ">
       <input type="checkbox" />
       <div className="collapse-title text-xl font-medium">
         {" "}

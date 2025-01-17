@@ -21,8 +21,8 @@ export default function ResponseForm() {
   const [submitted, setSubmitted] = useState(false);
   const [respondence, setRespondence] = useState([]);
   const [authorize, setAuthorize] = useState(false);
-  const [respond, setRespond] = useState({})
-  console.log(respondence)
+  const [respond, setRespond] = useState({});
+  console.log(respondence);
   useEffect(() => {
     async function fetchResponder() {
       try {
@@ -42,17 +42,17 @@ export default function ResponseForm() {
   }, []);
 
   useEffect(() => {
-      const res = respondence.find((responder) => {
+    const res = respondence.find((responder) => {
       const emails = responder.responderEmails || responder.responderEmail;
       return session?.user?.email && emails?.includes(session.user.email);
     });
     if (res) {
-      setRespond(res)
+      setRespond(res);
       setAuthorize(true);
     }
   }, [respondence, session]);
 
-  console.log(respond)
+  console.log(respond);
   if (status === "loading") {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -88,20 +88,25 @@ export default function ResponseForm() {
       if (!updateResponse.ok) {
         throw new Error("Failed to update event data.");
       }
-      
+
       const resEmails = respond.responderEmail || [];
-      const filterEmails = resEmails.filter(email => email !== session.user.email);
+      const filterEmails = resEmails.filter(
+        (email) => email !== session.user.email
+      );
       respond.responderEmail = filterEmails;
-      console.log(filterEmails)
-      const updateRespondent = await fetch(`https://coding-fairy.com/api/mock-api-resources/1734491523/responder/${respond.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(respond)
-      })
-      if(!updateRespondent){
-        console.log('cannot update respondent api ')
+      console.log(filterEmails);
+      const updateRespondent = await fetch(
+        `https://coding-fairy.com/api/mock-api-resources/1734491523/responder/${respond.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(respond),
+        }
+      );
+      if (!updateRespondent) {
+        console.log("cannot update respondent api ");
       }
       setSubmitted(true);
     } catch (error) {
@@ -214,6 +219,10 @@ export default function ResponseForm() {
       </form>
     </div>
   ) : (
-    <NotFound/>
+    <div className="absolute top-0 h-full right-0 w-full bg-gray-100 z-50 flex items-center justify-center backdrop-blur-sm">
+      <div className="bg-white w-fit text-white text-sm  rounded-md z-50">
+        <NotFound />
+      </div>
+    </div>
   );
 }

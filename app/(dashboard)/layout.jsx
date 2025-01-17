@@ -23,17 +23,16 @@ export default function RootLayout({ children }) {
 
 function ProtectedLayout({ children }) {
   const { data: session, status } = useSession();
-  if (status === "unauthenticated") {
+  if (status === "loading") {
     return <div className='flex justify-center items-center min-h-screen'>
                 <LoadingPage />
               </div>;
   }
   if (!session) {
     return <div className='flex justify-center items-center min-h-screen'>
-    <LoadingPage />
+    <NotFound />
   </div>;
   }
-  console.log(session.user.role);
   return session?.user.role === "admin" ? (
     <div className="flex">
       <div className="lg:w-2/12">

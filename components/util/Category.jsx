@@ -21,21 +21,20 @@ export default function Category() {
   const api =
     "https://coding-fairy.com/api/mock-api-resources/1734491523/category";
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await fetch(api);
-        const category = await res.json();
+  async function fetchData() {
+    try {
+      const res = await fetch(api);
+      const category = await res.json();
 
-        // exclude imageSrc
-        const filteredCategories = category.map(
-          ({ imageSrc, ...rest }) => rest
-        );
-        setCategories(filteredCategories);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+      // exclude imageSrc
+      const filteredCategories = category.map(({ imageSrc, ...rest }) => rest);
+      setCategories(filteredCategories);
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
+  }
+
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -77,7 +76,7 @@ export default function Category() {
           />
         </div>
         <div className="w-full">
-          <Table thName={thName} tData={filteredCategories} api={api} />
+          <Table thName={thName} tData={filteredCategories} refreshData={fetchData} api={api} />
         </div>
         {click && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -88,7 +87,7 @@ export default function Category() {
               >
                 ✕
               </button>
-              <CategoryForm />
+              <CategoryForm refreshData={fetchData}/>
             </div>
           </div>
         )}

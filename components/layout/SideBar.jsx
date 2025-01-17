@@ -1,29 +1,29 @@
-'use client'
+"use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { SideBarIConText } from "./SideBarIcon";
 import { useEffect } from "react";
 
-
 export default function SideBar() {
-  const [activePage, setActivePage] = useState("");
+  const [activePage, setActivePage] = useState("dashboard");
   const router = useRouter();
 
   // store in local browser
   useEffect(() => {
-    const stored = localStorage.getItem("activePage")
-    if(stored){
-      setActivePage(stored)
+    const stored = localStorage.getItem("activePage");
+    if (stored) {
+      setActivePage(stored);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    localStorage.setItem("activePage", activePage)
-  }, [activePage])
-  
+    if (typeof window !== "undefined") {
+      localStorage.setItem("activePage", activePage);
+    }
+  }, [activePage]);
+
   return (
     <div className="flex fixed w-2/12">
-     
       <div className="h-screen w-full hidden   md:flex md:flex-col bg-gray-200 shadow-2xl text-black items-center justify-center">
         <div className=" bg-transparent">
           <h1 className="mb-10">Hello Admin</h1>
@@ -85,4 +85,3 @@ export default function SideBar() {
     </div>
   );
 }
-

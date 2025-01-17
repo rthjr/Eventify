@@ -11,6 +11,7 @@ export default function TableRow({
   detailSurvey,
   hideDescription,
   hideUpdate,
+  refreshData,
 }) {
   const [isChecked, setIsChecked] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -30,7 +31,12 @@ export default function TableRow({
         method: "DELETE",
       });
       if (response.ok) {
+
+        // make refresh the data after remove 
+        
         console.log("Item removed successfully");
+
+        refreshData();
       } else {
         console.error("Failed to remove item");
       }
@@ -38,6 +44,7 @@ export default function TableRow({
       console.error("Error:", error);
     }
   };
+  
   // Function to handle rendering of object values
   const renderValue = (value) => {
     if (typeof value === "object" && value !== null) {
@@ -130,6 +137,7 @@ export default function TableRow({
                 categoryName={data.name}
                 createdAt={data.createdAt}
                 onClose={() => setIsEditMode(false)}
+                refreshData = {refreshData}
               />
             </div>
           </div>,

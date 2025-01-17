@@ -28,30 +28,33 @@ export default function DashboardAdmin() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterOrder, setFilterOrder] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        console.log("hello world");
-        const response = await fetch("/api/events");
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
-        }
-        const jsonData = await response.json();
-        
-        setTData(jsonData);
-        setIsLoading(false);
-      } catch (error) {
-        setError(error.message);
-        setIsLoading(false);
+  const fetchData = async () => {
+    try {
+      console.log("hello world");
+      const response = await fetch("/api/events");
+      if (!response.ok) {
+        throw new Error("Failed to fetch data");
       }
-    };
+      const jsonData = await response.json();
+
+      setTData(jsonData);
+      setIsLoading(false);
+    } catch (error) {
+      setError(error.message);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, []);
 
   if (isLoading) {
-    return <div className='flex justify-center items-center min-h-screen'>
-            <LoadingPage />
-          </div>;
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <LoadingPage />
+      </div>
+    );
   }
 
   if (error) {
@@ -97,7 +100,8 @@ export default function DashboardAdmin() {
                 "https://coding-fairy.com/api/mock-api-resources/1734491523/eventify"
               }
               hideDescription="yes"
-              hideUpdate = "yes"
+              hideUpdate="yes"
+              refreshData={fetchData}
             />
           </div>
         </div>

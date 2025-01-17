@@ -230,7 +230,7 @@ export default function TicketType({ params }) {
                   </div>
                 </div>
 
-                <div className="flex flex-col mb-8">
+                {/* <div className="flex flex-col mb-8">
                   <label htmlFor="email" className="mb-2">
                     Email
                   </label>
@@ -240,7 +240,7 @@ export default function TicketType({ params }) {
                     placeholder="Enter email for notification"
                     className="p-2 text-black border-black border-2 rounded-lg"
                   />
-                </div>
+                </div> */}
 
                 {(event.ticketType !== "paid") ? (
                   <span>You Ready to Register!</span>
@@ -328,7 +328,7 @@ export default function TicketType({ params }) {
           <div className="bg-white shadow-lg w-fit text-white text-sm py-1 px-3 rounded-md mt-2 z-50">
             <div className="lg:w-96 lg:h-96 text-white text-sm py-2 px-4 rounded-md flex flex-col items-center justify-center">
               <CiCircleAlert size={100} color="yellow" />
-              <span className="my-5 text-black">Email Already Exist!</span>
+              <span className="my-5 text-black">You already register!</span>
               <button
                 onClick={handleCancel}
                 className="mt-2 bg-white text-black py-1 p-3 border-2 border-black rounded-md hover:bg-gray-200"

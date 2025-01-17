@@ -9,6 +9,7 @@ import ResultSurveyForm from "@components/FormCard/ResultSurveyForm";
 import { useRouter } from "@node_modules/next/navigation";
 import emailjs, { send } from '@emailjs/browser';
 import { use } from "react";
+import LoadingPage from "@components/util/Loading";
 
 const DynamicRoutePage = ({ params }) => {
   const [activeView, setActiveView] = useState("viewDetail");
@@ -46,13 +47,13 @@ const DynamicRoutePage = ({ params }) => {
   }, [eventIdNumber]);
 
   console.log(senders)
-   const onSubmitButton = async () => {
+  const onSubmitButton = async () => {
     console.log(selectedEmails)
     console.log(responder)
-    setResponder({ responderEmails: selectedEmails})
+    setResponder({ responderEmails: selectedEmails })
     console.log(responder)
     try {
-       const response = await fetch(
+      const response = await fetch(
         "https://coding-fairy.com/api/mock-api-resources/1734491523/responder",
         {
           method: "POST",
@@ -63,7 +64,7 @@ const DynamicRoutePage = ({ params }) => {
         }
       );
 
-      if(!response.ok){
+      if (!response.ok) {
         console.log('cannot post request')
       }
 
@@ -71,9 +72,9 @@ const DynamicRoutePage = ({ params }) => {
         const templateParams = {
           to_email: email,
           to_name: email,
-          message: 'https://github.com/goktugcy/hono-boilerplate/blob/main/src/middlewares/authMiddleware.ts',
+          message: 'https://eventify-pearl.vercel.app/survey',
         };
-    
+
         return emailjs.send(
           "service_okd15r2",
           "template_uuxk1ab",
@@ -90,7 +91,7 @@ const DynamicRoutePage = ({ params }) => {
         console.error("Error sending emails:", error);
         alert("Failed to send some emails.");
       }
-    
+
     } catch (error) {
       throw new Error("fetching error");
     }
@@ -134,44 +135,50 @@ const DynamicRoutePage = ({ params }) => {
   };
 
   if (!eventData) {
-    return <div>Loading...</div>;
+    return (
+      <div className='flex justify-center items-center'>
+        <div className="min-w-screen w-full h-screen flex justify-center items-center">
+          <div>
+            <LoadingPage wh="h-screen" />
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="w-full">
-      <div className="w-full flex flex-col justify-center items-center gap-8">
-        <Header />
+    <div className="w-full flex flex-col min-h-screen gap-8">
+
+      <Header />
+      <main className="flex-grow w-full flex flex-col items-center gap-8">
         <div className="inline-flex rounded-lg border border-gray-100 bg-gray-100 p-1 shadow-2xl gap-8">
           <Button param="Back" onClick={handleBack} />
           <button
             className={`inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm 
-                        ${
-                          activeView === "createSurvey"
-                            ? "bg-blue-500 text-white"
-                            : "text-gray-500 hover:text-gray-700"
-                        }`}
+                        ${activeView === "createSurvey"
+                ? "bg-blue-500 text-white"
+                : "text-gray-500 hover:text-gray-700"
+              }`}
             onClick={() => setActiveView("createSurvey")}
           >
             Create Survey
           </button>
           <button
             className={`inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm 
-                        ${
-                          activeView === "resultSurvey"
-                            ? "bg-blue-500 text-white"
-                            : "text-gray-500 hover:text-gray-700"
-                        }`}
+                        ${activeView === "resultSurvey"
+                ? "bg-blue-500 text-white"
+                : "text-gray-500 hover:text-gray-700"
+              }`}
             onClick={() => setActiveView("resultSurvey")}
           >
             Result Survey
           </button>
           <button
             className={`inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm 
-                        ${
-                          activeView === "viewDetail"
-                            ? "bg-blue-500 text-white"
-                            : "text-gray-500 hover:text-gray-700"
-                        }`}
+                        ${activeView === "viewDetail"
+                ? "bg-blue-500 text-white"
+                : "text-gray-500 hover:text-gray-700"
+              }`}
             onClick={() => setActiveView("viewDetail")}
           >
             View Detail
@@ -197,7 +204,7 @@ const DynamicRoutePage = ({ params }) => {
                         checked={
                           eventData?.registerEmail &&
                           selectedEmails.length ===
-                            eventData.registerEmail.length
+                          eventData.registerEmail.length
                         }
                         onChange={handleSelectAll}
                       />
@@ -239,11 +246,10 @@ const DynamicRoutePage = ({ params }) => {
               {isSurveyFormVisible && <SurveyForm viewOnly="yes" />}
               <button
                 type="submit"
-                className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
-              onClick={onSubmitButton}>
+                className="w-full text-white p-2 rounded-md bg-customPurple-default hover:bg-customPurple-hover transition-all"
+                onClick={onSubmitButton}>
                 Submit Feedback
               </button>
-              ==
             </div>
           </div>
         )}
@@ -252,12 +258,13 @@ const DynamicRoutePage = ({ params }) => {
             <ResultSurveyForm
               detailSurvey="yes"
               eventIdNumber={eventIdNumber}
-              senders = { senders }
+              senders={senders}
             />
           </div>
         )}
-        <Footer />
-      </div>
+      </main>
+
+      <Footer />
     </div>
   );
 };

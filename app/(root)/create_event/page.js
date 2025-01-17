@@ -4,7 +4,7 @@ import Footer from '@components/layout/Footer';
 import Header from '@components/layout/Header';
 import React, { useState, useEffect } from 'react';
 import MenuBar from '@components/layout/MenuBar';
-import Loading from '@components/Loading/Loading';
+import LoadingPage from '@components/util/Loading';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Create from '@components/pages/CreateEvent/Create';
@@ -13,7 +13,7 @@ import Dashboard from '@components/pages/CreateEvent/Dashboard';
 import { useSearch } from '../(form)/context/SearchContext';
 
 const CreateEvent = () => {
-  const {searchQuery, setSearchQuery} = useSearch()
+  const { searchQuery, setSearchQuery } = useSearch()
   const { data: session, status } = useSession();
   const router = useRouter();
   const [showLoading, setShowLoading] = useState(true);
@@ -35,7 +35,15 @@ const CreateEvent = () => {
 
   // Show loading state while session is being fetched
   if (showLoading || status === 'loading') {
-    return <Loading />;
+    return (
+      <div className='flex justify-center items-center'>
+        <div className="min-w-screen w-full flex justify-center items-center">
+          <div>
+            <LoadingPage wh="h-screen" />
+          </div>
+        </div>
+      </div>
+    );
   }
 
   // If session is not available, do not render the main content

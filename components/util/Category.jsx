@@ -87,7 +87,7 @@ export default function Category() {
               >
                 ✕
               </button>
-              <CategoryForm />
+              <CategoryForm refreshData={fetchData}/>
             </div>
           </div>
         )}

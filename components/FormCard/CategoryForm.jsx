@@ -3,9 +3,9 @@ import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import Loading from "@app/(root)/loading";
 
-export default function CategoryForm() {
+export default function CategoryForm({ refreshData }) {
   const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const {
     register,
@@ -17,7 +17,7 @@ export default function CategoryForm() {
   const [isLoading, setIsLoading] = useState(false); // State for loading spinner
 
   // Function to handle image selection
-  const handleImagePreviewChange  = (e) => {
+  const handleImagePreviewChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setIsLoading(true); // Show loading spinner
@@ -30,7 +30,8 @@ export default function CategoryForm() {
     }
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data, e) => {
+    setLoading(true);
     const currentDate = new Date();
     const formattedDate = `${currentDate
       .getDate()
@@ -82,9 +83,12 @@ export default function CategoryForm() {
 
       setSubmitted(true);
       reset();
+      refreshData();
       setImagePreview(null);
     } catch (error) {
       console.error("Error:", error);
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -134,7 +138,7 @@ export default function CategoryForm() {
               accept="image/*"
               {...register("imageSrc", { required: "Image is required" })}
               className="bg-white rounded-lg py-2 px-5 border-blue-600 border-[1px]"
-              onChange={handleImagePreviewChange } // Use the new handler
+              onChange={handleImagePreviewChange} // Use the new handler
             />
             {errors.imageSrc && (
               <p className="mt-2 mb-2 text-sm text-red-600">
@@ -158,9 +162,14 @@ export default function CategoryForm() {
 
           <button
             type="submit"
-            className="mt-5 bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-400 text-sm"
+            className={`mt-5 px-6 py-2 rounded-lg text-sm ${
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-400 text-white"
+            }`}
+            disabled={loading}
           >
-            Create
+            {loading ? "Submitting..." : "Create"}
           </button>
         </div>
       </form>

@@ -20,6 +20,7 @@ export default function StatusBar() {
   });
 
   useEffect(() => {
+    let intervalId;
     async function fetchData() {
         try {
             const response = await fetch("https://coding-fairy.com/api/mock-api-resources/1734491523/eventify", {
@@ -31,12 +32,10 @@ export default function StatusBar() {
 
             const result = await response.json();
 
-            console.log(result)
 
             const totalEvents = result.length;
             const allEmailUsers = new Set();
             const allCreators = new Set();
-            console.log(totalEvents, allEmailUsers, allCreators)
 
             result.forEach((event) => {
                 event.registerEmail.forEach((email) => allEmailUsers.add(email));
@@ -53,7 +52,10 @@ export default function StatusBar() {
     }
 
     fetchData();
-}, []); // Dependency array is empty to run this effect only once
+    intervalId = setInterval(fetchData, 10000);
+
+    return () => clearInterval(intervalId);
+}, []); 
 
 
   console.log(eventsData)

@@ -3,9 +3,14 @@ import { useSession } from "@node_modules/next-auth/react";
 import { useEffect, useState } from "react";
 import LoadingPage from "@components/util/Loading";
 import NotFound from "@components/util/NotFound";
+
+import { FaRegCheckCircle } from "react-icons/fa";
+import { Router } from "@node_modules/next/router";
+import { useRouter } from "@node_modules/next/navigation";
 export default function ResponseForm() {
   const { data: session, status } = useSession();
-
+  
+  const router = useRouter();
   const [formData, setFormData] = useState({
     experienceRating: "",
     favoritePart: "",
@@ -61,6 +66,11 @@ export default function ResponseForm() {
     );
   }
 
+  const handleCancel = () => {
+
+    router.push("/");
+  };
+
   //find the email compare to the session
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -115,7 +125,22 @@ export default function ResponseForm() {
   };
 
   if (submitted) {
-    return <p className="text-green-500">Thank you for your feedback!</p>;
+    return (
+      <div className="absolute top-0 right-0 h-full w-full z-50 flex items-center justify-center backdrop-blur-sm">
+        <div className="bg-white shadow-lg w-fit text-white text-sm py-1 px-3 rounded-md mt-2 z-50">
+          <div className="lg:w-96 lg:h-96 text-white text-sm py-2 px-4 rounded-md flex flex-col items-center justify-center">
+            <FaRegCheckCircle size={100} color="green" />
+            <span className="my-5 text-black">Login Successful!</span>
+            <button
+              onClick={handleCancel}
+              className="mt-2 bg-white text-black py-1 p-3 border-2 border-black rounded-md hover:bg-gray-200"
+            >
+              Done
+            </button>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return authorize ? (

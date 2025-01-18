@@ -8,8 +8,7 @@ import { useRouter } from "@node_modules/next/navigation";
 import Image from "@node_modules/next/image";
 import { LuUpload } from "react-icons/lu";
 import { CiImageOn } from "react-icons/ci";
-import Loading from "@app/(root)/loading";
-
+import LoadingPage from "@components/util/Loading";
 const UploadImage = () => {
   const router = useRouter();
   const [selectedImage, setSelectedImage] = useState(null);
@@ -108,7 +107,15 @@ const UploadImage = () => {
             {/* Upload and preview image */}
             <div className="p-4 w-full h-fit border-black border-2 border-dotted rounded-lg flex flex-col gap-4 justify-center items-center">
               {loading ? (
-                <Loading /> 
+                (
+                  <div className='flex justify-center items-center'>
+                    <div className="min-w-screen w-full flex justify-center items-center">
+                      <div>
+                        <LoadingPage />
+                      </div>
+                    </div>
+                  </div>
+                )
               ) : selectedImage ? (
                 <Image
                   src={selectedImage}

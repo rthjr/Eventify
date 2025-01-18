@@ -130,7 +130,7 @@ export default function ResponseForm() {
         <div className="bg-white shadow-lg w-fit text-white text-sm py-1 px-3 rounded-md mt-2 z-50">
           <div className="lg:w-96 lg:h-96 text-white text-sm py-2 px-4 rounded-md flex flex-col items-center justify-center">
             <FaRegCheckCircle size={100} color="green" />
-            <span className="my-5 text-black">Login Successful!</span>
+            <span className="my-5 text-black">Survey Successful!</span>
             <button
               onClick={handleCancel}
               className="mt-2 bg-white text-black py-1 p-3 border-2 border-black rounded-md hover:bg-gray-200"

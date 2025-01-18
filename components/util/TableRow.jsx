@@ -31,9 +31,8 @@ export default function TableRow({
         method: "DELETE",
       });
       if (response.ok) {
+        // make refresh the data after remove
 
-        // make refresh the data after remove 
-        
         console.log("Item removed successfully");
 
         refreshData();
@@ -44,14 +43,21 @@ export default function TableRow({
       console.error("Error:", error);
     }
   };
-  
+
   // Function to handle rendering of object values
   const renderValue = (value) => {
-    if (typeof value === "object" && value !== null) {
-      return JSON.stringify(value); // Convert object to string
+    if (value === null || value === undefined || value === "") {
+      return "null"; 
     }
-    return value; // Return primitive values as is
+    if (typeof value === "object") {
+      return JSON.stringify(value); 
+    }
+    return value; 
   };
+
+  if (!data) {
+    return null;
+  }
 
   return (
     <>
@@ -77,7 +83,8 @@ export default function TableRow({
             key === "isCash" ||
             key === "registerEmail" ||
             key === "isEditing" ||
-            key === "surveyResponse"
+            key === "surveyResponse" ||
+            key === "refund"
           ) {
             return null;
           }
@@ -137,7 +144,7 @@ export default function TableRow({
                 categoryName={data.name}
                 createdAt={data.createdAt}
                 onClose={() => setIsEditMode(false)}
-                refreshData = {refreshData}
+                refreshData={refreshData}
               />
             </div>
           </div>,

@@ -18,7 +18,6 @@ export default function DashboardAdmin() {
     "Limit Ticket",
     "Price",
     "Ticket Type",
-    "Refund",
     "ID",
     "Remove",
   ];
